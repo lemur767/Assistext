@@ -92,3 +92,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+ .github
+ .vscode
+ .pytest_cache
+ .gemini
+ 
