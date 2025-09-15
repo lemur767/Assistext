@@ -8,11 +8,11 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
-# Initialize extensions
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
+
+# Initialize extensions
 
 
 def create_app():
@@ -32,9 +32,9 @@ def create_app():
     CORS(app)
     
     # Import models to ensure they're registered
-    from app.models.user import User, TrialStatus, PhoneNumberStatus
-    from app.models.message import Message, MessageDirection, MessageStatus
     from app.models.conversation import Conversation
+    from app.models.message import Message
+    from app.models.user import User, TrialStatus, PhoneNumberStatus, MessageDirection, MessageStatus
     
     
     # Register blueprints

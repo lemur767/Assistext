@@ -41,7 +41,8 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Relationships
-    messages = db.relationship('Message', backref='user', lazy=True, cascade='all, delete-orphan')
+    messages = db.relationship('Message', back_populates='user', lazy=True, cascade='all, delete-orphan')
+    conversations = db.relationship('Conversation', back_populates='user', lazy=True, cascade='all, delete-orphan')
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

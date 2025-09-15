@@ -3,11 +3,13 @@ import os
 import logging
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate  # Add this import
 from flask_cors import CORS
 from datetime import datetime
 
 # Initialize extensions
 db = SQLAlchemy()
+migrate = Migrate()  # Add this line
 
 def create_app(config_name=None):
     """Application factory function"""
@@ -20,6 +22,7 @@ def create_app(config_name=None):
     
     # Initialize extensions with app
     db.init_app(app)
+    migrate.init_app(app, db)  # Add this line
     CORS(app)
     
     # Set up logging

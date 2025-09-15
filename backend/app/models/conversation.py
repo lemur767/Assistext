@@ -12,8 +12,9 @@ class Conversation(db.Model):
     last_message_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     unread = db.Column(db.Boolean, default=False, nullable=False)
 
-    # Relationships
-    messages = db.relationship('Message', backref='conversation', lazy=True, cascade='all, delete-orphan')
+    # Relationships - use back_populates for bidirectional relationships
+    messages = db.relationship('Message', back_populates='conversation', lazy=True, cascade='all, delete-orphan')
+    user = db.relationship('User', back_populates='conversations')
 
     def to_dict(self):
         return {

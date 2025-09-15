@@ -1,7 +1,7 @@
-# app/api/webhooks.py
+# app/api/webhooks.py - Updated handle_sms_webhook function
 from flask import Blueprint, request, Response, jsonify
 from .. import db
-from ..models import User, Message, MessageDirection, MessageStatus
+from ..models import User, Message, Conversation, MessageDirection, MessageStatus
 from ..services import ai_service, laml_service
 from ..utils.security import verify_signalwire_signature
 import logging
@@ -48,10 +48,30 @@ def handle_sms_webhook(user_id):
             )
             return Response(expired_response, mimetype='text/xml'), 200
         
-        # 4. Store incoming message
+        # 4. Find or create conversation
+        conversation = Conversation.query.filter_by(
+            user_id=user_id,
+            contact_number=from_number
+        ).first()
+        
+        if not conversation:
+            conversation = Conversation(
+                user_id=user_id,
+                contact_number=from_number,
+                unread=True
+            )
+            db.session.add(conversation)
+            db.session.flush()  # Get the conversation ID
+        
+        # Update conversation
+        conversation.last_message_at = datetime.utcnow()
+        conversation.unread = True
+        
+        # 5. Store incoming message
         try:
             incoming_message = Message(
                 user_id=user_id,
+                conversation_id=conversation.id,  # Link to conversation
                 message_sid=message_sid,
                 from_number=from_number,
                 to_number=to_number,
@@ -68,7 +88,7 @@ def handle_sms_webhook(user_id):
             logger.error(f"Failed to store incoming message: {e}")
             # Continue processing even if storage fails
         
-        # 5. Generate AI response
+        # 6. Generate AI response
         try:
             ai_response = ai_service.generate_response(body, user.email)
             
@@ -76,12 +96,13 @@ def handle_sms_webhook(user_id):
             logger.error(f"AI response generation failed: {e}")
             ai_response = "Thanks for your message! I received it and will get back to you soon."
         
-        # 6. Store outbound message
+        # 7. Store outbound message
         processing_time = int((time.time() - start_time) * 1000)
         
         try:
             outbound_message = Message(
                 user_id=user_id,
+                conversation_id=conversation.id,  # Link to conversation
                 from_number=to_number,
                 to_number=from_number,
                 body=ai_response,
@@ -98,7 +119,7 @@ def handle_sms_webhook(user_id):
             logger.error(f"Failed to store outbound message: {e}")
             # Continue processing even if storage fails
         
-        # 7. Create LaML response
+        # 8. Create LaML response
         laml_response = laml_service.create_message_response(ai_response)
         
         logger.info(f"SMS response generated for user {user_id} in {processing_time}ms: {ai_response}")

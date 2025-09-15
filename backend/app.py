@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Import the application factory
-from app import create_app
+# Import the application factory from the correct path
+from app import create_app  # This imports from backend/app/__init__.py
 
 # Create the Flask application
 app = create_app()
