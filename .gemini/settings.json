@@ -1,0 +1,17 @@
+{
+  "hideFooter": true,
+  "workspaces": {
+    "default": {
+      "name": "Default",
+      "path": "D:\\Documents\\Assistext"
+    },
+    "frontend": {
+      "name": "Frontend",
+      "path": "D:\\Documents\\Assistext\\frontend"
+    },
+    "backend": {
+      "name": "Backend",
+      "path": "D:\\Documents\\Assistext\\backend"
+    }
+    }
+}
