@@ -35,7 +35,7 @@ class SignalWireService:
         self.space_url = os.getenv('SIGNALWIRE_SPACE_URL')
         self.project_id = os.getenv('SIGNALWIRE_PROJECT_ID')
         self.api_token = os.getenv('SIGNALWIRE_API_TOKEN')
-        self.webhook_base_url = os.getenv('WEBHOOK_BASE_URL', 'https://your-domain.com')
+        self.webhook_base_url = os.getenv('WEBHOOK_BASE_URL')
         
         if not all([self.space_url, self.project_id, self.api_token]):
             raise ValueError("SignalWire credentials not properly configured")

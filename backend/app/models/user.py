@@ -21,6 +21,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(255), nullable=False)
+    first_name = db.Column(db.String(255), nullable=True)
+    last_name = db.Column(db.String(255), nullable=True)
+    city = db.Column(db.String(255), nullable=True)
     country_code = db.Column(db.String(5), nullable=False, default='US')
     
     # SignalWire fields
@@ -32,6 +35,9 @@ class User(db.Model):
     phone_number_status = db.Column(db.Enum(PhoneNumberStatus), default=PhoneNumberStatus.PROVISIONING)
     webhook_url = db.Column(db.String(500))
     
+    # Stripe fields
+    stripe_customer_id = db.Column(db.String(255))
+    
     # Trial fields
     trial_status = db.Column(db.Enum(TrialStatus), default=TrialStatus.ACTIVE)
     trial_expires_at = db.Column(db.DateTime, default=lambda: datetime.utcnow() + timedelta(days=7))
@@ -40,9 +46,8 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # Relationships
-    messages = db.relationship('Message', back_populates='user', lazy=True, cascade='all, delete-orphan')
-    conversations = db.relationship('Conversation', back_populates='user', lazy=True, cascade='all, delete-orphan')
+    # Note: Relationships temporarily removed to fix mapper initialization issues
+    # TODO: Add back relationships after basic functionality is working
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

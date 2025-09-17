@@ -1,5 +1,14 @@
+# Import models in the correct order to ensure proper registration
 from .user import User, TrialStatus, PhoneNumberStatus
+from .conversation import Conversation  
 from .message import Message, MessageDirection, MessageStatus
-from .conversation import Conversation
 
-__all__ = ['User', 'Message', 'TrialStatus', 'PhoneNumberStatus', 'MessageDirection', 'MessageStatus', 'Conversation']
+__all__ = [
+    'User', 
+    'Message', 
+    'Conversation',
+    'TrialStatus', 
+    'PhoneNumberStatus', 
+    'MessageDirection', 
+    'MessageStatus'
+]

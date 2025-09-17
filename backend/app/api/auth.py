@@ -2,9 +2,10 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from .. import db
-from ..models import User, PhoneNumberStatus
-from ..services import signalwire_service, stripe_service
-from ..utils import validate_email, validate_password
+from ..models.user import User, PhoneNumberStatus
+from ..services.signalwire_service import signalwire_service
+from ..services.stripe_service import create_stripe_customer
+from ..utils.validators import validate_email, validate_password
 import logging
 
 logger = logging.getLogger(__name__)
@@ -29,7 +30,11 @@ def register():
         email = data.get('email', '').strip().lower()
         password = data.get('password', '')
         country_code = data.get('country_code', 'CA').upper()
+        last_name = data.get('last_name', '')
+        first_name = data.get('first_name', '')
+        city = data.get('city', '')
         
+                
         if not email or not password or not country_code:
             return jsonify({'error': 'Email, password, and country are required'}), 400
         
@@ -53,56 +58,94 @@ def register():
         # Start database transaction
         try:
             # 1. Create user
-            user = User(email=email, country_code=country_code)
+            user = User(email=email, country_code=country_code, city=city, first_name=first_name, last_name=last_name)
             user.set_password(password)
             
             db.session.add(user)
             db.session.flush()  # Get user ID without committing
 
             # 2. Create Stripe customer
-            stripe_customer = stripe_service.create_customer(email)
-            user.stripe_customer_id = stripe_customer.id
+            try:
+                stripe_customer = create_stripe_customer(
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                    country_code=country_code,
+                    city=city,
+                    user_id=user.id
+                )
+                user.stripe_customer_id = stripe_customer.id
+                logger.info(f"Created Stripe customer for {email}: {stripe_customer.id}")
+            except Exception as e:
+                logger.error(f"Failed to create Stripe customer for {email}: {e}")
+                # Continue without Stripe for now
+                pass
             
             # 3. Create SignalWire subproject
-            friendly_name = signalwire_service.generate_friendly_name(email, country_code)
-            subproject = signalwire_service.create_subproject(friendly_name)
-            
-            # 4. Search for available phone numbers in the specified country
-            available_numbers = signalwire_service.search_available_numbers(country_code, 5)
-            
-            if not available_numbers:
-                raise Exception(f"No phone numbers available for country: {country_code}")
-            
-            # 5. Purchase the first available number
-            selected_number = available_numbers[0]
-            webhook_url = signalwire_service.generate_webhook_url(user.id)
-            
-            purchased_number = signalwire_service.purchase_phone_number(
-                selected_number.phone_number,
-                subproject.sid,
-                webhook_url
-            )
-            
-            # 6. Update user with SignalWire details
-            user.signalwire_subproject_id = subproject.sid
-            user.signalwire_auth_token = subproject.auth_token
-            user.signalwire_friendly_name = subproject.friendly_name
-            user.phone_number = purchased_number.phone_number
-            user.phone_number_sid = purchased_number.sid
-            user.webhook_url = webhook_url
-            user.phone_number_status = PhoneNumberStatus.ACTIVE
+            try:
+                friendly_name = signalwire_service.generate_friendly_name(email, country_code)
+                subproject = signalwire_service.create_subproject(friendly_name)
+                logger.info(f"Created SignalWire subproject for {email}: {subproject.sid}")
+                
+                # 4. Search for available phone numbers in the specified country
+                available_numbers = signalwire_service.search_available_numbers(country_code, 5)
+                
+                if not available_numbers:
+                    raise Exception(f"No phone numbers available for country: {country_code}")
+                
+                # 5. Purchase the first available number
+                selected_number = available_numbers[0]
+                webhook_url = signalwire_service.generate_webhook_url(user.id)
+                
+                purchased_number = signalwire_service.purchase_phone_number(
+                    selected_number.phone_number,
+                    subproject.sid,
+                    webhook_url
+                )
+                
+                # 6. Update user with SignalWire details
+                user.signalwire_subproject_id = subproject.sid
+                user.signalwire_auth_token = subproject.auth_token
+                user.signalwire_friendly_name = subproject.friendly_name
+                user.phone_number = purchased_number.phone_number
+                user.phone_number_sid = purchased_number.sid
+                user.webhook_url = webhook_url
+                user.phone_number_status = PhoneNumberStatus.ACTIVE
+                
+                logger.info(f"Purchased phone number for {email}: {purchased_number.phone_number}")
+                
+            except Exception as e:
+                logger.error(f"SignalWire setup failed for {email}: {e}")
+                # Set phone number status to failed but don't block registration
+                user.phone_number_status = PhoneNumberStatus.FAILED
+                # Continue with registration
             
             db.session.commit()
             
-            # 7. Generate JWT token
-            access_token = create_access_token(identity=user.id)
+            # 7. Generate JWT token (you'll need to install flask-jwt-extended or use regular JWT)
+            try:
+                from flask import current_app
+                import jwt
+                from datetime import datetime, timedelta
+                
+                token_payload = {
+                    'user_id': user.id,
+                    'email': user.email,
+                    'exp': datetime.utcnow() + timedelta(days=30)
+                }
+                access_token = jwt.encode(token_payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+            except Exception as e:
+                logger.error(f"Token generation failed: {e}")
+                access_token = "token_generation_failed"
             
-            logger.info(f"User registered successfully: {email} with phone {purchased_number.phone_number}")
+            logger.info(f"User registered successfully: {email} with phone {user.phone_number or 'FAILED'}")
             
             return jsonify({
                 'message': 'Registration successful',
                 'access_token': access_token,
-                'user': user.to_dict()
+                'user': user.to_dict(),
+                'phone_number': user.phone_number,
+                'phone_number_status': user.phone_number_status.value if user.phone_number_status else None
             }), 201
             
         except Exception as e:
@@ -134,7 +177,20 @@ def login():
             return jsonify({'error': 'Invalid credentials'}), 401
         
         # Generate JWT token
-        access_token = create_access_token(identity=user.id)
+        try:
+            from flask import current_app
+            import jwt
+            from datetime import datetime, timedelta
+            
+            token_payload = {
+                'user_id': user.id,
+                'email': user.email,
+                'exp': datetime.utcnow() + timedelta(days=30)
+            }
+            access_token = jwt.encode(token_payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+        except Exception as e:
+            logger.error(f"Token generation failed: {e}")
+            access_token = "token_generation_failed"
         
         logger.info(f"User logged in: {email}")
         

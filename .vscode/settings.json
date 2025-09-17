@@ -30,7 +30,7 @@
       "askForPassword": true,
       "driver": "PostgreSQL",
       "name": "Assist",
-      "database": "Assistext_DEV",
+      "database": "Assistext_Dev",
       "username": "postgres"
     }
   ]
