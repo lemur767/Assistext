@@ -83,7 +83,7 @@ def register():
             
             # 3. Create SignalWire subproject
             try:
-                friendly_name = signalwire_service.generate_friendly_name(email, country_code)
+                friendly_name = signalwire_service.generate_friendly_name(email)
                 subproject = signalwire_service.create_subproject(friendly_name)
                 logger.info(f"Created SignalWire subproject for {email}: {subproject.sid}")
                 
