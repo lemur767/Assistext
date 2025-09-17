@@ -1,11 +1,11 @@
 # app/api/auth.py
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from .. import db
-from ..models.user import User, PhoneNumberStatus
-from ..services.signalwire_service import signalwire_service
-from ..services.stripe_service import create_stripe_customer
-from ..utils.validators import validate_email, validate_password
+from app import db
+from app.models.user import User, PhoneNumberStatus
+from app.services.signalwire_service import signalwire_service
+from app.services.stripe_service import create_stripe_customer
+from app.utils.validators import validate_email, validate_password
 import logging
 
 logger = logging.getLogger(__name__)
@@ -131,7 +131,7 @@ def register():
                 token_payload = {
                     'user_id': user.id,
                     'email': user.email,
-                    'exp': datetime.utcnow() + timedelta(days=30)
+                    'exp': datetime.now() + timedelta(days=30)
                 }
                 access_token = jwt.encode(token_payload, current_app.config['SECRET_KEY'], algorithm='HS256')
             except Exception as e:
