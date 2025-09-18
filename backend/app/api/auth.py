@@ -35,7 +35,7 @@ def register():
         last_name = data.get('last_name', '')
         first_name = data.get('first_name', '')
         city = data.get('city', '')
-        name = f"{first_name} {last_name}".strip() or None
+        name = f"{data.get('first_name')} {data.get('last_name')}".strip() 
                 
         if not email or not password or not country_code:
             return jsonify({'error': 'Email, password, and country are required'}), 400
@@ -60,7 +60,7 @@ def register():
         # Start database transaction
         try:
             # 1. Create user
-            user = User(email=email, country_code=country_code, city=city, name=f"{first_name} {last_name}".strip() or None)
+            user = User(email=email, country_code=country_code, city=city, first_name=first_name, last_name=last_name)
             user.set_password(password)
             
             db.session.add(user)
@@ -68,7 +68,7 @@ def register():
 
             # 2. Create Stripe customer
             try:
-                
+                name = f"{first_name} {last_name}".strip()
                 stripe_customer = create_stripe_customer(
                     email=email,
                     name=name,

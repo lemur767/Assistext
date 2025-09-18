@@ -5,13 +5,12 @@ import os
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
-def create_stripe_customer(email, first_name, last_name, country_code, city, user_id):
+def create_stripe_customer(email, name, country_code, city, user_id):
     
     try:
         customer = stripe.Customer.create(
             email=email,
-            first_name=first_name,
-            last_name=last_name,
+            name = name,
             address={
                 "country": country_code,
                 "city": city,
