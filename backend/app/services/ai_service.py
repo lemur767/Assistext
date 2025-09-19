@@ -98,8 +98,12 @@ class AIService:
         
         return False
     
-    def generate_response(self, user_message: str, user_email: str, context: Optional[str] = None) -> str:
+    def generate_response(self, user_message: str, user_email: str, conversation, context: Optional[str] = None) -> str:
         """Generate AI response to user message"""
+        if conversation.controlled_by == 'user':
+            logger.info(f"Conversation {conversation.id} is controlled by user, skipping AI response.")
+            return None
+
         try:
             if self.provider == 'local_ollama':
                 return self._generate_ollama_response(

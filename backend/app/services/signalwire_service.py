@@ -148,5 +148,31 @@ class SignalWireService:
         clean_prefix = ''.join(c for c in email_prefix if c.isalnum())
         return f"{clean_prefix}_{timestamp}"
 
+    def send_sms(self, to_number: str, from_number: str, body: str, subproject_id: str) -> str:
+        """Send an SMS message from a subproject"""
+        try:
+            url = f"{self.base_url}/Accounts/{subproject_id}/Messages.json"
+            
+            data = {
+                'To': to_number,
+                'From': from_number,
+                'Body': body
+            }
+            
+            response = requests.post(
+                url,
+                auth=self.auth,
+                data=data,
+                headers={'Content-Type': 'application/x-www-form-urlencoded'}
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            return result['sid']
+            
+        except requests.RequestException as e:
+            logger.error(f"Failed to send SMS: {e}")
+            raise Exception("Failed to send SMS")
+
 # Create a singleton instance
 signalwire_service = SignalWireService()

@@ -6,6 +6,7 @@ from ..services import ai_service, laml_service
 from ..utils.security import verify_signalwire_signature
 import logging
 import time
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -90,8 +91,11 @@ def handle_sms_webhook(user_id):
         
         # 6. Generate AI response
         try:
-            ai_response = ai_service.generate_response(body, user.email)
-            
+            ai_response = ai_service.generate_response(body, user.email, conversation)
+            if ai_response is None:
+                logger.info(f"AI response skipped for user {user_id} in conversation {conversation.id} (user controlled)")
+                return Response('<Response/>', mimetype='text/xml'), 200
+
         except Exception as e:
             logger.error(f"AI response generation failed: {e}")
             ai_response = "Thanks for your message! I received it and will get back to you soon."
