@@ -55,31 +55,33 @@ const ConversationList: React.FC = () => {
   }
 
   return (
-    <div>
-      <h3>Conversations</h3>
+    <div className="p-6 rounded-lg card">
+      <h3 className="mb-4 text-xl font-bold text-text">Conversations</h3>
       {conversations.length === 0 ? (
-        <p>No conversations yet.</p>
+        <p className="text-muted">No conversations yet.</p>
       ) : (
         <>
-          <ul>
+          <ul className="space-y-2">
             {conversations.map((conv) => (
-              <li key={conv.id} style={{ fontWeight: conv.unread ? 'bold' : 'normal' }}>
-                <Link to={`/conversations/${conv.id}`}>
-                  <div>
-                    <strong>{conv.contact_number}</strong>
-                    <p>{conv.last_message}</p>
-                    <small>{new Date(conv.last_message_at).toLocaleString()}</small>
+              <li key={conv.id}>
+                <Link 
+                  to={`/conversations/${conv.id}`}
+                  className={`block p-4 rounded-lg transition-colors hover:bg-surface-100 dark:hover:bg-surface-700 ${conv.unread ? 'bg-primary-50 dark:bg-primary-900/20' : ''}`}>
+                  <div className="flex items-center justify-between">
+                    <strong className={`font-semibold ${conv.unread ? 'text-primary' : 'text-text'}`}>{conv.contact_number}</strong>
+                    <small className="text-xs text-muted">{new Date(conv.last_message_at).toLocaleString()}</small>
                   </div>
+                  <p className={`mt-1 text-sm truncate ${conv.unread ? 'text-text' : 'text-muted'}`}>{conv.last_message}</p>
                 </Link>
               </li>
             ))}
           </ul>
-          <div>
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>
+          <div className="flex items-center justify-between mt-6">
+            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="btn btn-ghost">
               Previous
             </button>
-            <span> Page {page} of {totalPages} </span>
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
+            <span className="text-sm text-muted"> Page {page} of {totalPages} </span>
+            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="btn btn-ghost">
               Next
             </button>
           </div>

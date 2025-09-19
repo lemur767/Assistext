@@ -40,12 +40,17 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <PaymentElement />
-      <button disabled={!stripe || loading}>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="p-6 border rounded-lg bg-surface border-border">
+        <PaymentElement />
+      </div>
+      <button 
+        disabled={!stripe || loading} 
+        className="w-full btn btn-primary"
+      >
         {loading ? "Processing..." : "Pay"}
       </button>
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && <div className="text-sm text-center text-error-500">{errorMessage}</div>}
     </form>
   );
 };

@@ -13,8 +13,8 @@ class Conversation(db.Model):
     unread = db.Column(db.Boolean, default=False, nullable=False)
     controlled_by = db.Column(db.String(10), default='ai', nullable=False) # 'ai' or 'user'
 
-    # Note: Relationships temporarily removed to fix mapper initialization issues
-    # TODO: Add back relationships after basic functionality is working
+    # Relationships
+    messages = db.relationship('Message', backref='conversation', lazy=True, cascade="all, delete-orphan")
 
     def to_dict(self):
         return {

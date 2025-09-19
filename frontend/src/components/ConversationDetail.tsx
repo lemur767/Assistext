@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../App";
@@ -107,36 +108,59 @@ const ConversationDetail: React.FC = () => {
   }
 
   return (
-    <div>
-      <h3>Conversation with {conversation?.contact_number}</h3>
-      <p>Status: {status}</p>
-      <p>Controlled by: {conversation?.controlled_by}</p>
-      {conversation?.controlled_by === "ai" && (
-        <button onClick={handleTakeover}>Takeover Conversation</button>
-      )}
-      <div>
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            style={{
-              textAlign: msg.sender === "contact" ? "left" : "right",
-              color: msg.sender === "user_override" ? "blue" : "black",
-            }}
-          >
-            <p>{msg.content}</p>
-            <small>{new Date(msg.created_at).toLocaleString()}</small>
-          </div>
-        ))}
+    <div className="flex flex-col h-screen bg-bg text-text">
+      <header className="flex items-center justify-between p-4 bg-surface border-b border-border">
+        <h3 className="text-lg font-bold text-text">
+          Conversation with {conversation?.contact_number}
+        </h3>
+        <div className="flex items-center space-x-4">
+          <p className="text-sm text-muted">Status: {status}</p>
+          <p className="text-sm text-muted">Controlled by: {conversation?.controlled_by}</p>
+          {conversation?.controlled_by === "ai" && (
+            <button onClick={handleTakeover} className="btn btn-secondary btn-sm">
+              Takeover
+            </button>
+          )}
+        </div>
+      </header>
+
+      <div className="flex-1 p-4 overflow-y-auto custom-scrollbar">
+        <div className="space-y-4">
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`flex ${msg.sender === "contact" ? "justify-start" : "justify-end"}`}>
+              <div
+                className={`p-3 rounded-lg max-w-lg ${msg.sender === "contact"
+                    ? "bg-surface text-text"
+                    : msg.sender === "user_override"
+                      ? "bg-secondary text-white"
+                      : "bg-primary text-white"
+                  }`}>
+                <p>{msg.content}</p>
+                <small className="block mt-1 text-xs opacity-70">
+                  {new Date(msg.created_at).toLocaleString()}
+                </small>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      <form onSubmit={handleSendMessage}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button type="submit">Send</button>
-      </form>
+
+      <footer className="p-4 bg-surface border-t border-border">
+        <form onSubmit={handleSendMessage} className="flex space-x-4">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type your message..."
+            className="flex-1 form-input"
+          />
+          <button type="submit" className="btn btn-primary">
+            Send
+          </button>
+        </form>
+      </footer>
     </div>
   );
 };

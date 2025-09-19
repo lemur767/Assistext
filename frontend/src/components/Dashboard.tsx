@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../App";
-import Onboarding from "./Onboarding";
+
 import ConversationList from "./ConversationList";
 
 const Dashboard: React.FC = () => {
@@ -14,12 +15,24 @@ const Dashboard: React.FC = () => {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        // We would fetch user data from our own backend now
-        // For now, we'll just use the session data
-        if (auth?.session) {
-          setGhostNumber(auth.session.ghost_number);
-          setTrialExpiresAt(auth.session.trial_expires_at);
+        if (!auth?.session) {
+          throw new Error("User not authenticated.");
         }
+
+        const response = await fetch("/api/v1/users/profile", {
+          headers: {
+            Authorization: `Bearer ${auth.session.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data.");
+        }
+
+        const data = await response.json();
+        setGhostNumber(data.user.phone_number);
+        setTrialExpiresAt(data.user.trial_expires_at);
+
       } catch (err: unknown) {
         console.error("Error fetching user data:", (err as Error).message);
       } finally {
@@ -51,31 +64,45 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <nav>
-        <Link to="/settings">Settings</Link>
-      </nav>
+    <div className="min-h-screen bg-bg text-text">
+      <header className="flex items-center justify-between p-4 bg-surface shadow-md">
+        <h2 className="text-2xl font-bold gradient-text-brand">Dashboard</h2>
+        <nav className="flex items-center space-x-4">
+          <Link to="/settings" className="btn btn-ghost">Settings</Link>
+          <button onClick={handleLogout} className="btn btn-outline">Logout</button>
+        </nav>
+      </header>
 
-      {trialDaysRemaining > 0 && (
-        <p>You have {trialDaysRemaining} days left in your trial.</p>
-      )}
-      {trialDaysRemaining === 0 && (
-        <p>
-          Your trial has expired. Please subscribe to continue using the
-          service.
-        </p>
-      )}
+      <main className="p-8">
+        {trialDaysRemaining > 0 && (
+          <div className="p-4 mb-8 text-center rounded-lg bg-info-100 text-info-800 dark:bg-info-900/50 dark:text-info-200">
+            <p>You have {trialDaysRemaining} days left in your trial.</p>
+          </div>
+        )}
+        {trialDaysRemaining === 0 && (
+          <div className="p-4 mb-8 text-center bg-warning-100 text-warning-800 rounded-lg dark:bg-warning-900/50 dark:text-warning-200">
+            <p>
+              Your trial has expired. Please <Link to="/subscription" className="font-bold underline">subscribe</Link> to continue using the service.
+            </p>
+          </div>
+        )}
 
-      {!ghostNumber ? (
-        <Onboarding onNumberProvisioned={setGhostNumber} />
-      ) : (
-        <div>
-          <p>Your ghost number is: {ghostNumber}</p>
-          <ConversationList />
-        </div>
-      )}
-      <button onClick={handleLogout}>Logout</button>
+        {!ghostNumber ? (
+          <Onboarding onNumberProvisioned={setGhostNumber} />
+        ) : (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="md:col-span-1">
+              <div className="p-6 rounded-lg card">
+                <h3 className="text-lg font-bold text-text">Your Ghost Number</h3>
+                <p className="mt-2 text-2xl font-mono gradient-text-secondary">{ghostNumber}</p>
+              </div>
+            </div>
+            <div className="md:col-span-2">
+              <ConversationList />
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   );
 };

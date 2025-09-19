@@ -1,13 +1,42 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  :root {
+    --color-text: 15 23 42; /* slate-900 */
+    --color-bg: 241 245 249; /* slate-100 */
+    --color-primary: 11 87 117; /* brand-primary-500 */
+    --color-secondary: 190 92 240; /* brand-secondary-500 */
+    --color-accent: 210 20 194; /* brand-accent-500 */
+    --color-surface: 255 255 255; /* white */
+    --color-border: 226 232 240; /* slate-200 */
+    --color-muted: 100 116 139; /* slate-500 */
+    --color-card: 255 255 255; /* white */
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark {
+    --color-text: 248 250 252; /* slate-50 */
+    --color-bg: 15 23 42; /* slate-900 */
+    --color-primary: 136 213 244; /* light blue for dark primary */
+    --color-secondary: 216 180 254; /* light purple for dark secondary */
+    --color-accent: 252 165 241; /* light pink for dark accent */
+    --color-surface: 30 41 59; /* slate-800 */
+    --color-border: 51 65 85; /* slate-700 */
+    --color-muted: 148 163 184; /* slate-400 */
+    --color-card: 30 41 59; /* slate-800 */
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  }
+
+  body {
+    @apply bg-bg text-text;
+    font-family: 'Fira', sans-serif;
+  }
 }

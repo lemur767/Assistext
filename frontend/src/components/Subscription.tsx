@@ -95,31 +95,61 @@ const Subscription: React.FC = () => {
   }
 
   return (
-    <div>
-      <h2>Subscription Plans</h2>
-      {!selectedPlan ? (
-        <div>
-          {plans.map(plan => (
-            <div key={plan.id}>
-              <h3>{plan.name}</h3>
-              <p>{plan.description}</p>
-              <p>${plan.price}/{plan.currency}</p>
-              <button onClick={() => handleSelectPlan(plan)}>
-                Select {plan.name}
-              </button>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div>
-          <h3>Complete Payment for {selectedPlan.name} plan</h3>
-          {clientSecret && (
-            <Elements options={options} stripe={stripePromise}>
-              <PaymentForm clientSecret={clientSecret} />
-            </Elements>
-          )}
-        </div>
-      )}
+    <div className="min-h-screen p-8 bg-bg text-text">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="mb-8 text-4xl font-bold text-center gradient-text-brand">Subscription Plans</h2>
+        {!selectedPlan ? (
+          <div className="grid gap-8 md:grid-cols-3">
+            {plans.map((plan, index) => (
+              <div 
+                key={plan.id} 
+                className={`p-8 rounded-3xl shadow-xl border transition-all duration-300 hover:scale-105 ${
+                  index === 1 // Highlight the middle plan
+                    ? 'bg-gradient-to-b from-primary-500 to-primary-600 text-white border-primary-500 scale-105'
+                    : 'bg-surface border-border'
+                }`}>
+                {index === 1 && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <div className="px-4 py-2 text-sm font-semibold text-white rounded-full bg-gradient-to-r from-accent-500 to-secondary-500">
+                      Most Popular
+                    </div>
+                  </div>
+                )}
+                <div className="text-center">
+                  <h3 className="mb-2 text-2xl font-bold">{plan.name}</h3>
+                  <p className={`mb-4 text-sm ${index === 1 ? 'text-primary-200' : 'text-muted'}`}>
+                    {plan.description}
+                  </p>
+                  <div className="flex items-end justify-center">
+                    <span className="text-5xl font-bold">${plan.price}</span>
+                    <span className={`ml-1 text-lg ${index === 1 ? 'text-primary-200' : 'text-muted'}`}>
+                      /{plan.currency}
+                    </span>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => handleSelectPlan(plan)} 
+                  className={`w-full py-3 mt-8 font-semibold rounded-2xl transition-all duration-200 ${
+                    index === 1
+                      ? 'bg-white text-primary hover:bg-primary-50'
+                      : 'bg-primary text-white hover:bg-primary-dark'
+                  }`}>
+                  Select {plan.name}
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-8 mx-auto mt-8 max-w-lg rounded-lg card">
+            <h3 className="mb-6 text-2xl font-bold text-center text-text">Complete Payment for {selectedPlan.name} plan</h3>
+            {clientSecret && (
+              <Elements options={options} stripe={stripePromise}>
+                <PaymentForm clientSecret={clientSecret} />
+              </Elements>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

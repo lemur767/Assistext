@@ -46,8 +46,9 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # Note: Relationships temporarily removed to fix mapper initialization issues
-    # TODO: Add back relationships after basic functionality is working
+    # Relationships
+    conversations = db.relationship('Conversation', backref='user', lazy=True, cascade="all, delete-orphan")
+    messages = db.relationship('Message', backref='user', lazy=True, cascade="all, delete-orphan")
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

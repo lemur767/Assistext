@@ -39,59 +39,89 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSignup}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="first_name">First Name</label>
-          <input
-            id="first_name"
-            type="text"
-            value={first_name}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="last_name">Last Name</label>
-          <input
-            id="last_name"
-            type="text"
-            value={last_name}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="country_code">Country Code</label>
-          <input
-            id="country_code"
-            type="text"
-            value={country_code}
-            onChange={(e) => setCountryCode(e.target.value)}
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Signing up..." : "Sign up"}
-        </button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="flex items-center justify-center min-h-screen bg-bg">
+      <div className="w-full max-w-md p-8 space-y-8 glass-card rounded-2xl shadow-lg">
+        <h2 className="text-4xl font-bold text-center text-text-dark gradient-text-brand">
+          Create Account
+        </h2>
+        <form className="space-y-6" onSubmit={handleSignup}>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <label htmlFor="first_name" className="text-sm font-medium text-text">
+                First Name
+              </label>
+              <input
+                id="first_name"
+                type="text"
+                value={first_name}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="form-input"
+                placeholder="John"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="last_name" className="text-sm font-medium text-text">
+                Last Name
+              </label>
+              <input
+                id="last_name"
+                type="text"
+                value={last_name}
+                onChange={(e) => setLastName(e.target.value)}
+                className="form-input"
+                placeholder="Doe"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium text-text">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-input"
+              placeholder="you@example.com"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="password" className="text-sm font-medium text-text">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-input"
+              placeholder="••••••••"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="country_code" className="text-sm font-medium text-text">
+              Country Code
+            </label>
+            <input
+              id="country_code"
+              type="text"
+              value={country_code}
+              onChange={(e) => setCountryCode(e.target.value)}
+              className="form-input"
+              placeholder="e.g. CA"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full btn btn-primary"
+          >
+            {loading ? "Signing up..." : "Sign up"}
+          </button>
+        </form>
+        {message && <p className="text-sm text-center text-error-500">{message}</p>}
+      </div>
     </div>
   );
 };
