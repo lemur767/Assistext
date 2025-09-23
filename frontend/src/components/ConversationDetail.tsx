@@ -100,22 +100,22 @@ const ConversationDetail: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading messages...</div>;
+    return <div className="flex items-center justify-center min-h-screen">Loading messages...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="flex items-center justify-center min-h-screen">Error: {error}</div>;
   }
 
   return (
-    <div className="flex flex-col h-screen bg-bg text-text">
-      <header className="flex items-center justify-between p-4 bg-surface border-b border-border">
-        <h3 className="text-lg font-bold text-text">
+    <div className="flex flex-col h-screen">
+      <header className="flex items-center justify-between p-4 glass-morphism border-b border-neutral-border">
+        <h3 className="text-lg font-bold text-neutral-text">
           Conversation with {conversation?.contact_number}
         </h3>
         <div className="flex items-center space-x-4">
-          <p className="text-sm text-muted">Status: {status}</p>
-          <p className="text-sm text-muted">Controlled by: {conversation?.controlled_by}</p>
+          <p className="text-sm text-neutral-text/60">Status: {status}</p>
+          <p className="text-sm text-neutral-text/60">Controlled by: {conversation?.controlled_by}</p>
           {conversation?.controlled_by === "ai" && (
             <button onClick={handleTakeover} className="btn btn-secondary btn-sm">
               Takeover
@@ -132,10 +132,10 @@ const ConversationDetail: React.FC = () => {
               className={`flex ${msg.sender === "contact" ? "justify-start" : "justify-end"}`}>
               <div
                 className={`p-3 rounded-lg max-w-lg ${msg.sender === "contact"
-                    ? "bg-surface text-text"
+                    ? "glass-morphism"
                     : msg.sender === "user_override"
-                      ? "bg-secondary text-white"
-                      : "bg-primary text-white"
+                      ? "bg-secondary/20"
+                      : "bg-primary/20"
                   }`}>
                 <p>{msg.content}</p>
                 <small className="block mt-1 text-xs opacity-70">
@@ -147,7 +147,7 @@ const ConversationDetail: React.FC = () => {
         </div>
       </div>
 
-      <footer className="p-4 bg-surface border-t border-border">
+      <footer className="p-4 glass-morphism border-t border-neutral-border">
         <form onSubmit={handleSendMessage} className="flex space-x-4">
           <input
             type="text"

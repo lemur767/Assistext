@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from "react";
 import { useAuth } from "../App";
+import { Link, Navigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +22,13 @@ const Login: React.FC = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      auth?.setSession(data);
+      auth?.setSession({
+        token: data.access_token,
+        ghost_number: data.user.phone_number,
+        trial_expires_at: data.user.trial_expires_at,
+      });
+      if(response.ok)
+        <Navigate to="/dashboard" />;
     } catch (err: unknown) {
       setMessage((err as Error).message);
     } finally {
@@ -30,14 +37,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-bg">
-      <div className="w-full max-w-md p-8 space-y-8 glass-card rounded-2xl shadow-lg">
-        <h2 className="text-4xl font-bold text-center text-text-dark gradient-text-brand">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-8 space-y-8 glass-morphism rounded-2xl shadow-lg">
+        <h2 className="text-4xl font-bold text-center gradient-text-brand">
           Login
         </h2>
         <form className="space-y-6" onSubmit={handleLogin}>
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-text">
+            <label htmlFor="email" className="text-sm font-medium text-neutral-text">
               Email
             </label>
             <input
@@ -52,7 +59,7 @@ const Login: React.FC = () => {
           <div className="space-y-2">
             <label
               htmlFor="password"
-              className="text-sm font-medium text-text"
+              className="text-sm font-medium text-neutral-text"
             >
               Password
             </label>
@@ -73,7 +80,13 @@ const Login: React.FC = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        {message && <p className="text-sm text-center text-error-500">{message}</p>}
+        {message && <p className="text-sm text-center text-error">{message}</p>}
+        <p className="text-sm text-center text-neutral-text/60">
+          Don&apos;t have an account?{" "}
+          <Link to="/signup" className="font-medium text-primary hover:underline">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );

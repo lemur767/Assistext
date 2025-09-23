@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from "react";
 import { useAuth } from "../App";
+import { Link } from "react-router-dom";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -30,7 +31,11 @@ const Signup: React.FC = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      auth?.setSession(data);
+      auth?.setSession({
+        token: data.access_token,
+        ghost_number: data.user.phone_number,
+        trial_expires_at: data.user.trial_expires_at,
+      });
     } catch (err: unknown) {
       setMessage((err as Error).message);
     } finally {
@@ -39,15 +44,15 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-bg">
-      <div className="w-full max-w-md p-8 space-y-8 glass-card rounded-2xl shadow-lg">
-        <h2 className="text-4xl font-bold text-center text-text-dark gradient-text-brand">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-8 space-y-8 glass-morphism rounded-2xl shadow-lg">
+        <h2 className="text-4xl font-bold text-center gradient-text-brand">
           Create Account
         </h2>
         <form className="space-y-6" onSubmit={handleSignup}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <label htmlFor="first_name" className="text-sm font-medium text-text">
+              <label htmlFor="first_name" className="text-sm font-medium text-neutral-text">
                 First Name
               </label>
               <input
@@ -60,7 +65,7 @@ const Signup: React.FC = () => {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="last_name" className="text-sm font-medium text-text">
+              <label htmlFor="last_name" className="text-sm font-medium text-neutral-text">
                 Last Name
               </label>
               <input
@@ -74,7 +79,7 @@ const Signup: React.FC = () => {
             </div>
           </div>
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-text">
+            <label htmlFor="email" className="text-sm font-medium text-neutral-text">
               Email
             </label>
             <input
@@ -87,7 +92,7 @@ const Signup: React.FC = () => {
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium text-text">
+            <label htmlFor="password" className="text-sm font-medium text-neutral-text">
               Password
             </label>
             <input
@@ -100,7 +105,7 @@ const Signup: React.FC = () => {
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="country_code" className="text-sm font-medium text-text">
+            <label htmlFor="country_code" className="text-sm font-medium text-neutral-text">
               Country Code
             </label>
             <input
@@ -120,7 +125,13 @@ const Signup: React.FC = () => {
             {loading ? "Signing up..." : "Sign up"}
           </button>
         </form>
-        {message && <p className="text-sm text-center text-error-500">{message}</p>}
+        {message && <p className="text-sm text-center text-error">{message}</p>}
+        <p className="text-sm text-center text-neutral-text/60">
+          Already have an account?{" "}
+          <Link to="/login" className="font-medium text-primary hover:underline">
+            Log in
+          </Link>
+        </p>
       </div>
     </div>
   );

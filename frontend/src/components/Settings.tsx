@@ -51,8 +51,8 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg text-text">
-      <header className="flex items-center justify-between p-4 bg-surface shadow-md">
+    <div className="min-h-screen">
+      <header className="flex items-center justify-between p-4 glass-morphism shadow-lg">
         <h2 className="text-2xl font-bold gradient-text-brand">Settings</h2>
         <nav>
           <Link to="/subscription" className="btn btn-ghost">Manage Subscription</Link>
@@ -61,31 +61,31 @@ const Settings: React.FC = () => {
 
       <main className="p-8">
         <div className="max-w-2xl mx-auto">
-          <div className="p-6 rounded-lg card">
+          <div className="p-6 rounded-lg glass-morphism">
             <form onSubmit={handleUpload} className="space-y-6">
               <div>
-                <h3 className="text-lg font-bold text-text">Upload Training Data</h3>
-                <p className="mt-1 text-sm text-muted">
+                <h3 className="text-lg font-bold text-neutral-text">Upload Training Data</h3>
+                <p className="mt-1 text-sm text-neutral-text/60">
                   Upload a .txt file of your past conversations to help the AI learn your style.
                 </p>
               </div>
               
               <div>
-                <label htmlFor="file-upload" className="block text-sm font-medium text-text">Training File</label>
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md border-border hover:border-primary">
+                <label htmlFor="file-upload" className="block text-sm font-medium text-neutral-text">Training File</label>
+                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-md border-neutral-border hover:border-primary">
                   <div className="space-y-1 text-center">
-                    <svg className="w-12 h-12 mx-auto text-muted" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                    <svg className="w-12 h-12 mx-auto text-neutral-text/60" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                       <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <div className="flex text-sm text-muted">
-                      <label htmlFor="file-upload" className="relative font-medium rounded-md cursor-pointer text-primary hover:text-primary-dark focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
+                    <div className="flex text-sm text-neutral-text/60">
+                      <label htmlFor="file-upload" className="relative font-medium rounded-md cursor-pointer text-primary hover:text-primary/80 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
                         <span>Upload a file</span>
                         <input id="file-upload" name="file-upload" type="file" className="sr-only" accept=".txt" onChange={handleFileChange} />
                       </label>
                       <p className="pl-1">or drag and drop</p>
                     </div>
-                    <p className="text-xs text-muted">TXT up to 10MB</p>
-                    {file && <p className="text-sm text-success-500">{file.name}</p>}
+                    <p className="text-xs text-neutral-text/60">TXT up to 10MB</p>
+                    {file && <p className="text-sm text-success">{file.name}</p>}
                   </div>
                 </div>
               </div>
@@ -94,7 +94,7 @@ const Settings: React.FC = () => {
                 {loading ? "Uploading..." : "Upload"}
               </button>
             </form>
-            {message && <p className="mt-4 text-sm text-center text-success-500">{message}</p>}
+            {message && <p className={`mt-4 text-sm text-center ${message.includes("successfully") ? "text-success" : "text-error"}`}>{message}</p>}
           </div>
         </div>
       </main>

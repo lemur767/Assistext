@@ -5,6 +5,18 @@ import { useAuth } from "../App";
 
 import ConversationList from "./ConversationList";
 
+const Onboarding: React.FC<{ onNumberProvisioned: (number: string) => void }> = ({ onNumberProvisioned }) => {
+  // Dummy onboarding component
+  return (
+    <div className="text-center">
+      <h2 className="text-2xl font-bold mb-4">Welcome to Assistext!</h2>
+      <p className="mb-4">Let's get you set up with a ghost number.</p>
+      <button className="btn btn-primary" onClick={() => onNumberProvisioned('+15551234567')}>Provision Number</button>
+    </div>
+  );
+};
+
+
 const Dashboard: React.FC = () => {
   const [ghostNumber, setGhostNumber] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,12 +72,12 @@ const Dashboard: React.FC = () => {
   const trialDaysRemaining = getTrialDaysRemaining();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-bg text-text">
-      <header className="flex items-center justify-between p-4 bg-surface shadow-md">
+    <div className="min-h-screen">
+      <header className="flex items-center justify-between p-4 glass-morphism shadow-lg">
         <h2 className="text-2xl font-bold gradient-text-brand">Dashboard</h2>
         <nav className="flex items-center space-x-4">
           <Link to="/settings" className="btn btn-ghost">Settings</Link>
@@ -75,12 +87,12 @@ const Dashboard: React.FC = () => {
 
       <main className="p-8">
         {trialDaysRemaining > 0 && (
-          <div className="p-4 mb-8 text-center rounded-lg bg-info-100 text-info-800 dark:bg-info-900/50 dark:text-info-200">
+          <div className="p-4 mb-8 text-center rounded-lg bg-primary/10 text-primary">
             <p>You have {trialDaysRemaining} days left in your trial.</p>
           </div>
         )}
         {trialDaysRemaining === 0 && (
-          <div className="p-4 mb-8 text-center bg-warning-100 text-warning-800 rounded-lg dark:bg-warning-900/50 dark:text-warning-200">
+          <div className="p-4 mb-8 text-center bg-warning/10 text-warning rounded-lg">
             <p>
               Your trial has expired. Please <Link to="/subscription" className="font-bold underline">subscribe</Link> to continue using the service.
             </p>
@@ -92,8 +104,8 @@ const Dashboard: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="md:col-span-1">
-              <div className="p-6 rounded-lg card">
-                <h3 className="text-lg font-bold text-text">Your Ghost Number</h3>
+              <div className="p-6 rounded-lg glass-morphism">
+                <h3 className="text-lg font-bold text-neutral-text">Your Ghost Number</h3>
                 <p className="mt-2 text-2xl font-mono gradient-text-secondary">{ghostNumber}</p>
               </div>
             </div>

@@ -39,12 +39,11 @@ export function GlassGradCard({
   const cardRef = useRef<HTMLDivElement>(null);
   
   const glowColors = {
-    brand: 'from-secondary-600 via-secondary-300 to-accent-600',
-    secondary: 'from-secondary-400 via-secondary-500 to-secondary-600',
-    accent: 'from-accent-400 via-accent-500 to-accent-600',
-    grey: 'from-black-400 via-black-200 to-grey-800',
+    brand: 'from-primary via-secondary to-accent',
+    secondary: 'from-secondary via-pink-500 to-purple-600',
+    accent: 'from-accent via-yellow-500 to-lime-600',
+    grey: 'from-gray-400 via-gray-200 to-gray-800',
     orange: 'from-orange-400 via-orange-500 to-orange-600',
-    
   };
 
   const sizeClasses = {
@@ -116,10 +115,10 @@ export function GlassGradCard({
   return (
     <div className={`group relative ${className}`}>
       {/* Outer glow effect */}
-      <div className={`absolute -inset-1 bg-gradient-to-r hover:${glowColors[glow]} rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500 hover:${animationClasses[animation]}`} />
+      <div className={`absolute -inset-1 bg-gradient-to-r ${glowColors[glow]} rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500 ${animationClasses[animation]}`} />
       
       {/* Middle glow effect */}
-      <div className={`absolute -inset-0.5 bg-gradient-to-r hover:${glowColors[glow]} rounded-xl blur-sm opacity-0 group-hover:opacity-70 transition-opacity duration-300`} />
+      <div className={`absolute -inset-0.5 bg-gradient-to-r ${glowColors[glow]} rounded-xl blur-sm opacity-0 group-hover:opacity-70 transition-opacity duration-300`} />
       
       {/* Main card */}
       <div 
