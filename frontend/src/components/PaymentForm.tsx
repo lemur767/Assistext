@@ -4,6 +4,7 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
+import styles from "./PaymentForm.module.css";
 
 const PaymentForm: React.FC<{ clientSecret: string }> = ({
   clientSecret /* eslint-disable-line @typescript-eslint/no-unused-vars */,
@@ -40,17 +41,17 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="p-6 border rounded-lg bg-surface border-border">
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={`${styles.paymentElementContainer} bg-surface border-border`}>
         <PaymentElement />
       </div>
       <button 
         disabled={!stripe || loading} 
-        className="w-full btn btn-primary"
+        className={`${styles.button} btn btn-primary`}
       >
         {loading ? "Processing..." : "Pay"}
       </button>
-      {errorMessage && <div className="text-sm text-center text-error-500">{errorMessage}</div>}
+      {errorMessage && <div className={`${styles.errorMessage} text-error-500`}>{errorMessage}</div>}
     </form>
   );
 };

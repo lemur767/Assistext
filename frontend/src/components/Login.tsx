@@ -1,14 +1,15 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from "react";
-import { useAuth } from "../App";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import styles from "./Login.module.css";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const auth = useAuth();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,13 +23,8 @@ const Login: React.FC = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      auth?.setSession({
-        token: data.access_token,
-        ghost_number: data.user.phone_number,
-        trial_expires_at: data.user.trial_expires_at,
-      });
-      if(response.ok)
-        <Navigate to="/dashboard" />;
+      login();
+      navigate("/dashboard");
     } catch (err: unknown) {
       setMessage((err as Error).message);
     } finally {
@@ -37,14 +33,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-8 glass-morphism rounded-2xl shadow-lg">
-        <h2 className="text-4xl font-bold text-center gradient-text-brand">
+    <div className={styles.container}>
+      <div className={`${styles.card} glass-morphism`}>
+        <h2 className={`${styles.heading} gradient-text-brand`}>
           Login
         </h2>
-        <form className="space-y-6" onSubmit={handleLogin}>
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-neutral-text">
+        <form className={styles.form} onSubmit={handleLogin}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="email" className={`${styles.label} text-neutral-text`}>
               Email
             </label>
             <input
@@ -56,10 +52,10 @@ const Login: React.FC = () => {
               placeholder="you@example.com"
             />
           </div>
-          <div className="space-y-2">
+          <div className={styles.inputGroup}>
             <label
               htmlFor="password"
-              className="text-sm font-medium text-neutral-text"
+              className={`${styles.label} text-neutral-text`}
             >
               Password
             </label>
@@ -75,15 +71,15 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn btn-primary"
+            className={`${styles.button} btn btn-primary`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        {message && <p className="text-sm text-center text-error">{message}</p>}
-        <p className="text-sm text-center text-neutral-text/60">
+        {message && <p className={`${styles.message} text-error`}>{message}</p>}
+        <p className={`${styles.signupText} text-neutral-text/60`}>
           Don&apos;t have an account?{" "}
-          <Link to="/signup" className="font-medium text-primary hover:underline">
+          <Link to="/signup" className={`${styles.signupLink} text-primary hover:underline`}>
             Sign up
           </Link>
         </p>

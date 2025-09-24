@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useRef } from 'react';
+import styles from './GlassGradientCard.module.css';
 
 type GlowVariant = 'brand' | 'secondary' | 'accent' | 'grey' | 'orange';
 type SizeVariant = 'sm' | 'md' | 'lg' | 'xl';
@@ -23,8 +24,8 @@ interface GlassGradProps {
   onClick?: () => void;
 }
 
-export function GlassGradCard({ 
-  children, 
+export function GlassGradCard({
+  children,
   className = '',
   glow = 'brand',
   size = 'md',
@@ -33,38 +34,38 @@ export function GlassGradCard({
   noBorder = false,
   onClick
 }: GlassGradProps) {
-  
+
   const [ripples, setRipples] = useState<RippleEffect[]>([]);
   const [isWaveActive, setIsWaveActive] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  
-  const glowColors = {
-    brand: 'from-primary via-secondary to-accent',
-    secondary: 'from-secondary via-pink-500 to-purple-600',
-    accent: 'from-accent via-yellow-500 to-lime-600',
-    grey: 'from-gray-400 via-gray-200 to-gray-800',
-    orange: 'from-orange-400 via-orange-500 to-orange-600',
+
+  const glowClasses = {
+    brand: styles.glowBrand,
+    secondary: styles.glowSecondary,
+    accent: styles.glowAccent,
+    grey: styles.glowGrey,
+    orange: styles.glowOrange,
   };
 
   const sizeClasses = {
-    sm: 'p-4 rounded-lg',
-    md: 'p-6 rounded-xl',
-    lg: 'p-8 rounded-2xl',
-    xl: 'p-10 rounded-3xl'
+    sm: styles.sizeSm,
+    md: styles.sizeMd,
+    lg: styles.sizeLg,
+    xl: styles.sizeXl
   };
 
   const blurClasses = {
-    light: 'backdrop-blur-sm',
-    medium: 'backdrop-blur-lg',
-    heavy: 'backdrop-blur-2xl'
+    light: styles.blurLight,
+    medium: styles.blurMedium,
+    heavy: styles.blurHeavy
   };
 
-  const animationClasses = {
-    glow: 'animate-pulse',
-    pulse: 'animate-pulse',
-    shimmer: 'animate-bounce',
-    bounce: 'animate-bounce',
-    scale: 'group-hover:animate-pulse',
+  const animationOuterGlowClasses = {
+    glow: styles.outerGlowAnimatePulse,
+    pulse: styles.outerGlowAnimatePulse,
+    shimmer: '',
+    bounce: styles.outerGlowAnimateBounce,
+    scale: '',
     ripple: '',
     wave: ''
   };
@@ -72,9 +73,9 @@ export function GlassGradCard({
   const getTransformClass = () => {
     switch (animation) {
       case 'scale':
-        return 'group-hover:scale-105';
+        return styles.transformScale;
       case 'bounce':
-        return 'group-hover:-translate-y-1';
+        return styles.transformBounce;
       default:
         return '';
     }
@@ -89,15 +90,15 @@ export function GlassGradCard({
       const rect = cardRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       const newRipple = {
         id: Date.now(),
         x,
         y
       };
-      
+
       setRipples(prev => [...prev, newRipple]);
-      
+
       // Remove ripple after animation
       setTimeout(() => {
         setRipples(prev => prev.filter(ripple => ripple.id !== newRipple.id));
@@ -113,34 +114,41 @@ export function GlassGradCard({
   const isClickable = animation === 'ripple' || animation === 'wave' || onClick;
 
   return (
-    <div className={`group relative ${className}`}>
+    <div className={`${styles.group} ${className}`}>
       {/* Outer glow effect */}
-      <div className={`absolute -inset-1 bg-gradient-to-r ${glowColors[glow]} rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500 ${animationClasses[animation]}`} />
-      
+      <div className={`${styles.outerGlow} ${glowClasses[glow]} ${animationOuterGlowClasses[animation]}`} />
+
       {/* Middle glow effect */}
-      <div className={`absolute -inset-0.5 bg-gradient-to-r ${glowColors[glow]} rounded-xl blur-sm opacity-0 group-hover:opacity-70 transition-opacity duration-300`} />
-      
+      <div className={`${styles.middleGlow} ${glowClasses[glow]}`} />
+
       {/* Main card */}
-      <div 
+      <div
         ref={cardRef}
-        className={`relative ${blurClasses[blur]} bg-white/10 dark:bg-black/10 ${!noBorder ? 'border border-white/20 dark:border-white/10' : ''} ${sizeClasses[size]} shadow-xl transition-all duration-300 group-hover:shadow-2xl group-hover:bg-white/15 dark:group-hover:bg-black/15 ${getTransformClass()} ${isClickable ? 'cursor-pointer' : ''} overflow-hidden`}
+        className={`
+          ${styles.mainCard}
+          ${blurClasses[blur]}
+          ${!noBorder ? styles.mainCardBorder : styles.mainCardNoBorder}
+          ${sizeClasses[size]}
+          ${getTransformClass()}
+          ${isClickable ? styles.mainCardCursorPointer : ''}
+        `}
         onClick={isClickable ? handleClick : undefined}
       >
         {/* Inner glow border */}
         {!noBorder && (
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/10 to-transparent opacity-50" />
+          <div className={styles.innerGlowBorder} />
         )}
-        
+
         {/* Shimmer effect for shimmer variant */}
         {animation === 'shimmer' && (
-          <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity duration-300" />
+          <div className={styles.shimmerEffect} />
         )}
 
         {/* Ripple effects */}
         {animation === 'ripple' && ripples.map((ripple) => (
           <div
             key={ripple.id}
-            className={`absolute pointer-events-none animate-ripple bg-gradient-to-r ${glowColors[glow]} rounded-full opacity-30`}
+            className={`${styles.rippleEffect} ${glowClasses[glow]}`}
             style={{
               left: ripple.x,
               top: ripple.y,
@@ -154,14 +162,14 @@ export function GlassGradCard({
         {/* Wave effect */}
         {animation === 'wave' && (
           <>
-            <div className={`absolute inset-0 bg-gradient-to-r ${glowColors[glow]} opacity-20 ${isWaveActive ? 'animate-wave-1' : ''}`} />
-            <div className={`absolute inset-0 bg-gradient-to-l ${glowColors[glow]} opacity-15 ${isWaveActive ? 'animate-wave-2' : ''}`} />
-            <div className={`absolute inset-0 bg-gradient-to-t ${glowColors[glow]} opacity-10 ${isWaveActive ? 'animate-wave-3' : ''}`} />
+            <div className={`${styles.waveEffect1} ${glowClasses[glow]} ${isWaveActive ? styles.active : ''}`} />
+            <div className={`${styles.waveEffect2} ${glowClasses[glow]} ${isWaveActive ? styles.active : ''}`} />
+            <div className={`${styles.waveEffect3} ${glowClasses[glow]} ${isWaveActive ? styles.active : ''}`} />
           </>
         )}
-        
+
         {/* Content */}
-        <div className="relative z-10">
+        <div className={styles.content}>
           {children}
         </div>
       </div>

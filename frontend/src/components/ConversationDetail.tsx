@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../App";
 import { socketService } from "../services/socketService";
+import styles from "./ConversationDetail.module.css";
 
 interface Message {
   id: string;
@@ -100,22 +101,22 @@ const ConversationDetail: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading messages...</div>;
+    return <div className={`${styles.loadingContainer}`}>Loading messages...</div>;
   }
 
   if (error) {
-    return <div className="flex items-center justify-center min-h-screen">Error: {error}</div>;
+    return <div className={`${styles.errorContainer}`}>Error: {error}</div>;
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      <header className="flex items-center justify-between p-4 glass-morphism border-b border-neutral-border">
-        <h3 className="text-lg font-bold text-neutral-text">
+    <div className={styles.mainContainer}>
+      <header className={`flex items-center justify-between p-4 glass-morphism border-b border-neutral-border`}>
+        <h3 className={styles.headerTitle}>
           Conversation with {conversation?.contact_number}
         </h3>
-        <div className="flex items-center space-x-4">
-          <p className="text-sm text-neutral-text/60">Status: {status}</p>
-          <p className="text-sm text-neutral-text/60">Controlled by: {conversation?.controlled_by}</p>
+        <div className={styles.headerControls}>
+          <p className={styles.headerStatus}>Status: {status}</p>
+          <p className={styles.headerStatus}>Controlled by: {conversation?.controlled_by}</p>
           {conversation?.controlled_by === "ai" && (
             <button onClick={handleTakeover} className="btn btn-secondary btn-sm">
               Takeover
@@ -124,12 +125,12 @@ const ConversationDetail: React.FC = () => {
         </div>
       </header>
 
-      <div className="flex-1 p-4 overflow-y-auto custom-scrollbar">
-        <div className="space-y-4">
+      <div className={`${styles.messageArea} custom-scrollbar`}>
+        <div className={styles.messagesList}>
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex ${msg.sender === "contact" ? "justify-start" : "justify-end"}`}>
+              className={`${styles.messageContainer} ${msg.sender === "contact" ? styles.justifyStart : styles.justifyEnd}`}>
               <div
                 className={`p-3 rounded-lg max-w-lg ${msg.sender === "contact"
                     ? "glass-morphism"
@@ -138,7 +139,7 @@ const ConversationDetail: React.FC = () => {
                       : "bg-primary/20"
                   }`}>
                 <p>{msg.content}</p>
-                <small className="block mt-1 text-xs opacity-70">
+                <small className={styles.messageContent}>
                   {new Date(msg.created_at).toLocaleString()}
                 </small>
               </div>
@@ -147,14 +148,14 @@ const ConversationDetail: React.FC = () => {
         </div>
       </div>
 
-      <footer className="p-4 glass-morphism border-t border-neutral-border">
-        <form onSubmit={handleSendMessage} className="flex space-x-4">
+      <footer className={`p-4 glass-morphism border-t border-neutral-border`}>
+        <form onSubmit={handleSendMessage} className={styles.messageForm}>
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 form-input"
+            className={`${styles.messageInput} form-input`}
           />
           <button type="submit" className="btn btn-primary">
             Send

@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../App";
 
 import ConversationList from "./ConversationList";
+import styles from "./Dashboard.module.css";
 
 const Onboarding: React.FC<{ onNumberProvisioned: (number: string) => void }> = ({ onNumberProvisioned }) => {
-  // Dummy onboarding component
   return (
-    <div className="text-center">
-      <h2 className="text-2xl font-bold mb-4">Welcome to Assistext!</h2>
-      <p className="mb-4">Let's get you set up with a ghost number.</p>
-      <button className="btn btn-primary" onClick={() => onNumberProvisioned('+15551234567')}>Provision Number</button>
+    <div className={styles.onboardingContainer}>
+      <h2 className={styles.onboardingTitle}>Welcome to Assistext!</h2>
+      <p className={styles.onboardingText}>Let's get you set up with a ghost number.</p>
+      <button className={styles.onboardingButton} onClick={() => onNumberProvisioned('+15551234567')}>Provision Number</button>
     </div>
   );
 };
@@ -72,29 +72,29 @@ const Dashboard: React.FC = () => {
   const trialDaysRemaining = getTrialDaysRemaining();
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return <div className={styles.loadingContainer}>Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="flex items-center justify-between p-4 glass-morphism shadow-lg">
-        <h2 className="text-2xl font-bold gradient-text-brand">Dashboard</h2>
-        <nav className="flex items-center space-x-4">
-          <Link to="/settings" className="btn btn-ghost">Settings</Link>
-          <button onClick={handleLogout} className="btn btn-outline">Logout</button>
+    <div className={styles.mainContainer}>
+      <header className={styles.header}>
+        <h2 className={styles.headerTitle}>Dashboard</h2>
+        <nav className={styles.navbarNav}>
+          <Link to="/settings" className={styles.settingsButton}>Settings</Link>
+          <button onClick={handleLogout} className={styles.logoutButton}>Logout</button>
         </nav>
       </header>
 
-      <main className="p-8">
+      <main className={styles.mainContent}>
         {trialDaysRemaining > 0 && (
-          <div className="p-4 mb-8 text-center rounded-lg bg-primary/10 text-primary">
+          <div className={styles.trialBannerPrimary}>
             <p>You have {trialDaysRemaining} days left in your trial.</p>
           </div>
         )}
         {trialDaysRemaining === 0 && (
-          <div className="p-4 mb-8 text-center bg-warning/10 text-warning rounded-lg">
+          <div className={styles.trialBannerWarning}>
             <p>
-              Your trial has expired. Please <Link to="/subscription" className="font-bold underline">subscribe</Link> to continue using the service.
+              Your trial has expired. Please <Link to="/subscription">subscribe</Link> to continue using the service.
             </p>
           </div>
         )}
@@ -102,14 +102,14 @@ const Dashboard: React.FC = () => {
         {!ghostNumber ? (
           <Onboarding onNumberProvisioned={setGhostNumber} />
         ) : (
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div className="md:col-span-1">
-              <div className="p-6 rounded-lg glass-morphism">
-                <h3 className="text-lg font-bold text-neutral-text">Your Ghost Number</h3>
-                <p className="mt-2 text-2xl font-mono gradient-text-secondary">{ghostNumber}</p>
+          <div className={styles.ghostNumberGrid}>
+            <div className={styles.ghostNumberCol1}>
+              <div className={styles.ghostNumberCard}>
+                <h3 className={styles.ghostNumberTitle}>Your Ghost Number</h3>
+                <p className={styles.ghostNumberDisplay}>{ghostNumber}</p>
               </div>
             </div>
-            <div className="md:col-span-2">
+            <div className={styles.conversationListCol}>
               <ConversationList />
             </div>
           </div>

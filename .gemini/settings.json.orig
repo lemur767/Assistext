@@ -1,7 +1,5 @@
 {
-  "ui": {
-    "hideFooter": true
-  },
+  "hideFooter": true,
   "workspaces": {
     "default": {
       "name": "Default",
@@ -15,5 +13,5 @@
       "name": "Backend",
       "path": "D:\\Documents\\Assistext\\backend"
     }
-  }
+    }
 }

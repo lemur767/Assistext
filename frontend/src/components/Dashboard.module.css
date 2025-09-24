@@ -1,0 +1,185 @@
+.mainContainer {
+  min-height: 100vh;
+  width: 100%;
+  background-image: linear-gradient(to bottom, black, #172554, black);
+  color: #e2e8f0; /* text-slate-200 */
+}
+
+.header {
+  padding: 1rem 1.5rem;
+  backdrop-filter: blur(16px);
+  background-color: rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #22d3ee, #a78bfa);
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.8));
+}
+
+.navbarNav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navButton {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  color: white;
+  text-decoration: none;
+}
+
+.settingsButton {
+  composes: navButton;
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+}
+
+.settingsButton:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.logoutButton {
+  composes: navButton;
+  background-image: linear-gradient(to right, #06b6d4, #a78bfa);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+.logoutButton:hover {
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
+}
+
+.mainContent {
+  padding: 2rem 1.5rem;
+}
+
+.trialBanner {
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  backdrop-filter: blur(16px);
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid;
+}
+
+.trialBannerPrimary {
+  composes: trialBanner;
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
+.trialBannerWarning {
+  composes: trialBanner;
+  border-color: rgba(251, 146, 60, 0.3);
+  box-shadow: 0 0 15px rgba(251, 146, 60, 0.2);
+  color: #fb923c; /* orange-400 */
+}
+
+.trialBannerWarning a {
+  font-weight: 700;
+  text-decoration: underline;
+  color: #fdba74; /* orange-300 */
+}
+
+.card {
+  backdrop-filter: blur(16px);
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.onboardingContainer {
+  composes: card;
+  text-align: center;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+.onboardingTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #22d3ee, #a78bfa);
+}
+
+.onboardingText {
+  margin-bottom: 1.5rem;
+}
+
+.onboardingButton {
+  composes: logoutButton; /* Re-use the primary button style */
+}
+
+.ghostNumberGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .ghostNumberGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ghostNumberCol1 {
+  grid-column: span 1;
+}
+
+.ghostNumberCard {
+  composes: card;
+}
+
+.ghostNumberTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.ghostNumberDisplay {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-family: monospace;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #67e8f9, #c084fc);
+}
+
+.conversationListCol {
+  grid-column: span 1;
+}
+
+@media (min-width: 768px) {
+  .conversationListCol {
+    grid-column: span 2;
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+}

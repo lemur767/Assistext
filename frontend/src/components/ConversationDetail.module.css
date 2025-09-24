@@ -1,0 +1,90 @@
+
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem; /* p-4 */
+  border-bottom: 1px solid var(--neutral-border); /* border-b */
+}
+
+.headerTitle {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 700; /* font-bold */
+  color: var(--neutral-text); /* text-neutral-text */
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* space-x-4 */
+}
+
+.headerStatus {
+  font-size: 0.875rem; /* text-sm */
+  color: rgba(var(--neutral-text-rgb), 0.6); /* text-neutral-text/60 */
+}
+
+.messageArea {
+  flex: 1; /* flex-1 */
+  padding: 1rem; /* p-4 */
+  overflow-y: auto;
+}
+
+.messagesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* space-y-4 */
+}
+
+.messageContainer {
+  display: flex;
+}
+
+.justifyStart {
+  justify-content: flex-start;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
+
+.messageBubble {
+  padding: 0.75rem; /* p-3 */
+  border-radius: 0.5rem; /* rounded-lg */
+  max-width: 32rem; /* max-w-lg */
+}
+
+.messageContent {
+  display: block;
+  margin-top: 0.25rem; /* mt-1 */
+  font-size: 0.75rem; /* text-xs */
+  opacity: 0.7;
+}
+
+.footer {
+  padding: 1rem; /* p-4 */
+  border-top: 1px solid var(--neutral-border); /* border-t */
+}
+
+.messageForm {
+  display: flex;
+  gap: 1rem; /* space-x-4 */
+}
+
+.messageInput {
+  flex: 1; /* flex-1 */
+}

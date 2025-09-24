@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../App";
+import styles from "./ConversationList.module.css";
 
 interface Conversation {
   id: string;
@@ -47,40 +48,40 @@ const ConversationList: React.FC = () => {
   }, [auth?.session, page]);
 
   if (loading) {
-    return <div>Loading conversations...</div>;
+    return <div className={styles.loading}>Loading conversations...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className={styles.error}>Error: {error}</div>;
   }
 
   return (
-    <div className="p-6 rounded-lg card">
-      <h3 className="mb-4 text-xl font-bold text-text">Conversations</h3>
+    <div className={`${styles.container} card`}>
+      <h3 className={`${styles.header} text-text`}>Conversations</h3>
       {conversations.length === 0 ? (
         <p className="text-muted">No conversations yet.</p>
       ) : (
         <>
-          <ul className="space-y-2">
+          <ul className={styles.conversationList}>
             {conversations.map((conv) => (
               <li key={conv.id}>
                 <Link 
                   to={`/conversations/${conv.id}`}
-                  className={`block p-4 rounded-lg transition-colors hover:bg-surface-100 dark:hover:bg-surface-700 ${conv.unread ? 'bg-primary-50 dark:bg-primary-900/20' : ''}`}>
-                  <div className="flex items-center justify-between">
-                    <strong className={`font-semibold ${conv.unread ? 'text-primary' : 'text-text'}`}>{conv.contact_number}</strong>
-                    <small className="text-xs text-muted">{new Date(conv.last_message_at).toLocaleString()}</small>
+                  className={`${styles.conversationLink} ${conv.unread ? styles.conversationLinkUnread : ''}`}>
+                  <div className={styles.conversationHeader}>
+                    <strong className={`${styles.contactNumber} ${conv.unread ? styles.contactNumberUnread : styles.contactNumberRead}`}>{conv.contact_number}</strong>
+                    <small className={styles.lastMessageTime}>{new Date(conv.last_message_at).toLocaleString()}</small>
                   </div>
-                  <p className={`mt-1 text-sm truncate ${conv.unread ? 'text-text' : 'text-muted'}`}>{conv.last_message}</p>
+                  <p className={`${styles.lastMessage} ${conv.unread ? styles.lastMessageUnread : styles.lastMessageRead}`}>{conv.last_message}</p>
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="flex items-center justify-between mt-6">
+          <div className={styles.pagination}>
             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="btn btn-ghost">
               Previous
             </button>
-            <span className="text-sm text-muted"> Page {page} of {totalPages} </span>
+            <span className={styles.paginationText}> Page {page} of {totalPages} </span>
             <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="btn btn-ghost">
               Next
             </button>

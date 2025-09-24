@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDownIcon } from 'lucide-react';
+import styles from './FAQSection.module.css';
+
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState(0);
   const faqs = [{
@@ -21,39 +23,43 @@ const FAQSection = () => {
     question: 'What if the AI makes a mistake?',
     answer: "While our AI is highly accurate, it can occasionally misinterpret context. You'll receive notifications of all AI interactions, allowing you to quickly step in if needed. The system also learns from corrections to improve future responses."
   }];
-  return <section id="faq" className="py-20 px-6 md:px-12 lg:px-24">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+  return (
+    <section id="faq" className={styles.section}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>
             Frequently Asked{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 drop-shadow-[0_0_8px_rgba(139,92,246,0.8)]">
+            <span className={styles.titleHighlight}>
               Questions
             </span>
           </h2>
-          <p className="text-lg text-slate-200">
+          <p className={styles.description}>
             Everything you need to know about TextAI.
           </p>
         </div>
-        <div className="space-y-4">
-          {faqs.map((faq, index) => <div key={index} className="backdrop-blur-lg bg-black/40 border border-white/10 rounded-xl overflow-hidden transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-              <button className="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none" onClick={() => setOpenIndex(openIndex === index ? -1 : index)}>
-                <span className="font-medium text-lg">{faq.question}</span>
-                <ChevronDownIcon size={20} className={`text-cyan-400 transition-transform ${openIndex === index ? 'rotate-180' : ''}`} />
+        <div className={styles.faqList}>
+          {faqs.map((faq, index) => (
+            <div key={index} className={styles.faqItem}>
+              <button className={styles.faqButton} onClick={() => setOpenIndex(openIndex === index ? -1 : index)}>
+                <span className={styles.faqQuestion}>{faq.question}</span>
+                <ChevronDownIcon size={20} className={`${styles.chevronIcon} ${openIndex === index ? styles.chevronIconRotate : ''}`} />
               </button>
-              <div className={`px-6 overflow-hidden transition-all ${openIndex === index ? 'max-h-96 pb-6' : 'max-h-0'}`}>
-                <p className="text-slate-300">{faq.answer}</p>
+              <div className={`${styles.faqContent} ${openIndex === index ? styles.faqContentOpen : ''}`}>
+                <p className={styles.faqAnswer}>{faq.answer}</p>
               </div>
-            </div>)}
+            </div>
+          ))}
         </div>
-        <div className="mt-12 text-center">
-          <p className="text-slate-300">
+        <div className={styles.footerText}>
+          <p>
             Still have questions?{' '}
-            <a href="#" className="text-cyan-400 hover:underline">
+            <a href="#" className={styles.footerLink}>
               Contact our support team
             </a>
           </p>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 export default FAQSection;

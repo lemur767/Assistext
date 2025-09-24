@@ -49,6 +49,7 @@ class User(db.Model):
     # Relationships
     conversations = db.relationship('Conversation', backref='user', lazy=True, cascade="all, delete-orphan")
     messages = db.relationship('Message', backref='user', lazy=True, cascade="all, delete-orphan")
+    contacts = db.relationship('Contact', backref='user', lazy=True, cascade="all, delete-orphan")
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

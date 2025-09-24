@@ -1,0 +1,72 @@
+
+.section {
+  padding-top: 5rem; /* py-20 */
+  padding-bottom: 5rem; /* py-20 */
+  background-color: black;
+  color: white;
+}
+
+.container {
+  max-width: 1280px; /* container */
+  margin-left: auto; /* mx-auto */
+  margin-right: auto; /* mx-auto */
+  padding-left: 1.5rem; /* px-6 */
+  padding-right: 1.5rem; /* px-6 */
+  text-align: center;
+}
+
+.heading {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 700; /* font-bold */
+  margin-bottom: 3rem; /* mb-12 */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr)); /* grid-cols-1 */
+  gap: 2rem; /* gap-8 */
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* md:grid-cols-3 */
+  }
+}
+
+.card {
+  background-color: #1f2937; /* bg-gray-800 */
+  padding: 2rem; /* p-8 */
+  border-radius: 0.5rem; /* rounded-lg */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+}
+
+.quote {
+  font-size: 1.125rem; /* text-lg */
+  font-style: italic;
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.avatar {
+  width: 4rem; /* w-16 */
+  height: 4rem; /* h-16 */
+  border-radius: 9999px; /* rounded-full */
+  border-width: 4px; /* border-4 */
+  border-color: #3b82f6; /* border-blue-500 */
+  margin-right: 1rem; /* mr-4 */
+}
+
+.authorName {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 600; /* font-semibold */
+}
+
+.authorTitle {
+  color: #60a5fa; /* text-blue-400 */
+}

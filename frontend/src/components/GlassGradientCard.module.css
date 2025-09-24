@@ -1,0 +1,284 @@
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(20);
+    opacity: 0;
+  }
+}
+
+@keyframes wave-1 {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes wave-2 {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes wave-3 {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.group {
+  position: relative;
+}
+
+/* Glow Colors */
+.glowBrand {
+  background-image: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+}
+
+.glowSecondary {
+  background-image: linear-gradient(to right, var(--secondary), #ec4899, #9333ea); /* pink-500, purple-600 */
+}
+
+.glowAccent {
+  background-image: linear-gradient(to right, var(--accent), #eab308, #84cc16); /* yellow-500, lime-600 */
+}
+
+.glowGrey {
+  background-image: linear-gradient(to right, #9ca3af, #e5e7eb, #1f2937); /* gray-400, gray-200, gray-800 */
+}
+
+.glowOrange {
+  background-image: linear-gradient(to right, #fb923c, #f97316, #ea580c); /* orange-400, orange-500, orange-600 */
+}
+
+/* Outer Glow Effect */
+.outerGlow {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  bottom: -0.25rem;
+  left: -0.25rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  filter: blur(1rem); /* blur-lg */
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+}
+
+.group:hover .outerGlow {
+  opacity: 0.6;
+}
+
+.outerGlowAnimatePulse {
+  animation: pulse 2s infinite;
+}
+
+.outerGlowAnimateBounce {
+  animation: bounce 1s infinite;
+}
+
+/* Middle Glow Effect */
+.middleGlow {
+  position: absolute;
+  top: -0.125rem;
+  right: -0.125rem;
+  bottom: -0.125rem;
+  left: -0.125rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  filter: blur(0.25rem); /* blur-sm */
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.group:hover .middleGlow {
+  opacity: 0.7;
+}
+
+/* Main Card */
+.mainCard {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+  transition: all 300ms ease-in-out;
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mainCard {
+    background-color: rgba(0, 0, 0, 0.1); /* dark:bg-black/10 */
+  }
+}
+
+.mainCardNoBorder {
+  border: none;
+}
+
+.mainCardBorder {
+  border: 1px solid rgba(255, 255, 255, 0.2); /* border border-white/20 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .mainCardBorder {
+    border-color: rgba(255, 255, 255, 0.1); /* dark:border-white/10 */
+  }
+}
+
+.group:hover .mainCard {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* group-hover:shadow-2xl */
+  background-color: rgba(255, 255, 255, 0.15); /* group-hover:bg-white/15 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .group:hover .mainCard {
+    background-color: rgba(0, 0, 0, 0.15); /* dark:group-hover:bg-black/15 */
+  }
+}
+
+.mainCardCursorPointer {
+  cursor: pointer;
+}
+
+/* Size Variants */
+.sizeSm {
+  padding: 1rem; /* p-4 */
+  border-radius: 0.5rem; /* rounded-lg */
+}
+
+.sizeMd {
+  padding: 1.5rem; /* p-6 */
+  border-radius: 0.75rem; /* rounded-xl */
+}
+
+.sizeLg {
+  padding: 2rem; /* p-8 */
+  border-radius: 1rem; /* rounded-2xl */
+}
+
+.sizeXl {
+  padding: 2.5rem; /* p-10 */
+  border-radius: 1.5rem; /* rounded-3xl */
+}
+
+/* Blur Variants */
+.blurLight {
+  backdrop-filter: blur(4px); /* backdrop-blur-sm */
+}
+
+.blurMedium {
+  backdrop-filter: blur(16px); /* backdrop-blur-lg */
+}
+
+.blurHeavy {
+  backdrop-filter: blur(24px); /* backdrop-blur-2xl */
+}
+
+/* Transform Classes */
+.transformScale {
+  transform: scale(1.05);
+}
+
+.transformBounce {
+  transform: translateY(-0.25rem);
+}
+
+/* Inner Glow Border */
+.innerGlowBorder {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem; /* rounded-xl */
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0.5;
+}
+
+/* Shimmer Effect */
+.shimmerEffect {
+  position: absolute;
+  inset: 0;
+  transform: skewX(-12deg);
+  background-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.group:hover .shimmerEffect {
+  opacity: 1;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Ripple Effects */
+.rippleEffect {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 9999px; /* rounded-full */
+  opacity: 0.3;
+  animation: ripple 1s ease-out forwards;
+}
+
+/* Wave Effect */
+.waveEffect1 {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+}
+
+.waveEffect1.active {
+  animation: wave-1 1.5s ease-out forwards;
+}
+
+.waveEffect2 {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image: linear-gradient(to left, var(--primary), var(--secondary), var(--accent)); /* Assuming glowBrand for now */
+}
+
+.waveEffect2.active {
+  animation: wave-2 1.5s ease-out forwards;
+}
+
+.waveEffect3 {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image: linear-gradient(to top, var(--primary), var(--secondary), var(--accent)); /* Assuming glowBrand for now */
+}
+
+.waveEffect3.active {
+  animation: wave-3 1.5s ease-out forwards;
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 10;
+}
