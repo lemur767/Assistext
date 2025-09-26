@@ -1,27 +1,36 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+
+interface Session {
+  token: string;
+  // add other user properties here if needed
+}
 
 interface AuthContextType {
+  session: Session | null;
+  setSession: (session: Session | null) => void;
   isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [session, setSession] = useState<Session | null>(() => {
+    const storedSession = localStorage.getItem('session');
+    return storedSession ? JSON.parse(storedSession) : null;
+  });
 
-  const login = () => {
-    // In a real app, you'd have logic to verify credentials
-    setIsAuthenticated(true);
-  };
+  useEffect(() => {
+    if (session) {
+      localStorage.setItem('session', JSON.stringify(session));
+    } else {
+      localStorage.removeItem('session');
+    }
+  }, [session]);
 
-  const logout = () => {
-    setIsAuthenticated(false);
-  };
+  const isAuthenticated = !!session;
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ session, setSession, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

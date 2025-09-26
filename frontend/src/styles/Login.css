@@ -1,4 +1,3 @@
-
 .container {
   display: flex;
   align-items: center;
@@ -15,30 +14,24 @@
   gap: 2rem; /* space-y-8 */
   border-radius: 1rem; /* rounded-2xl */
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .heading {
   font-size: 2.25rem; /* text-4xl */
   font-weight: 700; /* font-bold */
   text-align: center;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--cyan-400), var(--purple-500));
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem; /* space-y-6 */
-}
-
-.nameFieldsGrid {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr)); /* grid-cols-1 */
-  gap: 1rem; /* gap-4 */
-}
-
-@media (min-width: 768px) {
-  .nameFieldsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* md:grid-cols-2 */
-  }
 }
 
 .inputGroup {
@@ -61,11 +54,11 @@
   text-align: center;
 }
 
-.loginText {
+.signupText {
   font-size: 0.875rem; /* text-sm */
   text-align: center;
 }
 
-.loginLink {
+.signupLink {
   font-weight: 500; /* font-medium */
 }

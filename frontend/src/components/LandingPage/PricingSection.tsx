@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckIcon } from 'lucide-react';
-import styles from './PricingSection.module.css';
+import '../../styles/PricingSection.css';
 
 const PricingSection = () => {
   const plans = [{
@@ -26,63 +26,63 @@ const PricingSection = () => {
     buttonText: 'Contact Sales'
   }];
   return (
-    <section id="pricing" className={styles.section}>
-      <div className={styles.blurBackground}></div>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>
+    <section id="pricing" className="section">
+      <div className="blurBackground"></div>
+      <div className="container">
+        <div className="header">
+          <h2 className="title">
             Simple{' '}
-            <span className={styles.titleHighlight}>
+            <span className="titleHighlight">
               Pricing
             </span>
           </h2>
-          <p className={styles.description}>
+          <p className="description">
             Choose the plan that fits your needs. All plans include a 14-day
             free trial.
           </p>
         </div>
-        <div className={styles.grid}>
+        <div className="grid">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`${styles.card} ${plan.popular ? styles.cardPopularBorder : styles.cardDefaultBorder}`}
+              className={`card ${plan.popular ? "cardPopularBorder" : "cardDefaultBorder"}`}
             >
               {plan.popular && (
-                <div className={styles.popularTag}>
-                  <div className={styles.popularTagContent}>
+                <div className="popularTag">
+                  <div className="popularTagContent">
                     Most Popular
                   </div>
                 </div>
               )}
-              <div className={styles.planHeader}>
-                <h3 className={styles.planName}>{plan.name}</h3>
-                <div className={styles.priceContainer}>
-                  <span className={styles.priceCurrency}>$</span>
-                  <span className={styles.priceValue}>{plan.price}</span>
-                  <span className={styles.pricePeriod}>/mo</span>
+              <div className="planHeader">
+                <h3 className="planName">{plan.name}</h3>
+                <div className="priceContainer">
+                  <span className="priceCurrency">$</span>
+                  <span className="priceValue">{plan.price}</span>
+                  <span className="pricePeriod">/mo</span>
                 </div>
-                <p className={styles.planDescription}>{plan.description}</p>
+                <p className="planDescription">{plan.description}</p>
               </div>
-              <ul className={styles.featuresList}>
+              <ul className="featuresList">
                 {plan.features.map((feature, i) => (
-                  <li key={i} className={styles.featureItem}>
-                    <CheckIcon size={20} className={styles.checkIcon} />
-                    <span className={styles.featureText}>{feature}</span>
+                  <li key={i} className="featureItem">
+                    <CheckIcon size={20} className="checkIcon" />
+                    <span className="featureText">{feature}</span>
                   </li>
                 ))}
               </ul>
               <button
-                className={`${styles.button} ${plan.popular ? styles.buttonPopular : styles.buttonDefault}`}
+                className={`button ${plan.popular ? "buttonPopular" : "buttonDefault"}`}
               >
                 {plan.buttonText}
               </button>
             </div>
           ))}
         </div>
-        <div className={styles.footerText}>
+        <div className="footerText">
           <p>
             Need a custom plan?{' '}
-            <a href="#" className={styles.footerLink}>
+            <a href="#" className="footerLink">
               Contact our sales team
             </a>
           </p>

@@ -46,12 +46,15 @@ def create_app(config_name=None):
     from .api.users import users_bp
     from .api.webhooks import webhooks_bp
     from .api.chat import chat_bp
+    from .api.contacts import contacts_bp
 
     app.register_blueprint(auth_bp)
-    app.register_blueprint(conversations_bp)
+    app.register_blueprint(conversations_bp, url_prefix='/api/v1')
     app.register_blueprint(subscriptions_bp)
+    app.register_blueprint(users_bp, url_prefix='/api/v1')
     app.register_blueprint(webhooks_bp)
     app.register_blueprint(chat_bp)
+    app.register_blueprint(contacts_bp, url_prefix='/api/v1')
 
     # Register additional routes
     register_general_routes(app)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDownIcon } from 'lucide-react';
-import styles from './FAQSection.module.css';
+import '../../styles/FAQSection.css';
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState(0);
@@ -24,36 +24,36 @@ const FAQSection = () => {
     answer: "While our AI is highly accurate, it can occasionally misinterpret context. You'll receive notifications of all AI interactions, allowing you to quickly step in if needed. The system also learns from corrections to improve future responses."
   }];
   return (
-    <section id="faq" className={styles.section}>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>
+    <section id="faq" className="section">
+      <div className="container">
+        <div className="header">
+          <h2 className="title">
             Frequently Asked{' '}
-            <span className={styles.titleHighlight}>
+            <span className="titleHighlight">
               Questions
             </span>
           </h2>
-          <p className={styles.description}>
+          <p className="description">
             Everything you need to know about TextAI.
           </p>
         </div>
-        <div className={styles.faqList}>
+        <div className="faqList">
           {faqs.map((faq, index) => (
-            <div key={index} className={styles.faqItem}>
-              <button className={styles.faqButton} onClick={() => setOpenIndex(openIndex === index ? -1 : index)}>
-                <span className={styles.faqQuestion}>{faq.question}</span>
-                <ChevronDownIcon size={20} className={`${styles.chevronIcon} ${openIndex === index ? styles.chevronIconRotate : ''}`} />
+            <div key={index} className="faqItem">
+              <button className="faqButton" onClick={() => setOpenIndex(openIndex === index ? -1 : index)}>
+                <span className="faqQuestion">{faq.question}</span>
+                <ChevronDownIcon size={20} className={`chevronIcon ${openIndex === index ? "chevronIconRotate" : ''}`} />
               </button>
-              <div className={`${styles.faqContent} ${openIndex === index ? styles.faqContentOpen : ''}`}>
-                <p className={styles.faqAnswer}>{faq.answer}</p>
+              <div className={`faqContent ${openIndex === index ? "faqContentOpen" : ''}`}>
+                <p className="faqAnswer">{faq.answer}</p>
               </div>
             </div>
           ))}
         </div>
-        <div className={styles.footerText}>
+        <div className="footerText">
           <p>
             Still have questions?{' '}
-            <a href="#" className={styles.footerLink}>
+            <a href="#" className="footerLink">
               Contact our support team
             </a>
           </p>

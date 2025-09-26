@@ -1,4 +1,3 @@
-
 /* Animations */
 @keyframes pulse {
   0%, 100% {
@@ -62,23 +61,23 @@
 
 /* Glow Colors */
 .glowBrand {
-  background-image: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+  background-image: linear-gradient(to right, var(--cyan-500), var(--purple-500), var(--cyan-400));
 }
 
 .glowSecondary {
-  background-image: linear-gradient(to right, var(--secondary), #ec4899, #9333ea); /* pink-500, purple-600 */
+  background-image: linear-gradient(to right, var(--purple-500), #ec4899, #9333ea);
 }
 
 .glowAccent {
-  background-image: linear-gradient(to right, var(--accent), #eab308, #84cc16); /* yellow-500, lime-600 */
+  background-image: linear-gradient(to right, var(--cyan-400), #eab308, #84cc16);
 }
 
 .glowGrey {
-  background-image: linear-gradient(to right, #9ca3af, #e5e7eb, #1f2937); /* gray-400, gray-200, gray-800 */
+  background-image: linear-gradient(to right, #9ca3af, #e5e7eb, #1f2937);
 }
 
 .glowOrange {
-  background-image: linear-gradient(to right, #fb923c, #f97316, #ea580c); /* orange-400, orange-500, orange-600 */
+  background-image: linear-gradient(to right, #fb923c, #f97316, #ea580c);
 }
 
 /* Outer Glow Effect */
@@ -88,8 +87,8 @@
   right: -0.25rem;
   bottom: -0.25rem;
   left: -0.25rem;
-  border-radius: 0.75rem; /* rounded-xl */
-  filter: blur(1rem); /* blur-lg */
+  border-radius: 0.75rem;
+  filter: blur(1rem);
   opacity: 0;
   transition: opacity 500ms ease-in-out;
 }
@@ -113,8 +112,8 @@
   right: -0.125rem;
   bottom: -0.125rem;
   left: -0.125rem;
-  border-radius: 0.75rem; /* rounded-xl */
-  filter: blur(0.25rem); /* blur-sm */
+  border-radius: 0.75rem;
+  filter: blur(0.25rem);
   opacity: 0;
   transition: opacity 300ms ease-in-out;
 }
@@ -126,17 +125,11 @@
 /* Main Card */
 .mainCard {
   position: relative;
-  background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
-  border-radius: 0.75rem; /* rounded-xl */
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
   transition: all 300ms ease-in-out;
   overflow: hidden;
-}
-
-@media (prefers-color-scheme: dark) {
-  .mainCard {
-    background-color: rgba(0, 0, 0, 0.1); /* dark:bg-black/10 */
-  }
 }
 
 .mainCardNoBorder {
@@ -144,24 +137,12 @@
 }
 
 .mainCardBorder {
-  border: 1px solid rgba(255, 255, 255, 0.2); /* border border-white/20 */
-}
-
-@media (prefers-color-scheme: dark) {
-  .mainCardBorder {
-    border-color: rgba(255, 255, 255, 0.1); /* dark:border-white/10 */
-  }
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .group:hover .mainCard {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* group-hover:shadow-2xl */
-  background-color: rgba(255, 255, 255, 0.15); /* group-hover:bg-white/15 */
-}
-
-@media (prefers-color-scheme: dark) {
-  .group:hover .mainCard {
-    background-color: rgba(0, 0, 0, 0.15); /* dark:group-hover:bg-black/15 */
-  }
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .mainCardCursorPointer {
@@ -170,36 +151,36 @@
 
 /* Size Variants */
 .sizeSm {
-  padding: 1rem; /* p-4 */
-  border-radius: 0.5rem; /* rounded-lg */
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 .sizeMd {
-  padding: 1.5rem; /* p-6 */
-  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1.5rem;
+  border-radius: 0.75rem;
 }
 
 .sizeLg {
-  padding: 2rem; /* p-8 */
-  border-radius: 1rem; /* rounded-2xl */
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
 .sizeXl {
-  padding: 2.5rem; /* p-10 */
-  border-radius: 1.5rem; /* rounded-3xl */
+  padding: 2.5rem;
+  border-radius: 1.5rem;
 }
 
 /* Blur Variants */
 .blurLight {
-  backdrop-filter: blur(4px); /* backdrop-blur-sm */
+  backdrop-filter: blur(4px);
 }
 
 .blurMedium {
-  backdrop-filter: blur(16px); /* backdrop-blur-lg */
+  backdrop-filter: blur(16px);
 }
 
 .blurHeavy {
-  backdrop-filter: blur(24px); /* backdrop-blur-2xl */
+  backdrop-filter: blur(24px);
 }
 
 /* Transform Classes */
@@ -215,7 +196,7 @@
 .innerGlowBorder {
   position: absolute;
   inset: 0;
-  border-radius: 0.75rem; /* rounded-xl */
+  border-radius: 0.75rem;
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1), transparent);
   opacity: 0.5;
 }
@@ -239,7 +220,7 @@
 .rippleEffect {
   position: absolute;
   pointer-events: none;
-  border-radius: 9999px; /* rounded-full */
+  border-radius: 9999px;
   opacity: 0.3;
   animation: ripple 1s ease-out forwards;
 }
@@ -259,7 +240,7 @@
   position: absolute;
   inset: 0;
   opacity: 0.15;
-  background-image: linear-gradient(to left, var(--primary), var(--secondary), var(--accent)); /* Assuming glowBrand for now */
+  background-image: linear-gradient(to left, var(--cyan-500), var(--purple-500), var(--cyan-400));
 }
 
 .waveEffect2.active {
@@ -270,7 +251,7 @@
   position: absolute;
   inset: 0;
   opacity: 0.1;
-  background-image: linear-gradient(to top, var(--primary), var(--secondary), var(--accent)); /* Assuming glowBrand for now */
+  background-image: linear-gradient(to top, var(--cyan-500), var(--purple-500), var(--cyan-400));
 }
 
 .waveEffect3.active {

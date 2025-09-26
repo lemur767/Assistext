@@ -1,0 +1,83 @@
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #0f172a;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #334155;
+}
+
+.headerTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.headerStatus {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.messageArea {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.messagesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.messageContainer {
+  display: flex;
+}
+
+.justifyStart {
+  justify-content: flex-start;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
+
+.messageContent {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.footer {
+  padding: 1rem;
+  border-top: 1px solid #334155;
+}
+
+.messageForm {
+  display: flex;
+  gap: 1rem;
+}
+
+.messageInput {
+  flex: 1;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './HowItWorksSection.module.css';
+import '../../styles/HowItWorksSection.css';
 
 const HowItWorksSection = () => {
   const steps = [{
@@ -20,35 +20,35 @@ const HowItWorksSection = () => {
     description: 'Relax while our AI responds to messages, learning and improving with each interaction.'
   }];
   return (
-    <section id="how-it-works" className={styles.section}>
-      <div className={styles.divider}></div>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>
+    <section id="how-it-works" className="section">
+      <div className="divider"></div>
+      <div className="container">
+        <div className="header">
+          <h2 className="title">
             How It{' '}
-            <span className={styles.titleHighlight}>
+            <span className="titleHighlight">
               Works
             </span>
           </h2>
-          <p className={styles.description}>
+          <p className="description">
             Getting started is simple. Follow these steps to automate your
             messaging with AI.
           </p>
         </div>
-        <div className={styles.grid}>
+        <div className="grid">
           {steps.map((step, index) => (
-            <div key={index} className={styles.stepCard}>
-              <div className={styles.stepCardInner}>
-                <div className={styles.stepNumber}>
+            <div key={index} className="stepCard">
+              <div className="stepCardInner">
+                <div className="stepNumber">
                   {step.number}
                 </div>
-                <h3 className={styles.stepTitle}>{step.title}</h3>
-                <p className={styles.stepDescription}>{step.description}</p>
+                <h3 className="stepTitle">{step.title}</h3>
+                <p className="stepDescription">{step.description}</p>
               </div>
               {index < steps.length - 1 && (
-                <div className={styles.arrowIndicator}>
-                  <div className={styles.arrowCircle}>
-                    <svg className={styles.arrowIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div className="arrowIndicator">
+                  <div className="arrowCircle">
+                    <svg className="arrowIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -57,8 +57,8 @@ const HowItWorksSection = () => {
             </div>
           ))}
         </div>
-        <div className={styles.buttonContainer}>
-          <button className={styles.button}>
+        <div className="buttonContainer">
+          <button className="button">
             Watch Setup Tutorial
           </button>
         </div>

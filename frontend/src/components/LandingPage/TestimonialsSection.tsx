@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './TestimonialsSection.module.css';
+import '../../styles/TestimonialsSection.css';
 
 const testimonials = [
   {
@@ -24,22 +24,22 @@ const testimonials = [
 
 const TestimonialsSection: React.FC = () => {
   return (
-    <section className={styles.section}>
-      <div className={styles.container}>
-        <h2 className={styles.heading}>What Our Users Say</h2>
-        <div className={styles.grid}>
+    <section className="section">
+      <div className="container">
+        <h2 className="heading">What Our Users Say</h2>
+        <div className="grid">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className={styles.card}>
-              <p className={styles.quote}>"{testimonial.quote}"</p>
-              <div className={styles.authorInfo}>
+            <div key={index} className="card">
+              <p className="quote">"{testimonial.quote}"</p>
+              <div className="authorInfo">
                 <img
                   src={testimonial.avatar}
                   alt={testimonial.name}
-                  className={styles.avatar}
+                  className="avatar"
                 />
                 <div>
-                  <h3 className={styles.authorName}>{testimonial.name}</h3>
-                  <p className={styles.authorTitle}>{testimonial.title}</p>
+                  <h3 className="authorName">{testimonial.name}</h3>
+                  <p className="authorTitle">{testimonial.title}</p>
                 </div>
               </div>
             </div>

@@ -1,12 +1,16 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../App";
-import styles from "./ConversationList.module.css";
+import { useAuth } from "../contexts/AuthContext";
+import "../styles/ConversationList.css";
+import ContactModal from "./ContactModal";
+import { Edit2Icon } from "lucide-react";
 
 interface Conversation {
   id: string;
   contact_number: string;
+  contact_name: string | null;
+  contact_id: number | null;
   last_message: string;
   last_message_at: string;
   unread: boolean;
@@ -18,77 +22,142 @@ const ConversationList: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const auth = useAuth();
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        if (!auth?.session) {
-          throw new Error("User not authenticated.");
-        }
-
-        const response = await fetch(`/api/v1/conversations?page=${page}` , {
-          headers: {
-            Authorization: `Bearer ${auth.session.token}`,
-          },
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error);
-        setConversations(data.conversations);
-        setTotalPages(data.pages);
-      } catch (err: unknown) {
-        setError((err as Error).message);
-      } finally {
-        setLoading(false);
+  const fetchConversations = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      if (!auth?.session) {
+        throw new Error("User not authenticated.");
       }
-    };
+
+      const response = await fetch(`/api/v1/conversations?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${auth.session.token}`,
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setConversations(data.conversations);
+      setTotalPages(data.pages);
+    } catch (err: unknown) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchConversations();
   }, [auth?.session, page]);
 
+  const handleOpenModal = (conv: Conversation) => {
+    setSelectedConversation(conv);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedConversation(null);
+    setIsModalOpen(false);
+  };
+
+  const handleSaveContact = async (name: string) => {
+    if (!selectedConversation || !auth?.session) return;
+
+    const { contact_id, contact_number } = selectedConversation;
+    const method = contact_id ? 'PUT' : 'POST';
+    const url = contact_id ? `/api/v1/contacts/${contact_id}` : '/api/v1/contacts';
+    const body = JSON.stringify({ name, phone_number: contact_number });
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.session.token}`,
+        },
+        body,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save contact');
+      }
+
+      // Refresh conversations to show the new name
+      fetchConversations();
+      handleCloseModal();
+
+    } catch (error) {
+      console.error("Error saving contact:", error);
+    }
+  };
+
   if (loading) {
-    return <div className={styles.loading}>Loading conversations...</div>;
+    return <div className="loading">Loading conversations...</div>;
   }
 
   if (error) {
-    return <div className={styles.error}>Error: {error}</div>;
+    return <div className="error">Error: {error}</div>;
   }
 
   return (
-    <div className={`${styles.container} card`}>
-      <h3 className={`${styles.header} text-text`}>Conversations</h3>
-      {conversations.length === 0 ? (
-        <p className="text-muted">No conversations yet.</p>
-      ) : (
-        <>
-          <ul className={styles.conversationList}>
-            {conversations.map((conv) => (
-              <li key={conv.id}>
-                <Link 
-                  to={`/conversations/${conv.id}`}
-                  className={`${styles.conversationLink} ${conv.unread ? styles.conversationLinkUnread : ''}`}>
-                  <div className={styles.conversationHeader}>
-                    <strong className={`${styles.contactNumber} ${conv.unread ? styles.contactNumberUnread : styles.contactNumberRead}`}>{conv.contact_number}</strong>
-                    <small className={styles.lastMessageTime}>{new Date(conv.last_message_at).toLocaleString()}</small>
+    <>
+      <div className="container card">
+        <h3 className="header text-text">Conversations</h3>
+        {conversations.length === 0 ? (
+          <p className="text-muted">No conversations yet.</p>
+        ) : (
+          <>
+            <ul className="conversationList">
+              {conversations.map((conv) => (
+                <li key={conv.id}>
+                  <div className={`conversationLink ${conv.unread ? "conversationLinkUnread" : ''}`}>
+                    <div className="conversationHeader">
+                      <div className="contactInfo">
+                        <strong className={`contactName ${conv.unread ? "contactNameUnread" : "contactNameRead"}`}>
+                          {conv.contact_name || conv.contact_number}
+                        </strong>
+                        {conv.contact_name && <span className="contactNumber">{conv.contact_number}</span>}
+                      </div>
+                      <div className="headerActions">
+                        <button onClick={() => handleOpenModal(conv)} className="editButton">
+                          <Edit2Icon size={14} />
+                        </button>
+                        <small className="lastMessageTime">{new Date(conv.last_message_at).toLocaleString()}</small>
+                      </div>
+                    </div>
+                    <Link to={`/conversations/${conv.id}`} className="messageLink">
+                      <p className={`lastMessage ${conv.unread ? "lastMessageUnread" : "lastMessageRead"}`}>{conv.last_message}</p>
+                    </Link>
                   </div>
-                  <p className={`${styles.lastMessage} ${conv.unread ? styles.lastMessageUnread : styles.lastMessageRead}`}>{conv.last_message}</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className={styles.pagination}>
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="btn btn-ghost">
-              Previous
-            </button>
-            <span className={styles.paginationText}> Page {page} of {totalPages} </span>
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="btn btn-ghost">
-              Next
-            </button>
-          </div>
-        </>
+                </li>
+              ))}
+            </ul>
+            <div className="pagination">
+              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="btn btn-ghost">
+                Previous
+              </button>
+              <span className="paginationText"> Page {page} of {totalPages} </span>
+              <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="btn btn-ghost">
+                Next
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+      {selectedConversation && (
+        <ContactModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          contactName={selectedConversation.contact_name}
+          contactNumber={selectedConversation.contact_number}
+          onSave={handleSaveContact}
+        />
       )}
-    </div>
+    </>
   );
 };
 

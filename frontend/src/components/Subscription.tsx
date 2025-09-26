@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
-import { useAuth } from "../App";
+import { useAuth } from "../contexts/AuthContext";
 
 // Fixed: Use import.meta.env instead of process.env for Vite
 const stripePromise = loadStripe(
@@ -24,20 +24,20 @@ const Subscription: React.FC = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const auth = useAuth();
+  const { session, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchPlans = async () => {
         setLoading(true);
         setError(null);
         try {
-            if (!auth?.session) {
+            if (!isAuthenticated || !session) {
                 throw new Error("User not authenticated.");
             }
 
             const response = await fetch("/api/v1/subscriptions/plans", {
                 headers: {
-                    Authorization: `Bearer ${auth.session.token}`,
+                    Authorization: `Bearer ${session.token}`,
                 },
             });
             const data = await response.json();
@@ -49,15 +49,17 @@ const Subscription: React.FC = () => {
             setLoading(false);
         }
     };
-    fetchPlans();
-  }, [auth?.session]);
+    if (isAuthenticated) {
+        fetchPlans();
+    }
+  }, [isAuthenticated, session]);
 
   const handleSelectPlan = async (plan: Plan) => {
     setLoading(true);
     setError(null);
     setSelectedPlan(plan);
     try {
-      if (!auth?.session) {
+      if (!isAuthenticated || !session) {
         throw new Error("User not authenticated.");
       }
 
@@ -65,7 +67,7 @@ const Subscription: React.FC = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.session.token}`,
+          Authorization: `Bearer ${session.token}`,
         },
         body: JSON.stringify({ price_id: plan.price_id }),
       });

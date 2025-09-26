@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../App";
+import { useAuth } from "../contexts/AuthContext";
 import { socketService } from "../services/socketService";
-import styles from "./ConversationDetail.module.css";
+import "../styles/ConversationDetail.css";
 
 interface Message {
   id: string;
@@ -26,14 +26,14 @@ const ConversationDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string>("");
-  const auth = useAuth();
+  const { session, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchConversation = async () => {
       setLoading(true);
       setError(null);
       try {
-        if (!auth?.session) {
+        if (!isAuthenticated || !session) {
           throw new Error("User not authenticated.");
         }
 
@@ -41,7 +41,7 @@ const ConversationDetail: React.FC = () => {
           `/api/v1/conversations/${conversationId}`,
           {
             headers: {
-              Authorization: `Bearer ${auth.session.token}`,
+              Authorization: `Bearer ${session.token}`,
             },
           },
         );
@@ -55,10 +55,10 @@ const ConversationDetail: React.FC = () => {
         setLoading(false);
       }
     };
-    if (conversationId) {
+    if (conversationId && isAuthenticated) {
       fetchConversation();
     }
-  }, [conversationId, auth?.session]);
+  }, [conversationId, isAuthenticated, session]);
 
   useEffect(() => {
     if (conversationId) {
@@ -101,22 +101,22 @@ const ConversationDetail: React.FC = () => {
   };
 
   if (loading) {
-    return <div className={`${styles.loadingContainer}`}>Loading messages...</div>;
+    return <div className="loadingContainer">Loading messages...</div>;
   }
 
   if (error) {
-    return <div className={`${styles.errorContainer}`}>Error: {error}</div>;
+    return <div className="errorContainer">Error: {error}</div>;
   }
 
   return (
-    <div className={styles.mainContainer}>
+    <div className="mainContainer">
       <header className={`flex items-center justify-between p-4 glass-morphism border-b border-neutral-border`}>
-        <h3 className={styles.headerTitle}>
+        <h3 className="headerTitle">
           Conversation with {conversation?.contact_number}
         </h3>
-        <div className={styles.headerControls}>
-          <p className={styles.headerStatus}>Status: {status}</p>
-          <p className={styles.headerStatus}>Controlled by: {conversation?.controlled_by}</p>
+        <div className="headerControls">
+          <p className="headerStatus">Status: {status}</p>
+          <p className="headerStatus">Controlled by: {conversation?.controlled_by}</p>
           {conversation?.controlled_by === "ai" && (
             <button onClick={handleTakeover} className="btn btn-secondary btn-sm">
               Takeover
@@ -125,12 +125,12 @@ const ConversationDetail: React.FC = () => {
         </div>
       </header>
 
-      <div className={`${styles.messageArea} custom-scrollbar`}>
-        <div className={styles.messagesList}>
+      <div className="messageArea custom-scrollbar">
+        <div className="messagesList">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`${styles.messageContainer} ${msg.sender === "contact" ? styles.justifyStart : styles.justifyEnd}`}>
+              className={`messageContainer ${msg.sender === "contact" ? "justifyStart" : "justifyEnd"}`}>
               <div
                 className={`p-3 rounded-lg max-w-lg ${msg.sender === "contact"
                     ? "glass-morphism"
@@ -139,7 +139,7 @@ const ConversationDetail: React.FC = () => {
                       : "bg-primary/20"
                   }`}>
                 <p>{msg.content}</p>
-                <small className={styles.messageContent}>
+                <small className="messageContent">
                   {new Date(msg.created_at).toLocaleString()}
                 </small>
               </div>
@@ -149,14 +149,13 @@ const ConversationDetail: React.FC = () => {
       </div>
 
       <footer className={`p-4 glass-morphism border-t border-neutral-border`}>
-        <form onSubmit={handleSendMessage} className={styles.messageForm}>
+        <form onSubmit={handleSendMessage} className="messageForm">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message..."
-            className={`${styles.messageInput} form-input`}
-          />
+            className="messageInput form-input"/>
           <button type="submit" className="btn btn-primary">
             Send
           </button>

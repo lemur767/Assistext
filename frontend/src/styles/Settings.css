@@ -1,7 +1,5 @@
 
-.container {
-  min-height: 100vh;
-}
+
 
 .header {
   display: flex;
@@ -34,9 +32,6 @@
   gap: 1.5rem; /* space-y-6 */
 }
 
-.formSection {
-  /* No specific Tailwind classes */
-}
 
 .formSectionTitle {
   font-size: 1.125rem; /* text-lg */

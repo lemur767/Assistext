@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import styles from "./Login.module.css";
+import "../styles/Login.css";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { login } = useAuth();
+  const { setSession } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -23,7 +23,7 @@ const Login: React.FC = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      login();
+      setSession({ token: data.token });
       navigate("/dashboard");
     } catch (err: unknown) {
       setMessage((err as Error).message);
@@ -33,14 +33,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={`${styles.card} glass-morphism`}>
-        <h2 className={`${styles.heading} gradient-text-brand`}>
+    <div className="container">
+      <div className="card glass-morphism">
+        <h2 className="heading gradient-text-brand">
           Login
         </h2>
-        <form className={styles.form} onSubmit={handleLogin}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={`${styles.label} text-neutral-text`}>
+        <form className="form" onSubmit={handleLogin}>
+          <div className="inputGroup">
+            <label htmlFor="email" className="label text-neutral-text">
               Email
             </label>
             <input
@@ -52,10 +52,10 @@ const Login: React.FC = () => {
               placeholder="you@example.com"
             />
           </div>
-          <div className={styles.inputGroup}>
+          <div className="inputGroup">
             <label
               htmlFor="password"
-              className={`${styles.label} text-neutral-text`}
+              className="label text-neutral-text"
             >
               Password
             </label>
@@ -71,15 +71,15 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`${styles.button} btn btn-primary`}
+            className="button btn btn-primary"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        {message && <p className={`${styles.message} text-error`}>{message}</p>}
-        <p className={`${styles.signupText} text-neutral-text/60`}>
+        {message && <p className="message text-error">{message}</p>}
+        <p className="signupText text-neutral-text/60">
           Don&apos;t have an account?{" "}
-          <Link to="/signup" className={`${styles.signupLink} text-primary hover:underline`}>
+          <Link to="/signup" className="signupLink text-primary hover:underline">
             Sign up
           </Link>
         </p>

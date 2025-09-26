@@ -1,65 +1,65 @@
 import React, { useState } from 'react';
 import { MenuIcon, XIcon } from 'lucide-react';
-import styles from './Navbar.module.css';
+import '../styles/Navbar.css';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.container}>
-        <div className={styles.logoContainer}>
-          <span className={styles.logoText}>
+    <nav className="navbar">
+      <div className="containerNavbar">
+        <div className="logoContainer">
+          <span className="logoText">
             TextAI
           </span>
         </div>
-        <div className={styles.desktopNav}>
-          <a href="#features" className={styles.navLink}>
+        <div className="desktopNav">
+          <a href="#features" className="navLink">
             Features
           </a>
-          <a href="#how-it-works" className={styles.navLink}>
+          <a href="#how-it-works" className="navLink">
             How it Works
           </a>
-          <a href="#pricing" className={styles.navLink}>
+          <a href="#pricing" className="navLink">
             Pricing
           </a>
-          <a href="#testimonials" className={styles.navLink}>
+          <a href="#testimonials" className="navLink">
             Testimonials
           </a>
         </div>
-        <div className={styles.desktopButtons}>
-          <button className={styles.loginButton}>
+        <div className="desktopButtons">
+          <button className="loginButton">
             Login
           </button>
-          <button className={styles.getStartedButton}>
+          <button className="getStartedButton">
             Get Started
           </button>
         </div>
-        <div className={styles.mobileMenuButtonContainer}>
+        <div className="mobileMenuButtonContainer">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <XIcon size={24} className={styles.menuIcon} /> : <MenuIcon size={24} className={styles.menuIcon} />}
+            {isMenuOpen ? <XIcon size={24} className="menuIcon" /> : <MenuIcon size={24} className="menuIcon" />}
           </button>
         </div>
       </div>
       {isMenuOpen && (
-        <div className={`${styles.mobileMenuDropdown} ${isMenuOpen ? styles.open : ''}`}>
-          <div className={styles.mobileNavLinks}>
-            <a href="#features" className={styles.navLink}>
+        <div className={`mobileMenuDropdown ${isMenuOpen ? "open" : ''}`}>
+          <div className="mobileNavLinks">
+            <a href="#features" className="navLink">
               Features
             </a>
-            <a href="#how-it-works" className={styles.navLink}>
+            <a href="#how-it-works" className="navLink">
               How it Works
             </a>
-            <a href="#pricing" className={styles.navLink}>
+            <a href="#pricing" className="navLink">
               Pricing
             </a>
-            <a href="#testimonials" className={styles.navLink}>
+            <a href="#testimonials" className="navLink">
               Testimonials
             </a>
-            <div className={styles.mobileButtonsContainer}>
-              <button className={styles.loginButton}>
+            <div className="mobileButtonsContainer">
+              <button className="loginButton">
                 Login
               </button>
-              <button className={styles.getStartedButton}>
+              <button className="getStartedButton">
                 Get Started
               </button>
             </div>

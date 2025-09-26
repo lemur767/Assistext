@@ -2,53 +2,34 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from .. import db
-from ..models import User, Conversation, Message
-from sqlalchemy import desc
+from ..models import Conversation, Contact
 
-conversations_bp = Blueprint('conversations', __name__)
+conversations_bp = Blueprint('conversations_bp', __name__)
 
-@conversations_bp.route('/', methods=['GET'])
+@conversations_bp.route('/conversations', methods=['GET'])
 @jwt_required()
 def get_conversations():
-    """Get a paginated list of conversations for the current user."""
     current_user_id = get_jwt_identity()
     
-    # Pagination
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
-    
-    # Sorting
-    sort_by = request.args.get('sort_by', 'recent', type=str)
-    
-    # Filtering
-    date_from = request.args.get('date_from')
-    date_to = request.args.get('date_to')
-    flagged = request.args.get('flagged', type=bool)
+    # Join Conversation with Contact to get the contact name
+    conversations_with_contacts = db.session.query(
+        Conversation,
+        Contact.name
+    ).outerjoin(
+        Contact, 
+        db.and_(
+            Contact.phone_number == Conversation.contact_number,
+            Contact.user_id == current_user_id
+        )
+    ).filter(Conversation.user_id == current_user_id).order_by(Conversation.last_message_at.desc()).all()
 
-    query = Conversation.query.filter_by(user_id=current_user_id)
+    result = []
+    for conversation, contact_name in conversations_with_contacts:
+        convo_dict = conversation.to_dict()
+        convo_dict['contact_name'] = contact_name
+        result.append(convo_dict)
 
-    # Apply filters
-    if date_from:
-        query = query.filter(Conversation.last_message_at >= date_from)
-    if date_to:
-        query = query.filter(Conversation.last_message_at <= date_to)
-    if flagged is not None:
-        query = query.filter(Conversation.flagged == flagged)
-
-    # Apply sorting
-    if sort_by == 'date':
-        query = query.order_by(desc(Conversation.last_message_at))
-    else: # Default sort: unread then recent
-        query = query.order_by(desc(Conversation.unread), desc(Conversation.last_message_at))
-
-    paginated_conversations = query.paginate(page=page, per_page=per_page, error_out=False)
-    
-    return jsonify({
-        'conversations': [c.to_dict() for c in paginated_conversations.items],
-        'total': paginated_conversations.total,
-        'pages': paginated_conversations.pages,
-        'current_page': paginated_conversations.page
-    }), 200
+    return jsonify(result)
 
 @conversations_bp.route('/<int:conversation_id>', methods=['GET'])
 @jwt_required()

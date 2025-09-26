@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import styles from "./Signup.module.css";
+import "../styles/Signup.css";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ const Signup: React.FC = () => {
   const [last_name, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { login } = useAuth();
+  const { setSession } = useAuth();
   const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -32,7 +32,7 @@ const Signup: React.FC = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      login();
+      setSession({ token: data.token });
       navigate("/dashboard");
     } catch (err: unknown) {
       setMessage((err as Error).message);
@@ -42,15 +42,15 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={`${styles.card} glass-morphism`}>
-        <h2 className={`${styles.heading} gradient-text-brand`}>
+    <div className="container">
+      <div className="card">
+        <h2 className="heading">
           Create Account
         </h2>
-        <form className={styles.form} onSubmit={handleSignup}>
-          <div className={styles.nameFieldsGrid}>
-            <div className={styles.inputGroup}>
-              <label htmlFor="first_name" className={`${styles.label} text-neutral-text`}>
+        <form className="form" onSubmit={handleSignup}>
+          <div className="nameFieldsGrid">
+            <div className="inputGroup">
+              <label htmlFor="first_name" className="label text-neutral-text">
                 First Name
               </label>
               <input
@@ -62,8 +62,8 @@ const Signup: React.FC = () => {
                 placeholder="John"
               />
             </div>
-            <div className={styles.inputGroup}>
-              <label htmlFor="last_name" className={`${styles.label} text-neutral-text`}>
+            <div className="inputGroup">
+              <label htmlFor="last_name" className="label text-neutral-text">
                 Last Name
               </label>
               <input
@@ -76,8 +76,8 @@ const Signup: React.FC = () => {
               />
             </div>
           </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={`${styles.label} text-neutral-text`}>
+          <div className="inputGroup">
+            <label htmlFor="email" className="label text-neutral-text">
               Email
             </label>
             <input
@@ -89,8 +89,8 @@ const Signup: React.FC = () => {
               placeholder="you@example.com"
             />
           </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="password" className={`${styles.label} text-neutral-text`}>
+          <div className="inputGroup">
+            <label htmlFor="password" className="label text-neutral-text">
               Password
             </label>
             <input
@@ -102,8 +102,8 @@ const Signup: React.FC = () => {
               placeholder="••••••••"
             />
           </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="country_code" className={`${styles.label} text-neutral-text`}>
+          <div className="inputGroup">
+            <label htmlFor="country_code" className="label text-neutral-text">
               Country Code
             </label>
             <input
@@ -118,15 +118,15 @@ const Signup: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`${styles.button} btn btn-primary`}
+            className="button btn btn-primary"
           >
             {loading ? "Signing up..." : "Sign up"}
           </button>
         </form>
-        {message && <p className={`${styles.message} text-error`}>{message}</p>}
-        <p className={`${styles.loginText} text-neutral-text/60`}>
+        {message && <p className="message text-error">{message}</p>}
+        <p className="loginText text-neutral-text/60">
           Already have an account?{" "}
-          <Link to="/login" className={`${styles.loginLink} text-primary hover:underline`}>
+          <Link to="/login" className="loginLink text-primary hover:underline">
             Log in
           </Link>
         </p>

@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import LandingPage from './components/LandingPage';
 import Login from './components/Login';
+import Settings from './components/Settings';
+import Subscription from './components/Subscription';
 import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/common/ProtectedRoute';
@@ -21,6 +23,8 @@ function App() {
           </Route>
 
           <Route element={<ProtectedRoute />}>
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/subscription" element={<Subscription />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
         </Routes>
