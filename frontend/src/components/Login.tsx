@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import logo from "../assets/logo3333.png";
+import {logo} from "../assets/logo3333.png";
 import "../styles/Login.css";
 
 const Login: React.FC = () => {
@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     setLoading(true);
     setMessage("");
     try {
-      const response = await fetch("/api/v1/login", {
+      const response = await fetch("http://localhost:5000/api/v1/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

@@ -2,7 +2,7 @@
 from flask import Blueprint, request, Response, jsonify
 from .. import db
 from ..models import User, Message, Conversation, MessageDirection, MessageStatus
-from ..services import ai_service, laml_service
+from ..services import ai_service, signalwire_service
 from ..utils.security import verify_signalwire_signature
 import logging
 import time
@@ -22,8 +22,7 @@ def handle_sms_webhook(user_id):
         user = User.query.get(user_id)
         if not user:
             logger.error(f"User {user_id} not found")
-            error_response = laml_service.create_error_response("User not found")
-            return Response(error_response, mimetype='text/xml'), 404
+            return Response(status=404)
 
         # 2. Verify SignalWire signature
         if not verify_signalwire_signature(user.signalwire_auth_token):
@@ -44,10 +43,13 @@ def handle_sms_webhook(user_id):
         # 3. Check if trial is active
         if not user.is_trial_active and user.trial_status.value != 'upgraded':
             logger.warning(f"Trial expired for user {user_id}")
-            expired_response = laml_service.create_message_response(
-                "Your trial has expired. Please subscribe to continue using this service."
+            signalwire_service.send_sms(
+                to_number=from_number,
+                from_number=to_number,
+                body="Your trial has expired. Please subscribe to continue using this service.",
+                subproject_id=user.signalwire_subproject_id
             )
-            return Response(expired_response, mimetype='text/xml'), 200
+            return Response(status=200)
         
         # 4. Find or create conversation
         conversation = Conversation.query.filter_by(
@@ -94,7 +96,7 @@ def handle_sms_webhook(user_id):
             ai_response = ai_service.generate_response(body, user.email, conversation)
             if ai_response is None:
                 logger.info(f"AI response skipped for user {user_id} in conversation {conversation.id} (user controlled)")
-                return Response('<Response/>', mimetype='text/xml'), 200
+                return Response(status=200)
 
         except Exception as e:
             logger.error(f"AI response generation failed: {e}")
@@ -123,19 +125,23 @@ def handle_sms_webhook(user_id):
             logger.error(f"Failed to store outbound message: {e}")
             # Continue processing even if storage fails
         
-        # 8. Create LaML response
-        laml_response = laml_service.create_message_response(ai_response)
-        
-        logger.info(f"SMS response generated for user {user_id} in {processing_time}ms: {ai_response}")
-        
-        return Response(laml_response, mimetype='text/xml'), 200
+        # 8. Send SMS response
+        try:
+            signalwire_service.send_sms(
+                to_number=from_number,
+                from_number=to_number,
+                body=ai_response,
+                subproject_id=user.signalwire_subproject_id
+            )
+            logger.info(f"SMS response sent for user {user_id} in {processing_time}ms: {ai_response}")
+        except Exception as e:
+            logger.error(f"Failed to send SMS response: {e}")
+
+        return Response(status=200)
         
     except Exception as e:
         logger.error(f"SMS webhook error for user {user_id}: {str(e)}")
-        
-        # Return a generic error response in LaML format
-        error_response = laml_service.create_error_response()
-        return Response(error_response, mimetype='text/xml'), 500
+        return Response(status=500)
 
 @webhooks_bp.route('/test', methods=['POST'])
 def test_webhook():
@@ -144,11 +150,10 @@ def test_webhook():
         data = request.get_json() or request.form.to_dict()
         logger.info(f"Test webhook received: {data}")
         
-        test_response = laml_service.create_message_response(
-            "Hello! This is a test response from your SignalWire webhook."
-        )
+        # This is just a test endpoint, so we don't send a real SMS
+        # In a real scenario, you might want to use a test subproject
         
-        return Response(test_response, mimetype='text/xml'), 200
+        return jsonify({'message': 'Test webhook received successfully'}), 200
         
     except Exception as e:
         logger.error(f"Test webhook error: {str(e)}")

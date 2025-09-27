@@ -12,7 +12,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-users_bp = Blueprint('users', __name__)
+from . import api_bp as users_bp
 
 @users_bp.route('/profile', methods=['GET'])
 @jwt_required()

@@ -11,7 +11,7 @@ from .. import db
 logger = logging.getLogger(__name__)
 
 # Create blueprint
-phone_numbers_bp = Blueprint('phone_numbers', __name__, url_prefix='/api/v1')
+from . import api_bp as phone_numbers_bp
 
 @phone_numbers_bp.route('/ghost-numbers', methods=['POST'])
 @token_required

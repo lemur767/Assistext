@@ -12,7 +12,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-auth_bp = Blueprint('auth', __name__)
+from . import api_bp as auth_bp
 
 # Supported countries for phone number provisioning
 SUPPORTED_COUNTRIES = {
@@ -197,7 +197,7 @@ def login():
         logger.info(f"User logged in: {email}")
         
         return jsonify({
-            'access_token': access_token,
+            'token': access_token,
             'user': user.to_dict()
         }), 200
         
