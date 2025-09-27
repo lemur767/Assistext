@@ -5,63 +5,63 @@ import '../styles/Navbar.css';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <nav className="navbar">
-      <div className="containerNavbar">
-        <div className="logoContainer">
-          <span className="logoText">
-            TextAI
-          </span>
+    <nav className="navbar_navbar">
+      <div className="navbar_containerNavbar">
+        <div className="navbar_logoContainer">
+          <div className="navbar_logoText">
+            <img src="logo3333.png" alt="Assistext Logo" className="navbar_logoImage" />
+          </div>
         </div>
-        <div className="desktopNav">
-          <a href="#features" className="navLink">
+        <div className="navbar_desktopNav">
+          <a href="#features" className="navbar_navLink">
             Features
           </a>
-          <a href="#how-it-works" className="navLink">
+          <a href="#how-it-works" className="navbar_navLink">
             How it Works
           </a>
-          <a href="#pricing" className="navLink">
+          <a href="#pricing" className="navbar_navLink">
             Pricing
           </a>
-          <a href="#testimonials" className="navLink">
+          <a href="#testimonials" className="navbar_navLink">
             Testimonials
           </a>
         </div>
-        <div className="desktopButtons">
-          <button className="loginButton">
+        <div className="navbar_desktopButtons">
+          <button className="navbar_loginButton">
             Login
           </button>
-          <button className="getStartedButton">
+          <button className="navbar_getStartedButton">
             Get Started
           </button>
         </div>
-        <div className="mobileMenuButtonContainer">
+        <div className="navbar_mobileMenuButtonContainer">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <XIcon size={24} className="menuIcon" /> : <MenuIcon size={24} className="menuIcon" />}
+            {isMenuOpen ? <XIcon size={24} className="navbar_menuIcon" /> : <MenuIcon size={24} className="navbar_menuIcon" />}
           </button>
         </div>
       </div>
       {isMenuOpen && (
-        <div className={`mobileMenuDropdown ${isMenuOpen ? "open" : ''}`}>
-          <div className="mobileNavLinks">
-            <a href="#features" className="navLink">
+        <div className={`navbar_mobileMenuDropdown ${isMenuOpen ? "open" : ''}`}>
+          <div className="navbar_mobileNavLinks">
+            <a href="#features" className="navbar_navLink">
               Features
             </a>
-            <a href="#how-it-works" className="navLink">
+            <a href="#how-it-works" className="navbar_navLink">
               How it Works
             </a>
-            <a href="#pricing" className="navLink">
+            <a href="#pricing" className="navbar_navLink">
               Pricing
             </a>
-            <a href="#testimonials" className="navLink">
+            <a href="#testimonials" className="navbar_navLink">
               Testimonials
             </a>
-            <div className="mobileButtonsContainer">
-              <button className="loginButton">
+            <div className="navbar_mobileButtonsContainer">
+              <a href="http://localhost:3000/login" className="navbar_loginButton">
                 Login
-              </button>
-              <button className="getStartedButton">
+              </a>
+              <a href="http://localhost:3000/signup" className="navbar_getStartedButton">
                 Get Started
-              </button>
+              </a>
             </div>
           </div>
         </div>

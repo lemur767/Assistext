@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import logo from "../assets/logo3333.png";
 import "../styles/Login.css";
 
 const Login: React.FC = () => {
@@ -33,14 +34,15 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="container">
-      <div className="card glass-morphism">
-        <h2 className="heading gradient-text-brand">
-          Login
-        </h2>
-        <form className="form" onSubmit={handleLogin}>
-          <div className="inputGroup">
-            <label htmlFor="email" className="label text-neutral-text">
+    <div className="login_container">
+      <div className="login_card glass-morphism">
+        <div className="login_logoContainer">
+          <img src={logo} alt="Assistext Logo" width="180px" height="180px" className="login_logoImage" />
+        </div>
+       
+        <form className="login_form" onSubmit={handleLogin}>
+          <div className="login_inputGroup">
+            <label htmlFor="email" className="login_label text-neutral-text">
               Email
             </label>
             <input
@@ -52,10 +54,10 @@ const Login: React.FC = () => {
               placeholder="you@example.com"
             />
           </div>
-          <div className="inputGroup">
+          <div className="login_inputGroup">
             <label
               htmlFor="password"
-              className="label text-neutral-text"
+              className="login_label text-neutral-text"
             >
               Password
             </label>
@@ -71,15 +73,15 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="button btn btn-primary"
+            className="login_button btn btn-primary"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        {message && <p className="message text-error">{message}</p>}
-        <p className="signupText text-neutral-text/60">
+        {message && <p className="login_message text-error">{message}</p>}
+        <p className="login_signupText text-neutral-text/60">
           Don&apos;t have an account?{" "}
-          <Link to="/signup" className="signupLink text-primary hover:underline">
+          <Link to="/signup" className="login_signupLink text-primary hover:underline">
             Sign up
           </Link>
         </p>

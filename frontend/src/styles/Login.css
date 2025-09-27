@@ -1,11 +1,11 @@
-.container {
+.login_container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
 }
 
-.card {
+.login_card {
   width: 100%;
   max-width: 28rem; /* max-w-md */
   padding: 2rem; /* p-8 */
@@ -19,7 +19,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.heading {
+.login_heading {
   font-size: 2.25rem; /* text-4xl */
   font-weight: 700; /* font-bold */
   text-align: center;
@@ -28,37 +28,43 @@
   background-image: linear-gradient(to right, var(--cyan-400), var(--purple-500));
 }
 
-.form {
+.login_form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem; /* space-y-6 */
 }
 
-.inputGroup {
+.login_inputGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem; /* space-y-2 */
 }
 
-.label {
+.login_label {
   font-size: 0.875rem; /* text-sm */
   font-weight: 500; /* font-medium */
 }
 
-.button {
+.login_button {
   width: 100%;
 }
 
-.message {
+.login_message {
   font-size: 0.875rem; /* text-sm */
   text-align: center;
 }
 
-.signupText {
+.login_signupText {
   font-size: 0.875rem; /* text-sm */
   text-align: center;
 }
 
-.signupLink {
+.login_signupLink {
   font-weight: 500; /* font-medium */
+}
+.login_logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
 }

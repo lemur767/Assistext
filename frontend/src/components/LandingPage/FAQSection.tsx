@@ -24,36 +24,36 @@ const FAQSection = () => {
     answer: "While our AI is highly accurate, it can occasionally misinterpret context. You'll receive notifications of all AI interactions, allowing you to quickly step in if needed. The system also learns from corrections to improve future responses."
   }];
   return (
-    <section id="faq" className="section">
-      <div className="container">
-        <div className="header">
-          <h2 className="title">
+    <section id="faq" className="faqSection_section">
+      <div className="faqSection_container">
+        <div className="faqSection_header">
+          <h2 className="faqSection_title">
             Frequently Asked{' '}
-            <span className="titleHighlight">
+            <span className="faqSection_titleHighlight">
               Questions
             </span>
           </h2>
-          <p className="description">
+          <p className="faqSection_description">
             Everything you need to know about TextAI.
           </p>
         </div>
-        <div className="faqList">
+        <div className="faqSection_faqList">
           {faqs.map((faq, index) => (
-            <div key={index} className="faqItem">
-              <button className="faqButton" onClick={() => setOpenIndex(openIndex === index ? -1 : index)}>
-                <span className="faqQuestion">{faq.question}</span>
-                <ChevronDownIcon size={20} className={`chevronIcon ${openIndex === index ? "chevronIconRotate" : ''}`} />
+            <div key={index} className="faqSection_faqItem">
+              <button className="faqSection_faqButton" onClick={() => setOpenIndex(openIndex === index ? -1 : index)}>
+                <span className="faqSection_faqQuestion">{faq.question}</span>
+                <ChevronDownIcon size={20} className={`faqSection_chevronIcon ${openIndex === index ? "faqSection_chevronIconRotate" : ''}`} />
               </button>
-              <div className={`faqContent ${openIndex === index ? "faqContentOpen" : ''}`}>
-                <p className="faqAnswer">{faq.answer}</p>
+              <div className={`faqSection_faqContent ${openIndex === index ? "faqSection_faqContentOpen" : ''}`}>
+                <p className="faqSection_faqAnswer">{faq.answer}</p>
               </div>
             </div>
           ))}
         </div>
-        <div className="footerText">
+        <div className="faqSection_footerText">
           <p>
             Still have questions?{' '}
-            <a href="#" className="footerLink">
+            <a href="#" className="faqSection_footerLink">
               Contact our support team
             </a>
           </p>

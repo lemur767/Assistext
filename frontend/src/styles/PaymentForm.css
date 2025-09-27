@@ -1,21 +1,21 @@
 
-.form {
+.paymentForm_form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem; /* space-y-6 */
 }
 
-.paymentElementContainer {
+.paymentForm_paymentElementContainer {
   padding: 1.5rem; /* p-6 */
   border: 1px solid;
   border-radius: 0.5rem; /* rounded-lg */
 }
 
-.button {
+.paymentForm_button {
   width: 100%;
 }
 
-.errorMessage {
+.paymentForm_errorMessage {
   font-size: 0.875rem; /* text-sm */
   text-align: center;
 }

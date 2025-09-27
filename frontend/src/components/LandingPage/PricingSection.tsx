@@ -26,63 +26,61 @@ const PricingSection = () => {
     buttonText: 'Contact Sales'
   }];
   return (
-    <section id="pricing" className="section">
-      <div className="blurBackground"></div>
-      <div className="container">
-        <div className="header">
-          <h2 className="title">
+    <section id="pricing" className="pricingSection_section">
+      <div className="pricingSection_blurBackground"></div>
+      <div className="pricingSection_container">
+        <div className="pricingSection_header">
+          <h2 className="pricingSection_title">
             Simple{' '}
-            <span className="titleHighlight">
+            <span className="pricingSection_titleHighlight">
               Pricing
             </span>
           </h2>
-          <p className="description">
+          <p className="pricingSection_description">
             Choose the plan that fits your needs. All plans include a 14-day
             free trial.
           </p>
         </div>
-        <div className="grid">
+        <div className="pricingSection_grid">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`card ${plan.popular ? "cardPopularBorder" : "cardDefaultBorder"}`}
-            >
+              className={`pricingSection_card ${plan.popular ? "pricingSection_cardPopularBorder" : "pricingSection_cardDefaultBorder"}`}>
               {plan.popular && (
-                <div className="popularTag">
-                  <div className="popularTagContent">
+                <div className="pricingSection_popularTag">
+                  <div className="pricingSection_popularTagContent">
                     Most Popular
                   </div>
                 </div>
               )}
-              <div className="planHeader">
-                <h3 className="planName">{plan.name}</h3>
-                <div className="priceContainer">
-                  <span className="priceCurrency">$</span>
-                  <span className="priceValue">{plan.price}</span>
-                  <span className="pricePeriod">/mo</span>
+              <div className="pricingSection_planHeader">
+                <h3 className="pricingSection_planName">{plan.name}</h3>
+                <div className="pricingSection_priceContainer">
+                  <span className="pricingSection_priceCurrency">$</span>
+                  <span className="pricingSection_priceValue">{plan.price}</span>
+                  <span className="pricingSection_pricePeriod">/mo</span>
                 </div>
-                <p className="planDescription">{plan.description}</p>
+                <p className="pricingSection_planDescription">{plan.description}</p>
               </div>
-              <ul className="featuresList">
+              <ul className="pricingSection_featuresList">
                 {plan.features.map((feature, i) => (
-                  <li key={i} className="featureItem">
-                    <CheckIcon size={20} className="checkIcon" />
-                    <span className="featureText">{feature}</span>
+                  <li key={i} className="pricingSection_featureItem">
+                    <CheckIcon size={20} className="pricingSection_checkIcon" />
+                    <span className="pricingSection_featureText">{feature}</span>
                   </li>
                 ))}
               </ul>
               <button
-                className={`button ${plan.popular ? "buttonPopular" : "buttonDefault"}`}
-              >
+                className={`pricingSection_button ${plan.popular ? "pricingSection_buttonPopular" : "pricingSection_buttonDefault"}`}>
                 {plan.buttonText}
               </button>
             </div>
           ))}
         </div>
-        <div className="footerText">
+        <div className="pricingSection_footerText">
           <p>
             Need a custom plan?{' '}
-            <a href="#" className="footerLink">
+            <a href="#" className="pricingSection_footerLink">
               Contact our sales team
             </a>
           </p>

@@ -21,20 +21,20 @@ const ContactModal: React.FC<Props> = ({ isOpen, onClose, contactName, contactNu
   };
 
   return (
-    <div className="overlay">
-      <div className="modal">
-        <h2 className="title">Edit Contact</h2>
-        <p className="number">{contactNumber}</p>
+    <div className="contactModal_overlay">
+      <div className="contactModal_modal">
+        <h2 className="contactModal_title">Edit Contact</h2>
+        <p className="contactModal_number">{contactNumber}</p>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter contact name"
-          className="input"
+          className="contactModal_input"
         />
-        <div className="buttonGroup">
-          <button onClick={onClose} className="cancelButton">Cancel</button>
-          <button onClick={handleSave} className="saveButton">Save</button>
+        <div className="contactModal_buttonGroup">
+          <button onClick={onClose} className="contactModal_cancelButton">Cancel</button>
+          <button onClick={handleSave} className="contactModal_saveButton">Save</button>
         </div>
       </div>
     </div>

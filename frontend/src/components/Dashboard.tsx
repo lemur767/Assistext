@@ -62,27 +62,27 @@ const Dashboard: React.FC = () => {
   const trialDaysRemaining = getTrialDaysRemaining();
 
   if (loading) {
-    return <div className="loadingContainer">Loading...</div>;
+    return <div className="dashboard_loadingContainer">Loading...</div>;
   }
 
   return (
-    <div className="mainContainer">
-      <header className="header">
-        <h2 className="headerTitle">Dashboard</h2>
-        <nav className="navbarNav">
-          <Link to="/settings" className="settingsButton">Settings</Link>
-          <button onClick={handleLogout} className="logoutButton">Logout</button>
+    <div className="dashboard_mainContainer">
+      <header className="dashboard_header">
+        <h2 className="dashboard_headerTitle">Dashboard</h2>
+        <nav className="dashboard_navbarNav">
+          <Link to="/settings" className="dashboard_settingsButton">Settings</Link>
+          <button onClick={handleLogout} className="dashboard_logoutButton">Logout</button>
         </nav>
       </header>
 
-      <main className="mainContent">
+      <main className="dashboard_mainContent">
         {trialDaysRemaining > 0 && (
-          <div className="trialBannerPrimary">
+          <div className="dashboard_trialBannerPrimary">
             <p>You have {trialDaysRemaining} days left in your trial.</p>
           </div>
         )}
         {trialDaysRemaining === 0 && (
-          <div className="trialBannerWarning">
+          <div className="dashboard_trialBannerWarning">
             <p>
               Your trial has expired. Please <Link to="/subscription">subscribe</Link> to continue using the service.
             </p>
@@ -90,22 +90,22 @@ const Dashboard: React.FC = () => {
         )}
 
         {!ghostNumber ? (
-          <div className="noGhostNumberCard">
-            <h3 className="noGhostNumberTitle">No Ghost Number Assigned</h3>
-            <p className="noGhostNumberText">
+          <div className="dashboard_noGhostNumberCard">
+            <h3 className="dashboard_noGhostNumberTitle">No Ghost Number Assigned</h3>
+            <p className="dashboard_noGhostNumberText">
               It looks like you don't have a Ghost Number yet. Please visit the{" "}
-              <Link to="/settings" className="settingsLink">Settings</Link> page to set one up.
+              <Link to="/settings" className="dashboard_settingsLink">Settings</Link> page to set one up.
             </p>
           </div>
         ) : (
-          <div className="ghostNumberGrid">
-            <div className="ghostNumberCol1">
-              <div className="ghostNumberCard">
-                <h3 className="ghostNumberTitle">Your Ghost Number</h3>
-                <p className="ghostNumberDisplay">{ghostNumber}</p>
+          <div className="dashboard_ghostNumberGrid">
+            <div className="dashboard_ghostNumberCol1">
+              <div className="dashboard_ghostNumberCard">
+                <h3 className="dashboard_ghostNumberTitle">Your Ghost Number</h3>
+                <p className="dashboard_ghostNumberDisplay">{ghostNumber}</p>
               </div>
             </div>
-            <div className="conversationListCol">
+            <div className="dashboard_conversationListCol">
               <ConversationList />
             </div>
           </div>

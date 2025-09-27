@@ -1,4 +1,4 @@
-.overlay {
+.contactModal_overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   z-index: 1000;
 }
 
-.modal {
+.contactModal_modal {
   background-color: #1e293b; /* slate-800 */
   padding: 2rem;
   border-radius: 1rem;
@@ -22,19 +22,19 @@
   max-width: 400px;
 }
 
-.title {
+.contactModal_title {
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.number {
+.contactModal_number {
   font-family: monospace;
   color: #94a3b8; /* slate-400 */
   margin-bottom: 1.5rem;
 }
 
-.input {
+.contactModal_input {
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
@@ -44,19 +44,19 @@
   margin-bottom: 1.5rem;
 }
 
-.input:focus {
+.contactModal_input:focus {
   outline: none;
   border-color: #22d3ee; /* cyan-400 */
   box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.5);
 }
 
-.buttonGroup {
+.contactModal_buttonGroup {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
 }
 
-.cancelButton {
+.contactModal_cancelButton {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   background-color: transparent;
@@ -66,11 +66,11 @@
   transition: all 0.2s ease-in-out;
 }
 
-.cancelButton:hover {
+.contactModal_cancelButton:hover {
   background-color: #334155; /* slate-700 */
 }
 
-.saveButton {
+.contactModal_saveButton {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   background-image: linear-gradient(to right, #06b6d4, #a78bfa);
@@ -80,6 +80,6 @@
   box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
 }
 
-.saveButton:hover {
+.contactModal_saveButton:hover {
   box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
 }

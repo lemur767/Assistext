@@ -55,33 +55,33 @@
   }
 }
 
-.group {
+.glassGradientCard_group {
   position: relative;
 }
 
 /* Glow Colors */
-.glowBrand {
+.glassGradientCard_glowBrand {
   background-image: linear-gradient(to right, var(--cyan-500), var(--purple-500), var(--cyan-400));
 }
 
-.glowSecondary {
+.glassGradientCard_glowSecondary {
   background-image: linear-gradient(to right, var(--purple-500), #ec4899, #9333ea);
 }
 
-.glowAccent {
+.glassGradientCard_glowAccent {
   background-image: linear-gradient(to right, var(--cyan-400), #eab308, #84cc16);
 }
 
-.glowGrey {
+.glassGradientCard_glowGrey {
   background-image: linear-gradient(to right, #9ca3af, #e5e7eb, #1f2937);
 }
 
-.glowOrange {
+.glassGradientCard_glowOrange {
   background-image: linear-gradient(to right, #fb923c, #f97316, #ea580c);
 }
 
 /* Outer Glow Effect */
-.outerGlow {
+.glassGradientCard_outerGlow {
   position: absolute;
   top: -0.25rem;
   right: -0.25rem;
@@ -93,20 +93,20 @@
   transition: opacity 500ms ease-in-out;
 }
 
-.group:hover .outerGlow {
+.glassGradientCard_group:hover .glassGradientCard_outerGlow {
   opacity: 0.6;
 }
 
-.outerGlowAnimatePulse {
+.glassGradientCard_outerGlowAnimatePulse {
   animation: pulse 2s infinite;
 }
 
-.outerGlowAnimateBounce {
+.glassGradientCard_outerGlowAnimateBounce {
   animation: bounce 1s infinite;
 }
 
 /* Middle Glow Effect */
-.middleGlow {
+.glassGradientCard_middleGlow {
   position: absolute;
   top: -0.125rem;
   right: -0.125rem;
@@ -118,12 +118,12 @@
   transition: opacity 300ms ease-in-out;
 }
 
-.group:hover .middleGlow {
+.glassGradientCard_group:hover .glassGradientCard_middleGlow {
   opacity: 0.7;
 }
 
 /* Main Card */
-.mainCard {
+.glassGradientCard_mainCard {
   position: relative;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 0.75rem;
@@ -132,68 +132,68 @@
   overflow: hidden;
 }
 
-.mainCardNoBorder {
+.glassGradientCard_mainCardNoBorder {
   border: none;
 }
 
-.mainCardBorder {
+.glassGradientCard_mainCardBorder {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.group:hover .mainCard {
+.glassGradientCard_group:hover .glassGradientCard_mainCard {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-.mainCardCursorPointer {
+.glassGradientCard_mainCardCursorPointer {
   cursor: pointer;
 }
 
 /* Size Variants */
-.sizeSm {
+.glassGradientCard_sizeSm {
   padding: 1rem;
   border-radius: 0.5rem;
 }
 
-.sizeMd {
+.glassGradientCard_sizeMd {
   padding: 1.5rem;
   border-radius: 0.75rem;
 }
 
-.sizeLg {
+.glassGradientCard_sizeLg {
   padding: 2rem;
   border-radius: 1rem;
 }
 
-.sizeXl {
+.glassGradientCard_sizeXl {
   padding: 2.5rem;
   border-radius: 1.5rem;
 }
 
 /* Blur Variants */
-.blurLight {
+.glassGradientCard_blurLight {
   backdrop-filter: blur(4px);
 }
 
-.blurMedium {
+.glassGradientCard_blurMedium {
   backdrop-filter: blur(16px);
 }
 
-.blurHeavy {
+.glassGradientCard_blurHeavy {
   backdrop-filter: blur(24px);
 }
 
 /* Transform Classes */
-.transformScale {
+.glassGradientCard_transformScale {
   transform: scale(1.05);
 }
 
-.transformBounce {
+.glassGradientCard_transformBounce {
   transform: translateY(-0.25rem);
 }
 
 /* Inner Glow Border */
-.innerGlowBorder {
+.glassGradientCard_innerGlowBorder {
   position: absolute;
   inset: 0;
   border-radius: 0.75rem;
@@ -202,7 +202,7 @@
 }
 
 /* Shimmer Effect */
-.shimmerEffect {
+.glassGradientCard_shimmerEffect {
   position: absolute;
   inset: 0;
   transform: skewX(-12deg);
@@ -211,13 +211,13 @@
   transition: opacity 300ms ease-in-out;
 }
 
-.group:hover .shimmerEffect {
+.glassGradientCard_group:hover .glassGradientCard_shimmerEffect {
   opacity: 1;
   animation: shimmer 1.5s infinite;
 }
 
 /* Ripple Effects */
-.rippleEffect {
+.glassGradientCard_rippleEffect {
   position: absolute;
   pointer-events: none;
   border-radius: 9999px;
@@ -226,40 +226,40 @@
 }
 
 /* Wave Effect */
-.waveEffect1 {
+.glassGradientCard_waveEffect1 {
   position: absolute;
   inset: 0;
   opacity: 0.2;
 }
 
-.waveEffect1.active {
+.glassGradientCard_waveEffect1.active {
   animation: wave-1 1.5s ease-out forwards;
 }
 
-.waveEffect2 {
+.glassGradientCard_waveEffect2 {
   position: absolute;
   inset: 0;
   opacity: 0.15;
   background-image: linear-gradient(to left, var(--cyan-500), var(--purple-500), var(--cyan-400));
 }
 
-.waveEffect2.active {
+.glassGradientCard_waveEffect2.active {
   animation: wave-2 1.5s ease-out forwards;
 }
 
-.waveEffect3 {
+.glassGradientCard_waveEffect3 {
   position: absolute;
   inset: 0;
   opacity: 0.1;
   background-image: linear-gradient(to top, var(--cyan-500), var(--purple-500), var(--cyan-400));
 }
 
-.waveEffect3.active {
+.glassGradientCard_waveEffect3.active {
   animation: wave-3 1.5s ease-out forwards;
 }
 
 /* Content */
-.content {
+.glassGradientCard_content {
   position: relative;
   z-index: 10;
 }

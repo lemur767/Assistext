@@ -1,19 +1,19 @@
-.loadingContainer,
-.errorContainer {
+.conversationDetail_loadingContainer,
+.conversationDetail_errorContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
 }
 
-.mainContainer {
+.conversationDetail_mainContainer {
   display: flex;
   flex-direction: column;
   height: 100vh;
   background-color: #0f172a;
 }
 
-.header {
+.conversationDetail_header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,63 +21,63 @@
   border-bottom: 1px solid #334155;
 }
 
-.headerTitle {
+.conversationDetail_headerTitle {
   font-size: 1.125rem;
   font-weight: 700;
 }
 
-.headerControls {
+.conversationDetail_headerControls {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.headerStatus {
+.conversationDetail_headerStatus {
   font-size: 0.875rem;
   color: #94a3b8;
 }
 
-.messageArea {
+.conversationDetail_messageArea {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
 }
 
-.messagesList {
+.conversationDetail_messagesList {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.messageContainer {
+.conversationDetail_messageContainer {
   display: flex;
 }
 
-.justifyStart {
+.conversationDetail_justifyStart {
   justify-content: flex-start;
 }
 
-.justifyEnd {
+.conversationDetail_justifyEnd {
   justify-content: flex-end;
 }
 
-.messageContent {
+.conversationDetail_messageContent {
   display: block;
   margin-top: 0.25rem;
   font-size: 0.75rem;
   opacity: 0.7;
 }
 
-.footer {
+.conversationDetail_footer {
   padding: 1rem;
   border-top: 1px solid #334155;
 }
 
-.messageForm {
+.conversationDetail_messageForm {
   display: flex;
   gap: 1rem;
 }
 
-.messageInput {
+.conversationDetail_messageInput {
   flex: 1;
 }

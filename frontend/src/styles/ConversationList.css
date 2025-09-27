@@ -1,28 +1,28 @@
-.loading,
-.error {
+.conversationList_loading,
+.conversationList_error {
   padding: 2rem;
   text-align: center;
 }
 
-.container {
+.conversationList_container {
   padding: 1.5rem;
   border-radius: 0.5rem;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.header {
+.conversationList_header {
   margin-bottom: 1rem;
   font-size: 1.25rem;
   font-weight: 700;
 }
 
-.conversationList {
+.conversationList_conversationList {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.conversationLink {
+.conversationList_conversationLink {
   display: block;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -31,50 +31,50 @@
   color: inherit;
 }
 
-.conversationLink:hover {
+.conversationList_conversationLink:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-.conversationLinkUnread {
+.conversationList_conversationLinkUnread {
   background-color: rgba(6, 182, 212, 0.1);
 }
 
-.conversationHeader {
+.conversationList_conversationHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.contactInfo {
+.conversationList_contactInfo {
   display: flex;
   flex-direction: column;
 }
 
-.contactName {
+.conversationList_contactName {
   font-weight: 600;
 }
 
-.contactNameUnread {
+.conversationList_contactNameUnread {
   color: var(--cyan-400);
 }
 
-.contactNameRead {
+.conversationList_contactNameRead {
   color: white;
 }
 
-.contactNumber {
+.conversationList_contactNumber {
   font-size: 0.75rem;
   color: #94a3b8;
   font-family: monospace;
 }
 
-.headerActions {
+.conversationList_headerActions {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.editButton {
+.conversationList_editButton {
   background: none;
   border: none;
   color: #94a3b8;
@@ -86,21 +86,21 @@
   justify-content: center;
 }
 
-.editButton:hover {
+.conversationList_editButton:hover {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--cyan-400);
 }
 
-.lastMessageTime {
+.conversationList_lastMessageTime {
   font-size: 0.75rem;
   color: #94a3b8;
 }
 
-.messageLink {
+.conversationList_messageLink {
   text-decoration: none;
 }
 
-.lastMessage {
+.conversationList_lastMessage {
   margin-top: 0.25rem;
   font-size: 0.875rem;
   overflow: hidden;
@@ -108,22 +108,22 @@
   white-space: nowrap;
 }
 
-.lastMessageUnread {
+.conversationList_lastMessageUnread {
   color: white;
 }
 
-.lastMessageRead {
+.conversationList_lastMessageRead {
   color: #94a3b8;
 }
 
-.pagination {
+.conversationList_pagination {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 1.5rem;
 }
 
-.paginationText {
+.conversationList_paginationText {
   font-size: 0.875rem;
   color: #94a3b8;
 }

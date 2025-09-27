@@ -6,9 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import "../styles/PaymentForm.css";
 
-const PaymentForm: React.FC<{ clientSecret: string }> = ({
-  clientSecret /* eslint-disable-line @typescript-eslint/no-unused-vars */,
-}) => {
+const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -41,16 +39,16 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form">
-      <div className="paymentElementContainer bg-surface border-border">
+    <form onSubmit={handleSubmit} className="paymentForm_form">
+      <div className="paymentForm_paymentElementContainer bg-surface border-border">
         <PaymentElement />
       </div>
       <button 
         disabled={!stripe || loading} 
-        className="button btn btn-primary"      >
+        className="paymentForm_button btn btn-primary"      >
         {loading ? "Processing..." : "Pay"}
       </button>
-      {errorMessage && <div className="errorMessage text-error-500">{errorMessage}</div>}
+      {errorMessage && <div className="paymentForm_errorMessage text-error-500">{errorMessage}</div>}
     </form>
   );
 };

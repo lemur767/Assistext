@@ -24,22 +24,22 @@ const testimonials = [
 
 const TestimonialsSection: React.FC = () => {
   return (
-    <section className="section">
-      <div className="container">
-        <h2 className="heading">What Our Users Say</h2>
-        <div className="grid">
+    <section className="testimonialsSection_section">
+      <div className="testimonialsSection_container">
+        <h2 className="testimonialsSection_heading">What Our Users Say</h2>
+        <div className="testimonialsSection_grid">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="card">
-              <p className="quote">"{testimonial.quote}"</p>
-              <div className="authorInfo">
+            <div key={index} className="testimonialsSection_card">
+              <p className="testimonialsSection_quote">"{testimonial.quote}"</p>
+              <div className="testimonialsSection_authorInfo">
                 <img
                   src={testimonial.avatar}
                   alt={testimonial.name}
-                  className="avatar"
+                  className="testimonialsSection_avatar"
                 />
                 <div>
-                  <h3 className="authorName">{testimonial.name}</h3>
-                  <p className="authorTitle">{testimonial.title}</p>
+                  <h3 className="testimonialsSection_authorName">{testimonial.name}</h3>
+                  <p className="testimonialsSection_authorTitle">{testimonial.title}</p>
                 </div>
               </div>
             </div>

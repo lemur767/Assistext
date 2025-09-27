@@ -40,31 +40,31 @@ export function GlassGradCard({
   const cardRef = useRef<HTMLDivElement>(null);
 
   const glowClasses = {
-    brand: "glowBrand",
-    secondary: "glowSecondary",
-    accent: "glowAccent",
-    grey: "glowGrey",
-    orange: "glowOrange",
+    brand: "glassGradientCard_glowBrand",
+    secondary: "glassGradientCard_glowSecondary",
+    accent: "glassGradientCard_glowAccent",
+    grey: "glassGradientCard_glowGrey",
+    orange: "glassGradientCard_glowOrange",
   };
 
   const sizeClasses = {
-    sm: "sizeSm",
-    md: "sizeMd",
-    lg: "sizeLg",
-    xl: "sizeXl"
+    sm: "glassGradientCard_sizeSm",
+    md: "glassGradientCard_sizeMd",
+    lg: "glassGradientCard_sizeLg",
+    xl: "glassGradientCard_sizeXl"
   };
 
   const blurClasses = {
-    light: "blurLight",
-    medium: "blurMedium",
-    heavy: "blurHeavy"
+    light: "glassGradientCard_blurLight",
+    medium: "glassGradientCard_blurMedium",
+    heavy: "glassGradientCard_blurHeavy"
   };
 
   const animationOuterGlowClasses = {
-    glow: "outerGlowAnimatePulse",
-    pulse: "outerGlowAnimatePulse",
+    glow: "glassGradientCard_outerGlowAnimatePulse",
+    pulse: "glassGradientCard_outerGlowAnimatePulse",
     shimmer: '',
-    bounce: "outerGlowAnimateBounce",
+    bounce: "glassGradientCard_outerGlowAnimateBounce",
     scale: '',
     ripple: '',
     wave: ''
@@ -73,9 +73,9 @@ export function GlassGradCard({
   const getTransformClass = () => {
     switch (animation) {
       case 'scale':
-        return "transformScale";
+        return "glassGradientCard_transformScale";
       case 'bounce':
-        return "transformBounce";
+        return "glassGradientCard_transformBounce";
       default:
         return '';
     }
@@ -114,41 +114,41 @@ export function GlassGradCard({
   const isClickable = animation === 'ripple' || animation === 'wave' || onClick;
 
   return (
-    <div className={`group ${className}`}>
+    <div className={`glassGradientCard_group ${className}`}>
       {/* Outer glow effect */}
-      <div className={`outerGlow ${glowClasses[glow]} ${animationOuterGlowClasses[animation]}`} />
+      <div className={`glassGradientCard_outerGlow ${glowClasses[glow]} ${animationOuterGlowClasses[animation]}`} />
 
       {/* Middle glow effect */}
-      <div className={`middleGlow ${glowClasses[glow]}`} />
+      <div className={`glassGradientCard_middleGlow ${glowClasses[glow]}`} />
 
       {/* Main card */}
       <div
         ref={cardRef}
         className={`
-          mainCard
+          glassGradientCard_mainCard
           ${blurClasses[blur]}
-          ${!noBorder ? "mainCardBorder" : "mainCardNoBorder"}
+          ${!noBorder ? "glassGradientCard_mainCardBorder" : "glassGradientCard_mainCardNoBorder"}
           ${sizeClasses[size]}
           ${getTransformClass()}
-          ${isClickable ? "mainCardCursorPointer" : ''}
+          ${isClickable ? "glassGradientCard_mainCardCursorPointer" : ''}
         `}
         onClick={isClickable ? handleClick : undefined}
       >
         {/* Inner glow border */}
         {!noBorder && (
-          <div className="innerGlowBorder" />
+          <div className="glassGradientCard_innerGlowBorder" />
         )}
 
         {/* Shimmer effect for shimmer variant */}
         {animation === 'shimmer' && (
-          <div className="shimmerEffect" />
+          <div className="glassGradientCard_shimmerEffect" />
         )}
 
         {/* Ripple effects */}
         {animation === 'ripple' && ripples.map((ripple) => (
           <div
             key={ripple.id}
-            className={`rippleEffect ${glowClasses[glow]}`}
+            className={`glassGradientCard_rippleEffect ${glowClasses[glow]}`}
             style={{
               left: ripple.x,
               top: ripple.y,
@@ -162,14 +162,14 @@ export function GlassGradCard({
         {/* Wave effect */}
         {animation === 'wave' && (
           <>
-            <div className={`waveEffect1 ${glowClasses[glow]} ${isWaveActive ? "active" : ''}`} />
-            <div className={`waveEffect2 ${glowClasses[glow]} ${isWaveActive ? "active" : ''}`} />
-            <div className={`waveEffect3 ${glowClasses[glow]} ${isWaveActive ? "active" : ''}`} />
+            <div className={`glassGradientCard_waveEffect1 ${glowClasses[glow]} ${isWaveActive ? "active" : ''}`} />
+            <div className={`glassGradientCard_waveEffect2 ${glowClasses[glow]} ${isWaveActive ? "active" : ''}`} />
+            <div className={`glassGradientCard_waveEffect3 ${glowClasses[glow]} ${isWaveActive ? "active" : ''}`} />
           </>
         )}
 
         {/* Content */}
-        <div className="content">
+        <div className="glassGradientCard_content">
           {children}
         </div>
       </div>

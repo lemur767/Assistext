@@ -101,22 +101,22 @@ const ConversationDetail: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="loadingContainer">Loading messages...</div>;
+    return <div className="conversationDetail_loadingContainer">Loading messages...</div>;
   }
 
   if (error) {
-    return <div className="errorContainer">Error: {error}</div>;
+    return <div className="conversationDetail_errorContainer">Error: {error}</div>;
   }
 
   return (
-    <div className="mainContainer">
+    <div className="conversationDetail_mainContainer">
       <header className={`flex items-center justify-between p-4 glass-morphism border-b border-neutral-border`}>
-        <h3 className="headerTitle">
+        <h3 className="conversationDetail_headerTitle">
           Conversation with {conversation?.contact_number}
         </h3>
-        <div className="headerControls">
-          <p className="headerStatus">Status: {status}</p>
-          <p className="headerStatus">Controlled by: {conversation?.controlled_by}</p>
+        <div className="conversationDetail_headerControls">
+          <p className="conversationDetail_headerStatus">Status: {status}</p>
+          <p className="conversationDetail_headerStatus">Controlled by: {conversation?.controlled_by}</p>
           {conversation?.controlled_by === "ai" && (
             <button onClick={handleTakeover} className="btn btn-secondary btn-sm">
               Takeover
@@ -125,12 +125,12 @@ const ConversationDetail: React.FC = () => {
         </div>
       </header>
 
-      <div className="messageArea custom-scrollbar">
-        <div className="messagesList">
+      <div className="conversationDetail_messageArea custom-scrollbar">
+        <div className="conversationDetail_messagesList">
           {messages.map((msg) => (
             <div
               key={msg.id}
-              className={`messageContainer ${msg.sender === "contact" ? "justifyStart" : "justifyEnd"}`}>
+              className={`conversationDetail_messageContainer ${msg.sender === "contact" ? "conversationDetail_justifyStart" : "conversationDetail_justifyEnd"}`}>
               <div
                 className={`p-3 rounded-lg max-w-lg ${msg.sender === "contact"
                     ? "glass-morphism"
@@ -139,7 +139,7 @@ const ConversationDetail: React.FC = () => {
                       : "bg-primary/20"
                   }`}>
                 <p>{msg.content}</p>
-                <small className="messageContent">
+                <small className="conversationDetail_messageContent">
                   {new Date(msg.created_at).toLocaleString()}
                 </small>
               </div>
@@ -149,13 +149,13 @@ const ConversationDetail: React.FC = () => {
       </div>
 
       <footer className={`p-4 glass-morphism border-t border-neutral-border`}>
-        <form onSubmit={handleSendMessage} className="messageForm">
+        <form onSubmit={handleSendMessage} className="conversationDetail_messageForm">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type your message..."
-            className="messageInput form-input"/>
+            className="conversationDetail_messageInput form-input"/>
           <button type="submit" className="btn btn-primary">
             Send
           </button>

@@ -1,11 +1,11 @@
-.container {
+.signup_container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
 }
 
-.card {
+.signup_card {
   width: 100%;
   max-width: 28rem; /* max-w-md */
   padding: 2rem; /* p-8 */
@@ -19,7 +19,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.heading {
+.signup_heading {
   font-size: 2.25rem; /* text-4xl */
   font-weight: 700; /* font-bold */
   text-align: center;
@@ -28,49 +28,49 @@
   background-image: linear-gradient(to right, var(--cyan-400), var(--purple-500));
 }
 
-.form {
+.signup_form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem; /* space-y-6 */
 }
 
-.nameFieldsGrid {
+.signup_nameFieldsGrid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr)); /* grid-cols-1 */
   gap: 1rem; /* gap-4 */
 }
 
 @media (min-width: 768px) {
-  .nameFieldsGrid {
+  .signup_nameFieldsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr)); /* md:grid-cols-2 */
   }
 }
 
-.inputGroup {
+.signup_inputGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem; /* space-y-2 */
 }
 
-.label {
+.signup_label {
   font-size: 0.875rem; /* text-sm */
   font-weight: 500; /* font-medium */
 }
 
-.button {
+.signup_button {
   width: 100%;
 }
 
-.message {
+.signup_message {
   font-size: 0.875rem; /* text-sm */
   text-align: center;
 }
 
-.loginText {
+.signup_loginText {
   font-size: 0.875rem; /* text-sm */
   text-align: center;
 }
 
-.loginLink {
+.signup_loginLink {
   font-weight: 500; /* font-medium */
 }

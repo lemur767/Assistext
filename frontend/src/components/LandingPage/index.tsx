@@ -1,17 +1,18 @@
 import React from 'react';
 import Navbar from '../Navbar';
-import CTASection from './CTASection';
+
 import HeroSection from './HeroSection';
 import FeaturesSection from './FeaturesSection';
 import Footer from '../Footer';
+import PricingSection from './PricingSection';
 
 const LandingPage = () => { 
     return (
-        <div>
+        <div className="landing-page">
             <Navbar/>
             <main>
                 <HeroSection/>
-                <CTASection/>
+                <PricingSection/>
                 <FeaturesSection/>
 
 

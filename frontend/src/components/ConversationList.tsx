@@ -96,51 +96,51 @@ const ConversationList: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="loading">Loading conversations...</div>;
+    return <div className="conversationList_loading">Loading conversations...</div>;
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return <div className="conversationList_error">Error: {error}</div>;
   }
 
   return (
     <>
-      <div className="container card">
-        <h3 className="header text-text">Conversations</h3>
+      <div className="conversationList_container card">
+        <h3 className="conversationList_header text-text">Conversations</h3>
         {conversations.length === 0 ? (
           <p className="text-muted">No conversations yet.</p>
         ) : (
           <>
-            <ul className="conversationList">
+            <ul className="conversationList_conversationList">
               {conversations.map((conv) => (
                 <li key={conv.id}>
-                  <div className={`conversationLink ${conv.unread ? "conversationLinkUnread" : ''}`}>
-                    <div className="conversationHeader">
-                      <div className="contactInfo">
-                        <strong className={`contactName ${conv.unread ? "contactNameUnread" : "contactNameRead"}`}>
+                  <div className={`conversationList_conversationLink ${conv.unread ? "conversationList_conversationLinkUnread" : ''}`}>
+                    <div className="conversationList_conversationHeader">
+                      <div className="conversationList_contactInfo">
+                        <strong className={`conversationList_contactName ${conv.unread ? "conversationList_contactNameUnread" : "conversationList_contactNameRead"}`}>
                           {conv.contact_name || conv.contact_number}
                         </strong>
-                        {conv.contact_name && <span className="contactNumber">{conv.contact_number}</span>}
+                        {conv.contact_name && <span className="conversationList_contactNumber">{conv.contact_number}</span>}
                       </div>
-                      <div className="headerActions">
-                        <button onClick={() => handleOpenModal(conv)} className="editButton">
+                      <div className="conversationList_headerActions">
+                        <button onClick={() => handleOpenModal(conv)} className="conversationList_editButton">
                           <Edit2Icon size={14} />
                         </button>
-                        <small className="lastMessageTime">{new Date(conv.last_message_at).toLocaleString()}</small>
+                        <small className="conversationList_lastMessageTime">{new Date(conv.last_message_at).toLocaleString()}</small>
                       </div>
                     </div>
-                    <Link to={`/conversations/${conv.id}`} className="messageLink">
-                      <p className={`lastMessage ${conv.unread ? "lastMessageUnread" : "lastMessageRead"}`}>{conv.last_message}</p>
+                    <Link to={`/conversations/${conv.id}`} className="conversationList_messageLink">
+                      <p className={`conversationList_lastMessage ${conv.unread ? "conversationList_lastMessageUnread" : "conversationList_lastMessageRead"}`}>{conv.last_message}</p>
                     </Link>
                   </div>
                 </li>
               ))}
             </ul>
-            <div className="pagination">
+            <div className="conversationList_pagination">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="btn btn-ghost">
                 Previous
               </button>
-              <span className="paginationText"> Page {page} of {totalPages} </span>
+              <span className="conversationList_paginationText"> Page {page} of {totalPages} </span>
               <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="btn btn-ghost">
                 Next
               </button>

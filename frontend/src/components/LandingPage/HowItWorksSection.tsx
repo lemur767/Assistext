@@ -20,35 +20,35 @@ const HowItWorksSection = () => {
     description: 'Relax while our AI responds to messages, learning and improving with each interaction.'
   }];
   return (
-    <section id="how-it-works" className="section">
-      <div className="divider"></div>
-      <div className="container">
-        <div className="header">
-          <h2 className="title">
+    <section id="how-it-works" className="howItWorksSection_section">
+      <div className="howItWorksSection_divider"></div>
+      <div className="howItWorksSection_container">
+        <div className="howItWorksSection_header">
+          <h2 className="howItWorksSection_title">
             How It{' '}
-            <span className="titleHighlight">
+            <span className="howItWorksSection_titleHighlight">
               Works
             </span>
           </h2>
-          <p className="description">
+          <p className="howItWorksSection_description">
             Getting started is simple. Follow these steps to automate your
             messaging with AI.
           </p>
         </div>
-        <div className="grid">
+        <div className="howItWorksSection_grid">
           {steps.map((step, index) => (
-            <div key={index} className="stepCard">
-              <div className="stepCardInner">
-                <div className="stepNumber">
+            <div key={index} className="howItWorksSection_stepCard">
+              <div className="howItWorksSection_stepCardInner">
+                <div className="howItWorksSection_stepNumber">
                   {step.number}
                 </div>
-                <h3 className="stepTitle">{step.title}</h3>
-                <p className="stepDescription">{step.description}</p>
+                <h3 className="howItWorksSection_stepTitle">{step.title}</h3>
+                <p className="howItWorksSection_stepDescription">{step.description}</p>
               </div>
               {index < steps.length - 1 && (
-                <div className="arrowIndicator">
-                  <div className="arrowCircle">
-                    <svg className="arrowIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div className="howItWorksSection_arrowIndicator">
+                  <div className="howItWorksSection_arrowCircle">
+                    <svg className="howItWorksSection_arrowIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -57,8 +57,8 @@ const HowItWorksSection = () => {
             </div>
           ))}
         </div>
-        <div className="buttonContainer">
-          <button className="button">
+        <div className="howItWorksSection_buttonContainer">
+          <button className="howItWorksSection_button">
             Watch Setup Tutorial
           </button>
         </div>
