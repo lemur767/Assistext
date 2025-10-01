@@ -53,7 +53,8 @@ def send_message(message):
                 to_number=conversation.contact_number,
                 from_number=user.phone_number,
                 body=message['body'],
-                subproject_id=user.signalwire_subproject_id
+                subproject_id=user.signalwire_subproject_id,
+                auth_token=user.signalwire_auth_token
             )
 
             # Broadcast the new message to the room

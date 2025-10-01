@@ -1,6 +1,6 @@
 # app/api/users.py
 from flask import Blueprint, request, jsonify, Response
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from ..utils.auth import token_required
 from .. import db
 from ..models import User, Message, MessageDirection
 from datetime import datetime
@@ -15,35 +15,30 @@ logger = logging.getLogger(__name__)
 from . import api_bp as users_bp
 
 @users_bp.route('/profile', methods=['GET'])
-@jwt_required()
-def get_profile():
+@token_required
+def get_profile(current_user):
     """Get user profile"""
     try:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        
-        if not user:
+        if not current_user:
             return jsonify({'error': 'User not found'}), 404
         
-        return jsonify({'user': user.to_dict()}), 200
+        return jsonify({'user': current_user.to_dict()}), 200
         
     except Exception as e:
         logger.error(f"Get profile error: {str(e)}")
         return jsonify({'error': 'Failed to get profile'}), 500
 
 @users_bp.route('/messages', methods=['GET'])
-@jwt_required()
-def get_messages():
+@token_required
+def get_messages(current_user):
     """Get user messages with pagination"""
     try:
-        user_id = get_jwt_identity()
-        
         # Pagination parameters
         page = request.args.get('page', 1, type=int)
         per_page = min(request.args.get('per_page', 20, type=int), 100)
         
         # Query messages
-        messages_query = Message.query.filter_by(user_id=user_id).order_by(Message.created_at.desc())
+        messages_query = Message.query.filter_by(user_id=current_user.id).order_by(Message.created_at.desc())
         messages_pagination = messages_query.paginate(
             page=page, per_page=per_page, error_out=False
         )
@@ -65,24 +60,21 @@ def get_messages():
         return jsonify({'error': 'Failed to get messages'}), 500
 
 @users_bp.route('/export/preview', methods=['GET'])
-@jwt_required()
-def export_preview():
+@token_required
+def export_preview(current_user):
     """Get export preview summary"""
     try:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        
-        if not user:
+        if not current_user:
             return jsonify({'error': 'User not found'}), 404
         
         # Get message counts
-        total_messages = Message.query.filter_by(user_id=user_id).count()
+        total_messages = Message.query.filter_by(user_id=current_user.id).count()
         inbound_messages = Message.query.filter_by(
-            user_id=user_id, 
+            user_id=current_user.id, 
             direction=MessageDirection.INBOUND
         ).count()
         outbound_messages = Message.query.filter_by(
-            user_id=user_id, 
+            user_id=current_user.id, 
             direction=MessageDirection.OUTBOUND
         ).count()
         
@@ -92,9 +84,9 @@ def export_preview():
             'total_messages': total_messages,
             'inbound_messages': inbound_messages,
             'outbound_messages': outbound_messages,
-            'trial_status': user.trial_status.value,
-            'account_created': user.created_at.isoformat(),
-            'phone_number': user.phone_number
+            'trial_status': current_user.trial_status.value,
+            'account_created': current_user.created_at.isoformat(),
+            'phone_number': current_user.phone_number
         }
         
         return jsonify({'summary': summary}), 200
@@ -104,22 +96,19 @@ def export_preview():
         return jsonify({'error': 'Failed to generate export preview'}), 500
 
 @users_bp.route('/export/json', methods=['GET'])
-@jwt_required()
-def export_json():
+@token_required
+def export_json(current_user):
     """Export user data as JSON"""
     try:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        
-        if not user:
+        if not current_user:
             return jsonify({'error': 'User not found'}), 404
         
         # Get all messages
-        messages = Message.query.filter_by(user_id=user_id).order_by(Message.created_at.desc()).all()
+        messages = Message.query.filter_by(user_id=current_user.id).order_by(Message.created_at.desc()).all()
         
         # Prepare export data
         export_data = {
-            'user_account': user.to_dict(include_sensitive=True),
+            'user_account': current_user.to_dict(include_sensitive=True),
             'messages': [msg.to_dict() for msg in messages],
             'export_metadata': {
                 'exported_at': datetime.utcnow().isoformat(),
@@ -129,7 +118,7 @@ def export_json():
         }
         
         # Create response
-        filename = f"user-data-export-{user_id}-{datetime.utcnow().strftime('%Y-%m-%d')}.json"
+        filename = f"user-data-export-{current_user.id}-{datetime.utcnow().strftime('%Y-%m-%d')}.json"
         
         response = Response(
             json.dumps(export_data, indent=2),
@@ -144,18 +133,15 @@ def export_json():
         return jsonify({'error': 'Failed to export data as JSON'}), 500
 
 @users_bp.route('/export/csv', methods=['GET'])
-@jwt_required()
-def export_csv():
+@token_required
+def export_csv(current_user):
     """Export user data as CSV"""
     try:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        
-        if not user:
+        if not current_user:
             return jsonify({'error': 'User not found'}), 404
         
         # Get all messages
-        messages = Message.query.filter_by(user_id=user_id).order_by(Message.created_at.desc()).all()
+        messages = Message.query.filter_by(user_id=current_user.id).order_by(Message.created_at.desc()).all()
         
         # Create CSV
         output = io.StringIO()
@@ -163,7 +149,7 @@ def export_csv():
         # User Account Section
         output.write('USER ACCOUNT DATA\n')
         output.write('Field,Value\n')
-        user_data = user.to_dict(include_sensitive=False)
+        user_data = current_user.to_dict(include_sensitive=False)
         for key, value in user_data.items():
             output.write(f'"{key}","{value}"\n')
         
@@ -180,7 +166,7 @@ def export_csv():
                 writer.writerow({k: msg_dict.get(k, '') for k in fieldnames})
         
         # Create response
-        filename = f"user-data-export-{user_id}-{datetime.utcnow().strftime('%Y-%m-%d')}.csv"
+        filename = f"user-data-export-{current_user.id}-{datetime.utcnow().strftime('%Y-%m-%d')}.csv"
         
         response = Response(
             output.getvalue(),
@@ -195,36 +181,33 @@ def export_csv():
         return jsonify({'error': 'Failed to export data as CSV'}), 500
 
 @users_bp.route('/delete', methods=['DELETE'])
-@jwt_required()
-def delete_account():
+@token_required
+def delete_account(current_user):
     """Delete user account and all associated data"""
     try:
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        
-        if not user:
+        if not current_user:
             return jsonify({'error': 'User not found'}), 404
         
         # Clean up SignalWire resources
         try:
-            if user.phone_number_sid and user.signalwire_subproject_id:
+            if current_user.phone_number_sid and current_user.signalwire_subproject_id:
                 signalwire_service.release_phone_number(
-                    user.phone_number_sid, 
-                    user.signalwire_subproject_id
+                    current_user.phone_number_sid, 
+                    current_user.signalwire_subproject_id
                 )
             
-            if user.signalwire_subproject_id:
-                signalwire_service.delete_subproject(user.signalwire_subproject_id)
+            if current_user.signalwire_subproject_id:
+                signalwire_service.delete_subproject(current_user.signalwire_subproject_id)
                 
         except Exception as e:
-            logger.warning(f"Failed to cleanup SignalWire resources for user {user_id}: {e}")
+            logger.warning(f"Failed to cleanup SignalWire resources for user {current_user.id}: {e}")
             # Continue with account deletion even if SignalWire cleanup fails
         
         # Delete user (cascade will delete messages)
-        db.session.delete(user)
+        db.session.delete(current_user)
         db.session.commit()
         
-        logger.info(f"User account deleted: {user.email}")
+        logger.info(f"User account deleted: {current_user.email}")
         
         return jsonify({'message': 'Account deleted successfully'}), 200
         

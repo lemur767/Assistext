@@ -1,13 +1,13 @@
 # app/api/subscriptions.py
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from ..utils.auth import token_required
 import stripe
 
 subscriptions_bp = Blueprint('subscriptions', __name__, 'url_prefix=/api/v1/subscriptions')
 
 @subscriptions_bp.route('/plans', methods=['GET'])
-@jwt_required()
-def get_subscription_plans():
+@token_required
+def get_subscription_plans(current_user):
     """Get available subscription plans from Stripe."""
     try:
         products = stripe.Product.list(active=True, expand=['data.default_price'])
@@ -26,8 +26,8 @@ def get_subscription_plans():
         return jsonify({'error': str(e)}), 500
 
 @subscriptions_bp.route('/create-payment-intent', methods=['POST'])
-@jwt_required()
-def create_payment_intent():
+@token_required
+def create_payment_intent(current_user):
     """Creates a Stripe Payment Intent for a selected plan."""
     try:
         data = request.get_json()

@@ -148,8 +148,9 @@ class SignalWireService:
         clean_prefix = ''.join(c for c in email_prefix if c.isalnum())
         return f"{clean_prefix}_{timestamp}"
 
-    def send_sms(self, to_number: str, from_number: str, body: str, subproject_id: str) -> str:
+    def send_sms(self, to_number: str, from_number: str, body: str, subproject_id: str, auth_token: str) -> str:
         """Send an SMS message from a subproject"""
+        logger.info(f"Sending SMS from subproject {subproject_id} with auth token {auth_token}")
         try:
             url = f"{self.base_url}/Accounts/{subproject_id}/Messages.json"
             
@@ -159,9 +160,12 @@ class SignalWireService:
                 'Body': body
             }
             
+            # Use the subproject's auth token for authentication
+            auth = (subproject_id, auth_token)
+            
             response = requests.post(
                 url,
-                auth=self.auth,
+                auth=auth,
                 data=data,
                 headers={'Content-Type': 'application/x-www-form-urlencoded'}
             )

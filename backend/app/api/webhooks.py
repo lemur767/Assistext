@@ -18,6 +18,8 @@ def handle_sms_webhook(user_id):
     start_time = time.time()
     
     try:
+        logger.info(f"Request Content-Type: {request.content_type}")
+        logger.info(f"Type of request.form: {type(request.form)}")
         # 1. Verify user exists and is active
         user = User.query.get(user_id)
         if not user:
@@ -25,7 +27,11 @@ def handle_sms_webhook(user_id):
             return Response(status=404)
 
         # 2. Verify SignalWire signature
-        if not verify_signalwire_signature(user.signalwire_auth_token):
+        url = request.url
+        if 'ngrok' in url:
+            url = url.replace('http://', 'https://')
+            
+        if not verify_signalwire_signature(user.signalwire_auth_token, url, request.form):
             logger.warning(f"Invalid SignalWire signature for user {user_id}")
             return Response(status=403)
 
@@ -47,7 +53,8 @@ def handle_sms_webhook(user_id):
                 to_number=from_number,
                 from_number=to_number,
                 body="Your trial has expired. Please subscribe to continue using this service.",
-                subproject_id=user.signalwire_subproject_id
+                subproject_id=user.signalwire_subproject_id,
+                auth_token=user.signalwire_auth_token
             )
             return Response(status=200)
         
@@ -131,7 +138,8 @@ def handle_sms_webhook(user_id):
                 to_number=from_number,
                 from_number=to_number,
                 body=ai_response,
-                subproject_id=user.signalwire_subproject_id
+                subproject_id=user.signalwire_subproject_id,
+                auth_token=user.signalwire_auth_token
             )
             logger.info(f"SMS response sent for user {user_id} in {processing_time}ms: {ai_response}")
         except Exception as e:
