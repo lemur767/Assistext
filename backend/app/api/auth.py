@@ -9,6 +9,7 @@ from ..services.signalwire_service import signalwire_service
 from ..services.stripe_service import create_stripe_customer
 from ..utils.validators import validate_email, validate_password
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +108,8 @@ def register():
                 
                 # 6. Update user with SignalWire details
                 user.signalwire_subproject_id = subproject.sid
-                user.signalwire_auth_token = subproject.auth_token
+                user.signalwire_auth_token = subproject.auth_token # This is the PT key for sending
+                user.signalwire_signing_key = subproject.signing_key
                 user.signalwire_friendly_name = subproject.friendly_name
                 user.phone_number = purchased_number.phone_number
                 user.phone_number_sid = purchased_number.sid

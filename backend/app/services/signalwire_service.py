@@ -27,6 +27,7 @@ class SignalWireSubproject:
     sid: str
     friendly_name: str
     auth_token: str
+    signing_key: str
     status: str
     date_created: str
 
@@ -43,8 +44,36 @@ class SignalWireService:
         self.auth = (self.project_id, self.api_token)
         self.base_url = f"https://{self.space_url}/api/laml/2010-04-01"
     
+    def create_token(self, name: str, subproject_id: str) -> str:
+        """Create a new API token (PSK) for a subproject"""
+        try:
+            url = f"https://{self.space_url}/api/project/tokens"
+            
+            data = {
+                'name': name,
+                'permissions': [
+                    "messaging",
+                    "calling",
+                ],
+                'subproject_id': subproject_id
+            }
+            
+            response = requests.post(
+                url,
+                auth=self.auth,
+                json=data
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            return result['token']
+            
+        except requests.RequestException as e:
+            logger.error(f"Failed to create token for subproject {subproject_id}: {e}")
+            raise Exception("Failed to create SignalWire token")
+
     def create_subproject(self, friendly_name: str) -> SignalWireSubproject:
-        """Create a new SignalWire subproject"""
+        """Create a new SignalWire subproject and a signing key for it"""
         try:
             url = f"{self.base_url}/Accounts.json"
             
@@ -59,11 +88,17 @@ class SignalWireService:
             response.raise_for_status()
             
             result = response.json()
+            subproject_sid = result['sid']
+            subproject_auth_token = result['auth_token']
+
+            token_name = f"signing-key-{friendly_name}"
+            signing_key = self.create_token(token_name, subproject_sid)
             
             return SignalWireSubproject(
-                sid=result['sid'],
+                sid=subproject_sid,
                 friendly_name=result['friendly_name'],
-                auth_token=result['auth_token'],
+                auth_token=subproject_auth_token,
+                signing_key=signing_key,
                 status=result['status'],
                 date_created=result['date_created']
             )

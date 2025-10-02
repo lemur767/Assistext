@@ -31,7 +31,7 @@ def handle_sms_webhook(user_id):
         if 'ngrok' in url:
             url = url.replace('http://', 'https://')
             
-        if not verify_signalwire_signature(user.signalwire_auth_token, url, request.form):
+        if not verify_signalwire_signature(user.signalwire_signing_key, url, request.form):
             logger.warning(f"Invalid SignalWire signature for user {user_id}")
             return Response(status=403)
 

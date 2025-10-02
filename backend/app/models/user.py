@@ -28,7 +28,8 @@ class User(db.Model):
     
     # SignalWire fields
     signalwire_subproject_id = db.Column(db.String(255))
-    signalwire_auth_token = db.Column(db.String(255))
+    signalwire_auth_token = db.Column(db.String(255)) # PT key for sending
+    signalwire_signing_key = db.Column(db.String(255)) # PSK for validation
     signalwire_friendly_name = db.Column(db.String(255))
     phone_number = db.Column(db.String(20))
     phone_number_sid = db.Column(db.String(255))
