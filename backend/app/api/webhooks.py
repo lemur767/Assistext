@@ -1,6 +1,6 @@
 # app/api/webhooks.py - Updated handle_sms_webhook function
 from flask import Blueprint, request, Response, jsonify
-from .. import db
+from .. import db, socketio
 from ..models import User, Message, Conversation, MessageDirection, MessageStatus
 from ..services import ai_service, signalwire_service
 from ..utils.security import verify_signalwire_signature
@@ -93,6 +93,10 @@ def handle_sms_webhook(user_id):
             
             db.session.add(incoming_message)
             db.session.commit()
+
+            # Notify frontend of new message
+            room = f"conversation_{conversation.id}"
+            socketio.emit('new_message', incoming_message.to_dict(), room=room, namespace='/chat')
             
         except Exception as e:
             logger.error(f"Failed to store incoming message: {e}")

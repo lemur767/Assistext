@@ -1,10 +1,11 @@
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/ConversationList.css";
 import ContactModal from "./ContactModal";
+import NewConversationModal from "./NewConversationModal";
 import { Edit2Icon } from "lucide-react";
+import api from "../services/api";
 
 interface Conversation {
   id: string;
@@ -23,6 +24,7 @@ const ConversationList: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNewConversationModalOpen, setIsNewConversationModalOpen] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const auth = useAuth();
 
@@ -34,11 +36,7 @@ const ConversationList: React.FC = () => {
         throw new Error("User not authenticated.");
       }
 
-      const response = await fetch(`/api/v1/conversations?page=${page}`, {
-        headers: {
-          Authorization: `Bearer ${auth.session.token}`,
-        },
-      });
+      const response = await api.get(`/api/v1/conversations?page=${page}`);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setConversations(data.conversations);
@@ -51,7 +49,10 @@ const ConversationList: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchConversations();
+    if (auth?.session) {
+      console.log(auth.session.token);
+      fetchConversations();
+    }
   }, [auth?.session, page]);
 
   const handleOpenModal = (conv: Conversation) => {
@@ -106,7 +107,12 @@ const ConversationList: React.FC = () => {
   return (
     <>
       <div className="conversationList_container card">
-        <h3 className="conversationList_header text-text">Conversations</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="conversationList_header text-text">Conversations</h3>
+          <button onClick={() => setIsNewConversationModalOpen(true)} className="btn btn-primary">
+            New Conversation
+          </button>
+        </div>
         {conversations.length === 0 ? (
           <p className="text-muted">No conversations yet.</p>
         ) : (
@@ -157,6 +163,10 @@ const ConversationList: React.FC = () => {
           onSave={handleSaveContact}
         />
       )}
+      <NewConversationModal
+        isOpen={isNewConversationModalOpen}
+        onClose={() => setIsNewConversationModalOpen(false)}
+      />
     </>
   );
 };

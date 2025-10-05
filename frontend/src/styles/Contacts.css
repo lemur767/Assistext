@@ -1,0 +1,89 @@
+.contacts-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contacts-header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.contacts-form {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contacts-form input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.contacts-form button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    background-color: #61e2ff;
+    color: #0f172a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.contacts-form button:hover {
+    background-color: #a7f3d0;
+}
+
+.contacts-list {
+    list-style: none;
+    padding: 0;
+}
+
+.contacts-list-item {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-details {
+    font-size: 1.125rem;
+}
+
+.contact-actions button {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.edit-button {
+    background-color: #facc15;
+    color: #0f172a;
+}
+
+.edit-button:hover {
+    background-color: #fde047;
+}
+
+.delete-button {
+    background-color: #ef4444;
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #f87171;
+}

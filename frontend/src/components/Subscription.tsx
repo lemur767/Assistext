@@ -3,6 +3,7 @@ import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
 import { useAuth } from "../contexts/AuthContext";
+import api from "../services/api";
 
 
 const stripePromise = loadStripe(
@@ -35,11 +36,7 @@ const Subscription: React.FC = () => {
                 throw new Error("User not authenticated.");
             }
 
-            const response = await fetch("/api/v1/subscriptions/plans", {
-                headers: {
-                    Authorization: `Bearer ${session.token}`,
-                },
-            });
+            const response = await api.get("/api/v1/subscriptions/plans");
             const data = await response.json();
             if (!response.ok) throw new Error(data.error);
             setPlans(data);
@@ -63,14 +60,7 @@ const Subscription: React.FC = () => {
         throw new Error("User not authenticated.");
       }
 
-      const response = await fetch("/api/v1/subscriptions/create-payment-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.token}`,
-        },
-        body: JSON.stringify({ price_id: plan.price_id }),
-      });
+      const response = await api.post("/api/v1/subscriptions/create-payment-intent", { price_id: plan.price_id });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setClientSecret(data.client_secret);

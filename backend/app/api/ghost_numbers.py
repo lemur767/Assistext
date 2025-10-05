@@ -11,9 +11,9 @@ from .. import db
 logger = logging.getLogger(__name__)
 
 # Create blueprint
-from . import api_bp as phone_numbers_bp
+ghost_numbers_bp = Blueprint('ghost_numbers', __name__)
 
-@phone_numbers_bp.route('/ghost-numbers', methods=['POST'])
+@ghost_numbers_bp.route('/', methods=['POST'])
 @token_required
 def provision_ghost_number(current_user):
     try:
@@ -63,7 +63,7 @@ def provision_ghost_number(current_user):
         logger.error(f"Phone number provisioning failed: {e}")
         return jsonify({'error': f'Failed to provision phone number: {str(e)}'}), 500
 
-@phone_numbers_bp.route('/ghost-numbers', methods=['GET'])
+@ghost_numbers_bp.route('/', methods=['GET'])
 @token_required
 def get_ghost_number_status(current_user):
     return jsonify({

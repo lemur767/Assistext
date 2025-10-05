@@ -28,7 +28,7 @@ def create_app(config_name=None):
     db.init_app(app)
     migrate.init_app(app, db)
     socketio.init_app(app, cors_allowed_origins="*")
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
     # Set up logging
     logging.basicConfig(level=logging.INFO)
@@ -87,16 +87,7 @@ def register_general_routes(app):
         from .services.ai_service import ai_service
         return jsonify(ai_service.get_provider_status()), 200
 
-    @app.route('/api/v1/profile', methods=['GET'])
-    def get_profile():
-        # Fixed import path
-        from .utils.auth import token_required
 
-        @token_required
-        def _get_profile(current_user):
-            return jsonify(current_user.to_dict()), 200
-
-        return _get_profile()
 
 def register_error_handlers(app):
     """Register error handlers"""

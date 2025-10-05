@@ -9,7 +9,7 @@ const Navbar = () => {
       <div className="navbar_containerNavbar">
         <div className="navbar_logoContainer">
           <div className="navbar_logoText">
-            <img src="logo3333.png" alt="Assistext Logo" className="navbar_logoImage" />
+            <img src="/frontend/src/assetslogo3333.png" alt="Assistext Logo" className="navbar_logoImage" />
           </div>
         </div>
         <div className="navbar_desktopNav">
@@ -27,12 +27,12 @@ const Navbar = () => {
           </a>
         </div>
         <div className="navbar_desktopButtons">
-          <button className="navbar_loginButton">
+          <a href="/login" className="navbar_loginButton">
             Login
-          </button>
-          <button className="navbar_getStartedButton">
+          </a>
+          <a href="http://localhost:3000/signup" className="navbar_getStartedButton">
             Get Started
-          </button>
+          </a>
         </div>
         <div className="navbar_mobileMenuButtonContainer">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>

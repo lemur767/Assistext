@@ -81,3 +81,10 @@
 .conversationDetail_messageInput {
   flex: 1;
 }
+
+@media (max-width: 768px) {
+    .conversationDetail_header,
+    .conversationDetail_footer {
+        padding: 0.75rem;
+    }
+}

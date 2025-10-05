@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request
 from ..utils.auth import token_required
 import stripe
 
-subscriptions_bp = Blueprint('subscriptions', __name__, 'url_prefix=/api/v1/subscriptions')
+subscriptions_bp = Blueprint('subscriptions', __name__)
 
 @subscriptions_bp.route('/plans', methods=['GET'])
 @token_required

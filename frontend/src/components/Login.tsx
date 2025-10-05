@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import {logo} from "../assets/logo3333.png";
+
 import "../styles/Login.css";
 
 const Login: React.FC = () => {
@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     setLoading(true);
     setMessage("");
     try {
-      const response = await fetch("http://localhost:5000/api/v1/login", {
+      const response = await fetch("/api/v1/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -37,7 +37,7 @@ const Login: React.FC = () => {
     <div className="login_container">
       <div className="login_card glass-morphism">
         <div className="login_logoContainer">
-          <img src={logo} alt="Assistext Logo" width="180px" height="180px" className="login_logoImage" />
+          <img src="/frontend/src/assets/logo3333.png" alt="Assistext Logo" width="180px" height="180px" className="login_logoImage" />
         </div>
        
         <form className="login_form" onSubmit={handleLogin}>

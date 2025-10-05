@@ -13,7 +13,7 @@ import os
 
 logger = logging.getLogger(__name__)
 
-from . import api_bp as auth_bp
+auth_bp = Blueprint('auth', __name__)
 
 # Supported countries for phone number provisioning
 SUPPORTED_COUNTRIES = {
@@ -138,6 +138,8 @@ def register():
                     'exp': datetime.now() + timedelta(days=30)
                 }
                 access_token = jwt.encode(token_payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+                if isinstance(access_token, bytes):
+                    access_token = access_token.decode('utf-8')
             except Exception as e:
                 logger.error(f"Token generation failed: {e}")
                 access_token = "token_generation_failed"
@@ -192,6 +194,8 @@ def login():
                 'exp': datetime.now() + timedelta(days=30)
             }
             access_token = jwt.encode(token_payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+            if isinstance(access_token, bytes):
+                access_token = access_token.decode('utf-8')
         except Exception as e:
             logger.error(f"Token generation failed: {e}")
             access_token = "token_generation_failed"

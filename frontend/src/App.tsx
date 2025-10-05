@@ -9,6 +9,10 @@ import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import UnprotectedRoute from './components/common/UnprotectedRoute';
+import ConversationDetail from './components/ConversationDetail';
+import ConversationList from './components/ConversationList';
+import DashboardLayout from './components/DashboardLayout';
+import Contacts from './components/Contacts';
 
 function App() {
   return (
@@ -23,9 +27,14 @@ function App() {
           </Route>
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/subscription" element={<Subscription />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<DashboardLayout />}>
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/subscription" element={<Subscription />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/conversations" element={<ConversationList />} />
+              <Route path="/conversations/:conversationId" element={<ConversationDetail />} />
+              <Route path="/contacts" element={<Contacts />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

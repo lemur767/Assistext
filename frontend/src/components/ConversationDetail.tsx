@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { socketService } from "../services/socketService";
 import "../styles/ConversationDetail.css";
+import api from "../services/api";
 
 interface Message {
   id: string;
@@ -15,6 +16,7 @@ interface Message {
 interface Conversation {
     id: string;
     contact_number: string;
+    contact_name: string | null;
     controlled_by: "ai" | "user";
 }
 
@@ -37,13 +39,8 @@ const ConversationDetail: React.FC = () => {
           throw new Error("User not authenticated.");
         }
 
-        const response = await fetch(
-          `/api/v1/conversations/${conversationId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${session.token}`,
-            },
-          },
+        const response = await api.get(
+          `/api/v1/conversations/${conversationId}`
         );
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
@@ -112,7 +109,7 @@ const ConversationDetail: React.FC = () => {
     <div className="conversationDetail_mainContainer">
       <header className={`flex items-center justify-between p-4 glass-morphism border-b border-neutral-border`}>
         <h3 className="conversationDetail_headerTitle">
-          Conversation with {conversation?.contact_number}
+          Conversation with {conversation?.contact_name || conversation?.contact_number}
         </h3>
         <div className="conversationDetail_headerControls">
           <p className="conversationDetail_headerStatus">Status: {status}</p>

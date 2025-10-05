@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-
-import ConversationList from "./ConversationList";
 import "../styles/Dashboard.css";
+import api from "../services/api";
 
 
 const Dashboard: React.FC = () => {
@@ -21,11 +20,7 @@ const Dashboard: React.FC = () => {
           throw new Error("User not authenticated.");
         }
 
-        const response = await fetch("/api/v1/users/profile", {
-          headers: {
-            Authorization: `Bearer ${auth?.session?.token}`,
-          },
-        });
+        const response = await api.get("/api/v1/users/profile");
 
         if (!response.ok) {
           throw new Error("Failed to fetch user data.");
@@ -44,15 +39,6 @@ const Dashboard: React.FC = () => {
     fetchUserData();
   }, [auth?.session]);
 
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/v1/logout", { method: "POST" });
-      auth?.setSession(null);
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
   const getTrialDaysRemaining = () => {
     if (!trialExpiresAt) return 0;
     const diff = new Date(trialExpiresAt).getTime() - new Date().getTime();
@@ -67,14 +53,6 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard_mainContainer">
-      <header className="dashboard_header">
-        <h2 className="dashboard_headerTitle">Dashboard</h2>
-        <nav className="dashboard_navbarNav">
-          <Link to="/settings" className="dashboard_settingsButton">Settings</Link>
-          <button onClick={handleLogout} className="dashboard_logoutButton">Logout</button>
-        </nav>
-      </header>
-
       <main className="dashboard_mainContent">
         {trialDaysRemaining > 0 && (
           <div className="dashboard_trialBannerPrimary">
@@ -104,9 +82,6 @@ const Dashboard: React.FC = () => {
                 <h3 className="dashboard_ghostNumberTitle">Your Ghost Number</h3>
                 <p className="dashboard_ghostNumberDisplay">{ghostNumber}</p>
               </div>
-            </div>
-            <div className="dashboard_conversationListCol">
-              <ConversationList />
             </div>
           </div>
         )}

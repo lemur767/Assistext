@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 /node_modules/
 /dist/
+*.sql
+aaa.json
 
 
 # C extensions
