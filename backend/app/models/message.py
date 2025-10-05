@@ -48,12 +48,13 @@ class Message(db.Model):
             'from_number': self.from_number,
             'to_number': self.to_number,
             'body': self.body,
-            'direction': self.direction.value,
-            'status': self.status.value,
+            'direction': self.direction.value if self.direction else None,
+            'status': self.status.value if self.status else None,
             'num_media': self.num_media,
             'ai_generated': self.ai_generated,
             'processing_time_ms': self.processing_time_ms,
-            'created_at': self.created_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
     
     def __repr__(self):

@@ -5,11 +5,13 @@ import { useAuth } from "../contexts/AuthContext";
 import { socketService } from "../services/socketService";
 import "../styles/ConversationDetail.css";
 import api from "../services/api";
+import { SparklesIcon } from "lucide-react";
 
 interface Message {
   id: string;
-  sender: "contact" | "ai" | "user_override";
-  content: string;
+  direction: "inbound" | "outbound";
+  ai_generated: boolean;
+  body: string;
   created_at: string;
 }
 
@@ -98,66 +100,90 @@ const ConversationDetail: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="conversationDetail_loadingContainer">Loading messages...</div>;
+    return <div className="loading-container">Loading messages...</div>;
   }
 
   if (error) {
-    return <div className="conversationDetail_errorContainer">Error: {error}</div>;
+    return <div className="error-container">Error: {error}</div>;
   }
 
   return (
-    <div className="conversationDetail_mainContainer">
-      <header className={`flex items-center justify-between p-4 glass-morphism border-b border-neutral-border`}>
-        <h3 className="conversationDetail_headerTitle">
-          Conversation with {conversation?.contact_name || conversation?.contact_number}
-        </h3>
-        <div className="conversationDetail_headerControls">
-          <p className="conversationDetail_headerStatus">Status: {status}</p>
-          <p className="conversationDetail_headerStatus">Controlled by: {conversation?.controlled_by}</p>
-          {conversation?.controlled_by === "ai" && (
-            <button onClick={handleTakeover} className="btn btn-secondary btn-sm">
-              Takeover
-            </button>
-          )}
-        </div>
-      </header>
-
-      <div className="conversationDetail_messageArea custom-scrollbar">
-        <div className="conversationDetail_messagesList">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`conversationDetail_messageContainer ${msg.sender === "contact" ? "conversationDetail_justifyStart" : "conversationDetail_justifyEnd"}`}>
-              <div
-                className={`p-3 rounded-lg max-w-lg ${msg.sender === "contact"
-                    ? "glass-morphism"
-                    : msg.sender === "user_override"
-                      ? "bg-secondary/20"
-                      : "bg-primary/20"
-                  }`}>
-                <p>{msg.content}</p>
-                <small className="conversationDetail_messageContent">
-                  {new Date(msg.created_at).toLocaleString()}
-                </small>
+    <div className="conv-detail-container">
+      <div className="conv-detail-background-grid"></div>
+      <div className="conv-detail-card-wrapper">
+        <div className="conv-detail-card">
+          <header className="conv-detail-header">
+            <div className="conv-detail-avatar-container">
+              <div className="conv-detail-avatar">
+                {conversation?.contact_name?.charAt(0).toUpperCase() ||
+                  conversation?.contact_number?.charAt(0) ||
+                  "C"}
+              </div>
+              <div className="conv-detail-user-name">
+                <p>{conversation?.contact_name || conversation?.contact_number}</p>
+                <p className="conv-detail-user-status">{status}</p>
               </div>
             </div>
-          ))}
+            <div className="conv-detail-ai-status">
+                {conversation?.controlled_by === "ai" ? "AI Responding" : "User Controlled"}
+                {conversation?.controlled_by === "ai" && (
+                    <button onClick={handleTakeover} className="btn btn-secondary btn-sm ml-2">
+                    Takeover
+                    </button>
+                )}
+            </div>
+          </header>
+
+          <div className="conv-detail-messages-area custom-scrollbar">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className_{
+                  msg.direction === "inbound"
+                    ? "message-flex-start"
+                    : "message-flex-end"
+                }
+              >
+                <div
+                  className_{
+                    msg.direction === "inbound"
+                      ? "incoming-message"
+                      : msg.ai_generated
+                      ? "outgoing-message ai-reply-message"
+                      : "outgoing-message"
+                  }
+                >
+                  <p className="message-text">{msg.body}</p>
+                  <small className="message-timestamp">
+                    {new Date(msg.created_at).toLocaleString()}
+                  </small>
+                  {msg.ai_generated && (
+                    <div className="ai-reply-info">
+                      <SparklesIcon size={12} className="ai-reply-icon" />
+                      <p className="ai-reply-text">AI Reply</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <footer className="conv-detail-footer">
+            <form onSubmit={handleSendMessage} className="conv-detail-message-form">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Type your message..."
+                className="conv-detail-message-input"
+              />
+              <button type="submit" className="conv-detail-send-button">
+                Send
+              </button>
+            </form>
+          </footer>
         </div>
       </div>
-
-      <footer className={`p-4 glass-morphism border-t border-neutral-border`}>
-        <form onSubmit={handleSendMessage} className="conversationDetail_messageForm">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type your message..."
-            className="conversationDetail_messageInput form-input"/>
-          <button type="submit" className="btn btn-primary">
-            Send
-          </button>
-        </form>
-      </footer>
     </div>
   );
 };

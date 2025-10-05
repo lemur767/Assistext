@@ -10,6 +10,7 @@ const api = {
   get: async (url: string) => {
     const token = getAuthToken();
     const response = await fetch(url, {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
       },

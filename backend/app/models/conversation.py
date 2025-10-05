@@ -21,9 +21,9 @@ class Conversation(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'contact_number': self.contact_number,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat(),
-            'last_message_at': self.last_message_at.isoformat(),
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            'last_message_at': self.last_message_at.isoformat() if self.last_message_at else None,
             'unread': self.unread,
             'controlled_by': self.controlled_by
         }

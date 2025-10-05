@@ -1,90 +1,203 @@
-.conversationDetail_loadingContainer,
-.conversationDetail_errorContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
+/* frontend/src/styles/ConversationDetail.css */
 
-.conversationDetail_mainContainer {
+.conv-detail-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #0f172a;
+  position: relative;
+  background-color: #020617; /* From hero section background */
 }
 
-.conversationDetail_header {
+.conv-detail-background-grid {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+  background-size: cover;
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.conv-detail-card-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.conv-detail-card-blur {
+  position: absolute;
+  inset: -0.25rem;
+  background-image: linear-gradient(to right, #06b6d4, #a78bfa);
+  border-radius: 1.5rem;
+  filter: blur(24px);
+  opacity: 0.7;
+  z-index: -1;
+}
+
+.conv-detail-card {
+  position: relative;
+  backdrop-filter: blur(16px);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 1rem; /* Add some margin to see the blur effect */
+}
+
+.conv-detail-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  border-bottom: 1px solid #334155;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.conversationDetail_headerTitle {
-  font-size: 1.125rem;
-  font-weight: 700;
-}
-
-.conversationDetail_headerControls {
+.conv-detail-avatar-container {
   display: flex;
   align-items: center;
-  gap: 1rem;
 }
 
-.conversationDetail_headerStatus {
+.conv-detail-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-image: linear-gradient(to right, #06b6d4, #a78bfa);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+.conv-detail-user-name {
+  margin-left: 0.75rem;
+  font-weight: 500;
+  color: white;
+}
+
+.conv-detail-user-status {
+  font-size: 0.75rem;
+  color: #67e8f9;
+}
+
+.conv-detail-ai-status {
+  color: #22d3ee;
   font-size: 0.875rem;
-  color: #94a3b8;
 }
 
-.conversationDetail_messageArea {
+.conv-detail-messages-area {
   flex: 1;
-  padding: 1rem;
+  padding: 1.5rem;
   overflow-y: auto;
-}
-
-.conversationDetail_messagesList {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.conversationDetail_messageContainer {
+.message-flex-start {
   display: flex;
-}
-
-.conversationDetail_justifyStart {
   justify-content: flex-start;
 }
 
-.conversationDetail_justifyEnd {
+.message-flex-end {
+  display: flex;
   justify-content: flex-end;
 }
 
-.conversationDetail_messageContent {
-  display: block;
+.incoming-message {
+  background-color: rgba(71, 85, 105, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  border-top-left-radius: 0;
+  padding: 0.5rem 1rem;
+  max-width: 75%;
+  border: 1px solid #475569;
+  color: white;
+}
+
+.outgoing-message {
+  background-image: linear-gradient(to right, rgba(6, 182, 212, 0.1), rgba(167, 139, 250, 0.1));
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-radius: 1rem;
+  border-top-right-radius: 0;
+  padding: 0.5rem 1rem;
+  max-width: 75%;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+  color: white;
+}
+
+.ai-reply-message {
+    background-image: linear-gradient(to right, rgba(6, 182, 212, 0.2), rgba(167, 139, 250, 0.2));
+    border: 1px solid rgba(6, 182, 212, 0.5);
+}
+
+
+.message-text {
+  font-size: 0.875rem;
+}
+
+.message-timestamp {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.ai-reply-info {
   margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.ai-reply-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: #22d3ee;
+  margin-right: 0.25rem;
+}
+
+.ai-reply-text {
   font-size: 0.75rem;
-  opacity: 0.7;
+  color: #22d3ee;
 }
 
-.conversationDetail_footer {
-  padding: 1rem;
-  border-top: 1px solid #334155;
+.conv-detail-footer {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.conversationDetail_messageForm {
+.conv-detail-message-form {
   display: flex;
   gap: 1rem;
 }
 
-.conversationDetail_messageInput {
+.conv-detail-message-input {
   flex: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #475569;
+  border-radius: 9999px;
+  color: white;
+  padding: 0.75rem 1.5rem;
 }
 
-@media (max-width: 768px) {
-    .conversationDetail_header,
-    .conversationDetail_footer {
-        padding: 0.75rem;
-    }
+.conv-detail-message-input::placeholder {
+    color: #94a3b8;
+}
+
+.conv-detail-send-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    background-image: linear-gradient(to right, #06b6d4, #a78bfa);
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
 }

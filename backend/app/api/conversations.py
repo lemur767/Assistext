@@ -6,7 +6,7 @@ from ..models import Conversation, Contact, Message, MessageDirection, MessageSt
 from ..services.signalwire_service import signalwire_service
 from datetime import datetime
 
-conversations_bp = Blueprint('conversations_bp', __name__, strict_slashes=False)
+conversations_bp = Blueprint('conversations_bp', __name__)
 
 @conversations_bp.route('/', methods=['GET'])
 @token_required

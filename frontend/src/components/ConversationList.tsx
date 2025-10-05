@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/ConversationList.css";
 import ContactModal from "./ContactModal";
@@ -27,6 +27,7 @@ const ConversationList: React.FC = () => {
   const [isNewConversationModalOpen, setIsNewConversationModalOpen] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const fetchConversations = async () => {
     setLoading(true);
@@ -36,7 +37,7 @@ const ConversationList: React.FC = () => {
         throw new Error("User not authenticated.");
       }
 
-      const response = await api.get(`/api/v1/conversations?page=${page}`);
+      const response = await api.get(`/api/v1/conversations/?page=${page}`);
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
       setConversations(data.conversations);
@@ -50,7 +51,7 @@ const ConversationList: React.FC = () => {
 
   useEffect(() => {
     if (auth?.session) {
-      console.log(auth.session.token);
+      console.log(auth?.session.token);
       fetchConversations();
     }
   }, [auth?.session, page]);
@@ -78,7 +79,7 @@ const ConversationList: React.FC = () => {
         method,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth.session.token}`,
+          Authorization: `Bearer ${auth?.session.token}`,
         },
         body,
       });
@@ -94,6 +95,10 @@ const ConversationList: React.FC = () => {
     } catch (error) {
       console.error("Error saving contact:", error);
     }
+  };
+
+  const handleConversationClick = (conversationId: string) => {
+    navigate(`/conversations/${conversationId}`);
   };
 
   if (loading) {
@@ -119,7 +124,7 @@ const ConversationList: React.FC = () => {
           <>
             <ul className="conversationList_conversationList">
               {conversations.map((conv) => (
-                <li key={conv.id}>
+                <li key={conv.id} onClick={() => handleConversationClick(conv.id)} style={{ cursor: 'pointer' }}>
                   <div className={`conversationList_conversationLink ${conv.unread ? "conversationList_conversationLinkUnread" : ''}`}>
                     <div className="conversationList_conversationHeader">
                       <div className="conversationList_contactInfo">
@@ -129,15 +134,13 @@ const ConversationList: React.FC = () => {
                         {conv.contact_name && <span className="conversationList_contactNumber">{conv.contact_number}</span>}
                       </div>
                       <div className="conversationList_headerActions">
-                        <button onClick={() => handleOpenModal(conv)} className="conversationList_editButton">
+                        <button onClick={(e) => { e.stopPropagation(); handleOpenModal(conv); }} className="conversationList_editButton">
                           <Edit2Icon size={14} />
                         </button>
                         <small className="conversationList_lastMessageTime">{new Date(conv.last_message_at).toLocaleString()}</small>
                       </div>
                     </div>
-                    <Link to={`/conversations/${conv.id}`} className="conversationList_messageLink">
-                      <p className={`conversationList_lastMessage ${conv.unread ? "conversationList_lastMessageUnread" : "conversationList_lastMessageRead"}`}>{conv.last_message}</p>
-                    </Link>
+                    <p className={`conversationList_lastMessage ${conv.unread ? "conversationList_lastMessageUnread" : "conversationList_lastMessageRead"}`}>{conv.last_message}</p>
                   </div>
                 </li>
               ))}
