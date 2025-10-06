@@ -108,6 +108,7 @@ def handle_sms_webhook(user_id):
         try:
             incoming_message = Message(
                 conversation_id=conversation.id,  # Link to conversation
+                user_id=user.id,
                 message_sid=message_sid,
                 from_number=from_number,
                 to_number=to_number,
@@ -174,6 +175,7 @@ def handle_sms_webhook(user_id):
         try:
             outbound_message = Message(
                 conversation_id=conversation.id,  # Link to conversation
+                user_id=user.id,
                 from_number=to_number,
                 to_number=from_number,
                 body=ai_response,

@@ -93,6 +93,7 @@ def create_conversation(current_user):
         # Save the message to the database
         new_message = Message(
             conversation_id=conversation.id,
+            user_id=current_user.id,
             body=message_body,
             direction=MessageDirection.OUTBOUND,
             status=MessageStatus.DELIVERED,

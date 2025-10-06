@@ -19,7 +19,7 @@ const Signup: React.FC = () => {
     setLoading(true);
     setMessage("");
     try {
-      const response = await fetch("http://localhost:5000/api/v1/register", {
+      const response = await fetch("/api/v1/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -32,7 +32,7 @@ const Signup: React.FC = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      setSession({ token: data.token });
+      setSession({ token: data.access_token });
       navigate("/dashboard");
     } catch (err: unknown) {
       setMessage((err as Error).message);

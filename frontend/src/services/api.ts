@@ -42,7 +42,7 @@ const api = {
     return response;
   },
   delete: async (url: string) => {
-    const token = getAuthToken();
+    const token = getAuth_token();
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {

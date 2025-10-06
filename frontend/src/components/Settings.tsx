@@ -22,7 +22,7 @@ const Settings: React.FC = () => {
             const response = await api.get("/api/v1/users/profile");
             const data = await response.json();
             if (!response.ok) throw new Error(data.error);
-            setKeywords(data.user.keyword_triggers);
+            setKeywords(data.user.keyword_triggers || []);
         } catch (err: unknown) {
             setMessage((err as Error).message);
         }

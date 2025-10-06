@@ -37,6 +37,7 @@ def send_message(message):
             # Save the message to the database
             new_message = Message(
                 conversation_id=conversation.id,
+                user_id=conversation.user_id,
                 body=message['body'],
                 direction=MessageDirection.OUTBOUND,
                 status=MessageStatus.DELIVERED,

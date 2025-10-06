@@ -138,6 +138,8 @@ def export_preview(current_user):
 @users_bp.route('/export/json', methods=['GET'])
 @token_required
 def export_json(current_user):
+    """Export user data as JSON"""
+    try:
         # Get all messages
         messages = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id).order_by(Message.created_at.desc()).all()
         

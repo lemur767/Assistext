@@ -18,6 +18,7 @@ class Message(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     conversation_id = db.Column(db.Integer, db.ForeignKey('conversations.id'), nullable=False, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
     
     # SignalWire fields
     message_sid = db.Column(db.String(255), index=True)
@@ -43,6 +44,7 @@ class Message(db.Model):
         return {
             'id': self.id,
             'conversation_id': self.conversation_id,
+            'user_id': self.user_id,
             'message_sid': self.message_sid,
             'from_number': self.from_number,
             'to_number': self.to_number,
