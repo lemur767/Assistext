@@ -1,12 +1,14 @@
 # app/api/webhooks.py - Updated handle_sms_webhook function
 from flask import Blueprint, request, Response, jsonify
 from .. import db, socketio
-from ..models import User, Message, Conversation, MessageDirection, MessageStatus
+from ..models import User, Message, Conversation, Contact, MessageDirection, MessageStatus, PhoneNumberStatus, SubscriptionPlan
 from ..services import ai_service, signalwire_service
 from ..utils.security import verify_signalwire_signature
 import logging
 import time
 from datetime import datetime
+
+from textblob import TextBlob
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +27,11 @@ def handle_sms_webhook(user_id):
         if not user:
             logger.error(f"User {user_id} not found")
             return Response(status=404)
+
+        # 1a. Check if phone number is active
+        if user.phone_number_status != PhoneNumberStatus.ACTIVE:
+            logger.warning(f"Webhook received for inactive number for user {user_id}")
+            return Response(status=200) # Return 200 to prevent SignalWire from retrying
 
         # 2. Verify SignalWire signature
         url = request.url
@@ -57,17 +64,37 @@ def handle_sms_webhook(user_id):
                 auth_token=user.signalwire_auth_token
             )
             return Response(status=200)
+
+        # 3a. Check message limits
+        message_limits = {
+            SubscriptionPlan.TRIAL: 10,
+            SubscriptionPlan.BASIC: 100,
+            SubscriptionPlan.PRO: 1000
+        }
+        limit = message_limits.get(user.subscription_plan)
+
+        if limit is not None and user.message_count >= limit:
+            logger.warning(f"User {user_id} has exceeded their message limit for the {user.subscription_plan.value} plan.")
+            # Optionally, send a notification to the user
+            # signalwire_service.send_sms(...)
+            return Response(status=200)
         
-        # 4. Find or create conversation
+        # 4. Find or create contact and conversation
+        contact = Contact.query.filter_by(user_id=user.id, phone_number=from_number).first()
+        if not contact:
+            contact = Contact(user_id=user.id, phone_number=from_number, name=from_number)
+            db.session.add(contact)
+            db.session.flush()
+
         conversation = Conversation.query.filter_by(
-            user_id=user_id,
-            contact_number=from_number
+            user_id=user.id,
+            contact_id=contact.id
         ).first()
         
         if not conversation:
             conversation = Conversation(
-                user_id=user_id,
-                contact_number=from_number,
+                user_id=user.id,
+                contact_id=contact.id,
                 unread=True
             )
             db.session.add(conversation)
@@ -80,7 +107,6 @@ def handle_sms_webhook(user_id):
         # 5. Store incoming message
         try:
             incoming_message = Message(
-                user_id=user_id,
                 conversation_id=conversation.id,  # Link to conversation
                 message_sid=message_sid,
                 from_number=from_number,
@@ -97,7 +123,36 @@ def handle_sms_webhook(user_id):
             # Notify frontend of new message
             room = f"conversation_{conversation.id}"
             socketio.emit('new_message', incoming_message.to_dict(), room=room, namespace='/chat')
+
+            # 5a. Check for keyword triggers
+            if user.keyword_triggers:
+                for keyword in user.keyword_triggers:
+                    if keyword.lower() in body.lower():
+                        logger.info(f"Keyword trigger '{keyword}' found for user {user_id} in conversation {conversation.id}")
+                        # TODO: Send email notification
+                        break
             
+            # 5b. Sentiment analysis
+            try:
+                blob = TextBlob(body)
+                sentiment_polarity = blob.sentiment.polarity
+                incoming_message.sentiment = sentiment_polarity
+                db.session.commit()
+
+                if sentiment_polarity < -0.2:
+                    logger.info(f"Negative sentiment detected for user {user_id} in conversation {conversation.id}")
+                    # TODO: Send email notification
+            except Exception as e:
+                logger.error(f"Sentiment analysis failed: {e}")
+
+            # 5c. Increment message count
+            try:
+                user.message_count += 1
+                db.session.commit()
+            except Exception as e:
+                logger.error(f"Failed to increment message count for user {user_id}: {e}")
+                db.session.rollback()
+
         except Exception as e:
             logger.error(f"Failed to store incoming message: {e}")
             # Continue processing even if storage fails
@@ -118,7 +173,6 @@ def handle_sms_webhook(user_id):
         
         try:
             outbound_message = Message(
-                user_id=user_id,
                 conversation_id=conversation.id,  # Link to conversation
                 from_number=to_number,
                 to_number=from_number,

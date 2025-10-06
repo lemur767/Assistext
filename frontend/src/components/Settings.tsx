@@ -1,13 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/Settings.css";
+import api from "../services/api";
 
 const Settings: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const { session, isAuthenticated } = useAuth();
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [newKeyword, setNewKeyword] = useState("");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+        try {
+            if (!isAuthenticated || !session) {
+                throw new Error("User not authenticated.");
+            }
+
+            const response = await api.get("/api/v1/users/profile");
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error);
+            setKeywords(data.user.keyword_triggers);
+        } catch (err: unknown) {
+            setMessage((err as Error).message);
+        }
+    };
+    if (isAuthenticated) {
+        fetchProfile();
+    }
+}, [isAuthenticated, session]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -33,13 +56,7 @@ const Settings: React.FC = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("/api/v1/training-data", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${session.token}`,
-        },
-        body: formData,
-      });
+      const response = await api.post("/api/v1/training-data", formData);
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || data.error);
 
@@ -50,6 +67,36 @@ const Settings: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const handleAddKeyword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newKeyword.trim()) return;
+
+    const updatedKeywords = [...keywords, newKeyword];
+    try {
+        await api.put("/api/v1/users/profile/keyword_triggers", {
+            keyword_triggers: updatedKeywords,
+        });
+        setKeywords(updatedKeywords);
+        setNewKeyword("");
+    } catch (err: unknown) {
+        setMessage((err as Error).message);
+    }
+};
+
+const handleRemoveKeyword = async (keywordToRemove: string) => {
+    const updatedKeywords = keywords.filter(
+        (keyword) => keyword !== keywordToRemove
+    );
+    try {
+        await api.put("/api/v1/users/profile/keyword_triggers", {
+            keyword_triggers: updatedKeywords,
+        });
+        setKeywords(updatedKeywords);
+    } catch (err: unknown) {
+        setMessage((err as Error).message);
+    }
+};
 
   return (
     <div className="settings_container">
@@ -95,6 +142,39 @@ const Settings: React.FC = () => {
             </button>
           </form>
           {message && <p className={`settings_message ${message.includes("successfully") ? "text-success" : "text-error"}`}>{message}</p>}
+        </div>
+
+        <div className="settings_settingsCard glass-morphism mt-8">
+          <div className="settings_formSection">
+            <h3 className="settings_formSectionTitle text-neutral-text">Keyword Triggers</h3>
+            <p className="settings_formSectionDescription text-neutral-text/60">
+              Get notified when a message contains specific keywords.
+            </p>
+          </div>
+          <form onSubmit={handleAddKeyword} className="settings_form">
+            <div className="settings_fileUploadArea border-neutral-border hover:border-primary">
+              <div className="settings_fileUploadContent text-neutral-text/60">
+                <input
+                  type="text"
+                  value={newKeyword}
+                  onChange={(e) => setNewKeyword(e.target.value)}
+                  placeholder="Add a keyword"
+                  className="settings_fileUploadInput"
+                />
+                <button type="submit" className="btn btn-primary">Add</button>
+              </div>
+            </div>
+          </form>
+          <div className="mt-4">
+            {keywords.map((keyword) => (
+              <div key={keyword} className="inline-flex items-center bg-gray-700 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+                {keyword}
+                <button onClick={() => handleRemoveKeyword(keyword)} className="ml-2 text-red-500 hover:text-red-700">
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </main>
     </div>

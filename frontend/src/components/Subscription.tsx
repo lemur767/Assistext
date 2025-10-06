@@ -25,6 +25,7 @@ const Subscription: React.FC = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [currentSubscription, setCurrentSubscription] = useState<any | null>(null);
   const { session, isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -46,8 +47,27 @@ const Subscription: React.FC = () => {
             setLoading(false);
         }
     };
+
+    const fetchSubscription = async () => {
+        try {
+            if (!isAuthenticated || !session) {
+                throw new Error("User not authenticated.");
+            }
+
+            const response = await api.get("/api/v1/subscriptions");
+            const data = await response.json();
+            if (response.ok) {
+                setCurrentSubscription(data);
+            }
+        } catch (err: unknown) {
+            // Don't set error for this, as it's not critical
+            console.error((err as Error).message);
+        }
+    };
+
     if (isAuthenticated) {
         fetchPlans();
+        fetchSubscription();
     }
   }, [isAuthenticated, session]);
 
@@ -97,6 +117,15 @@ const Subscription: React.FC = () => {
 
   return (
     <div className="subscription_mainContainer">
+      {currentSubscription && (
+        <div className="subscription_currentPlan glass-morphism mb-8">
+          <h3 className="subscription_currentPlanTitle text-neutral-text">Your Current Plan</h3>
+          <p className="text-neutral-text/60">
+            You are currently on the{" "}
+            <strong>{currentSubscription.plan.product.name}</strong> plan.
+          </p>
+        </div>
+      )}
       <div className="subscription_subscriptionSection">
         <h2 className="subscription_headerTitle gradient-text-brand">Subscription Plans</h2>
         {!selectedPlan ? (
@@ -145,7 +174,7 @@ const Subscription: React.FC = () => {
             <h3 className="subscription_paymentFormTitle text-neutral-text">Complete Payment for {selectedPlan.name} plan</h3>
             {clientSecret && (
               <Elements options={options} stripe={stripePromise}>
-                <PaymentForm clientSecret={clientSecret} />
+                <PaymentForm clientSecret={clientSecret} selectedPlan={selectedPlan} />
               </Elements>
             )}
           </div>

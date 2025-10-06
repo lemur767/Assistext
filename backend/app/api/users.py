@@ -2,7 +2,7 @@
 from flask import Blueprint, request, jsonify, Response
 from ..utils.auth import token_required
 from .. import db
-from ..models import User, Message, MessageDirection
+from ..models import User, Message, MessageDirection, Conversation
 from datetime import datetime
 from ..services.signalwire_service import signalwire_service
 import json
@@ -28,6 +28,36 @@ def get_profile(current_user):
         logger.error(f"Get profile error: {str(e)}")
         return jsonify({'error': 'Failed to get profile'}), 500
 
+@users_bp.route('/profile/keyword_triggers', methods=['PUT'])
+@token_required
+def update_keyword_triggers(current_user):
+    """Update user's keyword triggers"""
+    try:
+        if not current_user:
+            return jsonify({'error': 'User not found'}), 404
+
+        data = request.get_json()
+        if not data or 'keyword_triggers' not in data:
+            return jsonify({'error': 'Missing keyword_triggers'}), 400
+
+        # Basic validation
+        if not isinstance(data['keyword_triggers'], list):
+            return jsonify({'error': 'keyword_triggers must be a list of strings'}), 400
+        
+        for keyword in data['keyword_triggers']:
+            if not isinstance(keyword, str):
+                return jsonify({'error': 'keyword_triggers must be a list of strings'}), 400
+
+        current_user.keyword_triggers = data['keyword_triggers']
+        db.session.commit()
+
+        return jsonify({'message': 'Keyword triggers updated successfully'}), 200
+
+    except Exception as e:
+        logger.error(f"Update keyword triggers error: {str(e)}")
+        db.session.rollback()
+        return jsonify({'error': 'Failed to update keyword triggers'}), 500
+
 @users_bp.route('/messages', methods=['GET'])
 @token_required
 def get_messages(current_user):
@@ -38,7 +68,7 @@ def get_messages(current_user):
         per_page = min(request.args.get('per_page', 20, type=int), 100)
         
         # Query messages
-        messages_query = Message.query.filter_by(user_id=current_user.id).order_by(Message.created_at.desc())
+        messages_query = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id).order_by(Message.created_at.desc())
         messages_pagination = messages_query.paginate(
             page=page, per_page=per_page, error_out=False
         )
@@ -59,6 +89,22 @@ def get_messages(current_user):
         logger.error(f"Get messages error: {str(e)}")
         return jsonify({'error': 'Failed to get messages'}), 500
 
+@users_bp.route('/me/recent_messages', methods=['GET'])
+@token_required
+def get_recent_messages(current_user):
+    """Get user's recent messages"""
+    try:
+        if not current_user:
+            return jsonify({'error': 'User not found'}), 404
+
+        messages = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id).order_by(Message.created_at.desc()).limit(5).all()
+
+        return jsonify({'messages': [msg.to_dict() for msg in messages]}), 200
+
+    except Exception as e:
+        logger.error(f"Get recent messages error: {str(e)}")
+        return jsonify({'error': 'Failed to get recent messages'}), 500
+
 @users_bp.route('/export/preview', methods=['GET'])
 @token_required
 def export_preview(current_user):
@@ -68,15 +114,9 @@ def export_preview(current_user):
             return jsonify({'error': 'User not found'}), 404
         
         # Get message counts
-        total_messages = Message.query.filter_by(user_id=current_user.id).count()
-        inbound_messages = Message.query.filter_by(
-            user_id=current_user.id, 
-            direction=MessageDirection.INBOUND
-        ).count()
-        outbound_messages = Message.query.filter_by(
-            user_id=current_user.id, 
-            direction=MessageDirection.OUTBOUND
-        ).count()
+        total_messages = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id).count()
+        inbound_messages = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id, Message.direction == MessageDirection.INBOUND).count()
+        outbound_messages = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id, Message.direction == MessageDirection.OUTBOUND).count()
         
         summary = {
             'total_records': 1 + total_messages,  # 1 user + messages
@@ -98,13 +138,8 @@ def export_preview(current_user):
 @users_bp.route('/export/json', methods=['GET'])
 @token_required
 def export_json(current_user):
-    """Export user data as JSON"""
-    try:
-        if not current_user:
-            return jsonify({'error': 'User not found'}), 404
-        
         # Get all messages
-        messages = Message.query.filter_by(user_id=current_user.id).order_by(Message.created_at.desc()).all()
+        messages = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id).order_by(Message.created_at.desc()).all()
         
         # Prepare export data
         export_data = {
@@ -141,7 +176,7 @@ def export_csv(current_user):
             return jsonify({'error': 'User not found'}), 404
         
         # Get all messages
-        messages = Message.query.filter_by(user_id=current_user.id).order_by(Message.created_at.desc()).all()
+        messages = db.session.query(Message).join(Conversation).filter(Conversation.user_id == current_user.id).order_by(Message.created_at.desc()).all()
         
         # Create CSV
         output = io.StringIO()

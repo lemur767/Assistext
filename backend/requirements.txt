@@ -17,3 +17,5 @@ pyJWT
 bcrypt
 requests
 stripe
+textblob 
+APScheduler 

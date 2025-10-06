@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_socketio import SocketIO
 from datetime import datetime
 from dotenv import load_dotenv
-load_dotenv()
+from apscheduler.schedulers.background import BackgroundScheduler
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -47,6 +47,15 @@ def create_app(config_name=None):
     # Register additional routes
     register_general_routes(app)
     register_error_handlers(app)
+
+    # Initialize scheduler
+    from .scheduler import deactivate_expired_trials
+    scheduler = BackgroundScheduler()
+    def job_wrapper():
+        with app.app_context():
+            deactivate_expired_trials()
+    scheduler.add_job(func=job_wrapper, trigger="interval", days=1)
+    scheduler.start()
 
     return app, socketio
 

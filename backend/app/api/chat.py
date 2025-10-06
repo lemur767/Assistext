@@ -41,16 +41,16 @@ def send_message(message):
                 direction=MessageDirection.OUTBOUND,
                 status=MessageStatus.DELIVERED,
                 ai_generated=False,
-                user_id=conversation.user_id,
                 from_number=user.phone_number,
-                to_number=conversation.contact_number
+                to_number=conversation.contact.phone_number
             )
             db.session.add(new_message)
+            conversation.last_message_at = datetime.utcnow()
             db.session.commit()
 
             # Send the message via SignalWire
             signalwire_service.send_sms(
-                to_number=conversation.contact_number,
+                to_number=conversation.contact.phone_number,
                 from_number=user.phone_number,
                 body=message['body'],
                 subproject_id=user.signalwire_subproject_id,

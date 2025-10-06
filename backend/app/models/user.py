@@ -15,6 +15,11 @@ class PhoneNumberStatus(enum.Enum):
     FAILED = "failed"
     RELEASED = "released"
 
+class SubscriptionPlan(enum.Enum):
+    TRIAL = "trial"
+    BASIC = "basic"
+    PRO = "pro"
+
 class User(db.Model):
     __tablename__ = 'users'
     
@@ -38,6 +43,8 @@ class User(db.Model):
     
     # Stripe fields
     stripe_customer_id = db.Column(db.String(255))
+    subscription_plan = db.Column(db.Enum(SubscriptionPlan), default=SubscriptionPlan.TRIAL)
+    message_count = db.Column(db.Integer, default=0)
     
     # Trial fields
     trial_status = db.Column(db.Enum(TrialStatus), default=TrialStatus.ACTIVE)
@@ -46,6 +53,9 @@ class User(db.Model):
     # Timestamps
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Notification settings
+    keyword_triggers = db.Column(db.JSON, default=lambda: [])
     
     # Relationships
     conversations = db.relationship('Conversation', backref='user', lazy=True, cascade="all, delete-orphan")
@@ -82,7 +92,10 @@ class User(db.Model):
             'trial_days_remaining': self.trial_days_remaining,
             'is_trial_active': self.is_trial_active,
             'created_at': self.created_at.isoformat(),
-            'signalwire_friendly_name': self.signalwire_friendly_name
+            'signalwire_friendly_name': self.signalwire_friendly_name,
+            'keyword_triggers': self.keyword_triggers,
+            'subscription_plan': self.subscription_plan.value if self.subscription_plan else None,
+            'message_count': self.message_count
         }
         
         if include_sensitive:

@@ -20,7 +20,7 @@ def get_conversations(current_user):
     ).outerjoin(
         Contact,
         db.and_(
-            Contact.phone_number == Conversation.contact_number,
+            Contact.id == Conversation.contact_id,
             Contact.user_id == current_user.id
         )
     ).filter(Conversation.user_id == current_user.id).order_by(Conversation.last_message_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
@@ -29,6 +29,15 @@ def get_conversations(current_user):
     for conversation, contact_name in conversations_with_contacts.items:
         convo_dict = conversation.to_dict()
         convo_dict['contact_name'] = contact_name
+
+        last_message = Message.query.filter_by(conversation_id=conversation.id).order_by(Message.created_at.desc()).first()
+        if last_message:
+            convo_dict['last_message'] = last_message.body
+            convo_dict['last_message_sentiment'] = last_message.sentiment
+        else:
+            convo_dict['last_message'] = ""
+            convo_dict['last_message_sentiment'] = None
+
         result.append(convo_dict)
 
     return jsonify({
@@ -48,17 +57,33 @@ def create_conversation(current_user):
 
     phone_number = data['phone_number']
     message_body = data.get('message')
+    contact_name = data.get('name')
+
+    # Find or create contact
+    contact = Contact.query.filter_by(
+        user_id=current_user.id,
+        phone_number=phone_number
+    ).first()
+
+    if not contact:
+        contact = Contact(
+            user_id=current_user.id,
+            phone_number=phone_number,
+            name=contact_name or phone_number
+        )
+        db.session.add(contact)
+        db.session.flush() # Get the contact ID
 
     # Find or create conversation
     conversation = Conversation.query.filter_by(
         user_id=current_user.id,
-        contact_number=phone_number
+        contact_id=contact.id
     ).first()
 
     if not conversation:
         conversation = Conversation(
             user_id=current_user.id,
-            contact_number=phone_number,
+            contact_id=contact.id,
             unread=False
         )
         db.session.add(conversation)
@@ -72,16 +97,15 @@ def create_conversation(current_user):
             direction=MessageDirection.OUTBOUND,
             status=MessageStatus.DELIVERED,
             ai_generated=False,
-            user_id=current_user.id,
             from_number=current_user.phone_number,
-            to_number=phone_number
+            to_number=contact.phone_number
         )
         db.session.add(new_message)
         conversation.last_message_at = datetime.utcnow()
 
         # Send the message via SignalWire
         signalwire_service.send_sms(
-            to_number=phone_number,
+            to_number=contact.phone_number,
             from_number=current_user.phone_number,
             body=message_body,
             subproject_id=current_user.signalwire_subproject_id,
@@ -103,7 +127,7 @@ def get_conversation(current_user, conversation_id):
     ).outerjoin(
         Contact,
         db.and_(
-            Contact.phone_number == Conversation.contact_number,
+            Contact.id == Conversation.contact_id,
             Contact.user_id == current_user.id
         )
     ).filter(

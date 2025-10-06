@@ -5,8 +5,18 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import "../styles/PaymentForm.css";
+import api from "../services/api";
 
-const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
+interface Plan {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    currency: string;
+    price_id: string;
+}
+
+const PaymentForm: React.FC<{ clientSecret: string, selectedPlan: Plan | null }> = ({ clientSecret, selectedPlan }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -16,24 +26,46 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
+    if (!stripe || !elements || !selectedPlan) {
       return;
     }
 
     setLoading(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/dashboard`,
-      },
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setErrorMessage(submitError.message || "An unexpected error occurred.");
+      setLoading(false);
+      return;
+    }
+
+    // Create the PaymentMethod
+    const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
+        elements,
     });
 
-    if (error) {
-      setErrorMessage(error.message || "An unexpected error occurred.");
+    if (paymentMethodError) {
+        setErrorMessage(paymentMethodError.message || "An unexpected error occurred.");
+        setLoading(false);
+        return;
     }
+
+    // Create the subscription
+    try {
+        const response = await api.post("/api/v1/subscriptions", {
+            price_id: selectedPlan.price_id,
+            payment_method_id: paymentMethod.id,
+        });
+        const subscription = await response.json();
+        if (!response.ok) throw new Error(subscription.error);
+
+        // Handle success
+        window.location.href = "/dashboard";
+
+    } catch (err: unknown) {
+        setErrorMessage((err as Error).message);
+    }
+
 
     setLoading(false);
   };

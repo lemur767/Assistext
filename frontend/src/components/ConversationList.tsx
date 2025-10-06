@@ -14,6 +14,7 @@ interface Conversation {
   contact_id: number | null;
   last_message: string;
   last_message_at: string;
+  last_message_sentiment: number | null;
   unread: boolean;
 }
 
@@ -101,6 +102,13 @@ const ConversationList: React.FC = () => {
     navigate(`/conversations/${conversationId}`);
   };
 
+  const getSentimentColor = (sentiment: number | null) => {
+    if (sentiment === null) return "gray";
+    if (sentiment < -0.2) return "red";
+    if (sentiment > 0.2) return "green";
+    return "gray";
+  };
+
   if (loading) {
     return <div className="conversationList_loading">Loading conversations...</div>;
   }
@@ -140,7 +148,17 @@ const ConversationList: React.FC = () => {
                         <small className="conversationList_lastMessageTime">{new Date(conv.last_message_at).toLocaleString()}</small>
                       </div>
                     </div>
-                    <p className={`conversationList_lastMessage ${conv.unread ? "conversationList_lastMessageUnread" : "conversationList_lastMessageRead"}`}>{conv.last_message}</p>
+                    <p className={`conversationList_lastMessage ${conv.unread ? "conversationList_lastMessageUnread" : "conversationList_lastMessageRead"}`}>
+                      <span style={{
+                        height: "10px",
+                        width: "10px",
+                        backgroundColor: getSentimentColor(conv.last_message_sentiment),
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        marginRight: "5px"
+                      }}></span>
+                      {conv.last_message}
+                    </p>
                   </div>
                 </li>
               ))}

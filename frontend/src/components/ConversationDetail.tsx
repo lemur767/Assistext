@@ -138,14 +138,14 @@ const ConversationDetail: React.FC = () => {
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className_{
+                className={
                   msg.direction === "inbound"
                     ? "message-flex-start"
                     : "message-flex-end"
                 }
               >
                 <div
-                  className_{
+                  className={
                     msg.direction === "inbound"
                       ? "incoming-message"
                       : msg.ai_generated
