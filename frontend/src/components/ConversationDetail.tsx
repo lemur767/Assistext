@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { socketService } from "../services/socketService";
 import "../styles/ConversationDetail.css";
-import api from "../services/api";
+import { api } from "../services/api";
 import { SparklesIcon } from "lucide-react";
 
 interface Message {
@@ -41,11 +41,9 @@ const ConversationDetail: React.FC = () => {
           throw new Error("User not authenticated.");
         }
 
-        const response = await api.get(
-          `/api/v1/conversations/${conversationId}`
+        const data = await api.get(
+          `/conversations/${conversationId}`
         );
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error);
         setConversation(data.conversation);
         setMessages(data.messages);
       } catch (err: unknown) {
@@ -66,7 +64,12 @@ const ConversationDetail: React.FC = () => {
       socket.emit("join", { conversation_id: conversationId });
 
       socket.on("new_message", (message: Message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
+        setMessages((prevMessages) => {
+          if (prevMessages.find(m => m.id === message.id)) {
+            return prevMessages;
+          }
+          return [...prevMessages, message];
+        });
       });
 
       socket.on("status", (data: { msg: string }) => {
@@ -83,11 +86,29 @@ const ConversationDetail: React.FC = () => {
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (newMessage.trim() && conversationId) {
+      const tempId = `temp-${Date.now()}`;
+      const optimisticMessage: Message = {
+        id: tempId,
+        body: newMessage,
+        direction: "outbound",
+        ai_generated: false,
+        created_at: new Date().toISOString(),
+      };
+
+      setMessages((prevMessages) => [...prevMessages, optimisticMessage]);
+      setNewMessage("");
+
       socketService.getSocket()?.emit("send_message", {
         conversation_id: conversationId,
         body: newMessage,
+      }, (ack: { status: string, message: Message }) => {
+        if (ack.status === 'ok') {
+          setMessages(prev => prev.map(m => m.id === tempId ? ack.message : m));
+        } else {
+          setMessages(prev => prev.filter(m => m.id !== tempId));
+          // Optionally, show an error to the user
+        }
       });
-      setNewMessage("");
     }
   };
 

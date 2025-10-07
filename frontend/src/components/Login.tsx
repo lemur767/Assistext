@@ -35,10 +35,14 @@ const Login: React.FC = () => {
 
   return (
     <div className="login_container">
-      <div className="login_card glass-morphism">
-        <div className="login_logoContainer">
-          <img src="/frontend/src/assets/logo3333.png" alt="Assistext Logo" width="180px" height="180px" className="login_logoImage" />
-        </div>
+      <div className="login_gradientBallspurple"></div>
+        <div className="login_gradientBallscyan"></div>
+        <div className="login_gradientBallspink"></div>
+      
+        <div className="login_card glass-morphism">
+          <div className="login_logoContainer">
+            <img src="/assets/logo3333.png" alt="Assistext Logo" width="180px" height="180px" className="login_logoImage" />
+          </div>
        
         <form className="login_form" onSubmit={handleLogin}>
           <div className="login_inputGroup">

@@ -3,7 +3,7 @@ import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
 import { useAuth } from "../contexts/AuthContext";
-import api from "../services/api";
+import { api } from "../services/api";
 
 
 const stripePromise = loadStripe(
@@ -37,9 +37,7 @@ const Subscription: React.FC = () => {
                 throw new Error("User not authenticated.");
             }
 
-            const response = await api.get("/api/v1/subscriptions/plans");
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
+            const data = await api.get("/subscriptions/plans");
             setPlans(data);
         } catch (err: unknown) {
             setError((err as Error).message);
@@ -54,11 +52,8 @@ const Subscription: React.FC = () => {
                 throw new Error("User not authenticated.");
             }
 
-            const response = await api.get("/api/v1/subscriptions");
-            const data = await response.json();
-            if (response.ok) {
-                setCurrentSubscription(data);
-            }
+            const data = await api.get("/subscriptions");
+            setCurrentSubscription(data);
         } catch (err: unknown) {
             // Don't set error for this, as it's not critical
             console.error((err as Error).message);
@@ -80,9 +75,7 @@ const Subscription: React.FC = () => {
         throw new Error("User not authenticated.");
       }
 
-      const response = await api.post("/api/v1/subscriptions/create-payment-intent", { price_id: plan.price_id });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      const data = await api.post("/subscriptions/create-payment-intent", { price_id: plan.price_id });
       setClientSecret(data.client_secret);
     } catch (err: unknown) {
       setError((err as Error).message);

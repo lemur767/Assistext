@@ -5,7 +5,7 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import "../styles/PaymentForm.css";
-import api from "../services/api";
+import { api } from "../services/api";
 
 interface Plan {
     id: string;
@@ -52,12 +52,10 @@ const PaymentForm: React.FC<{ clientSecret: string, selectedPlan: Plan | null }>
 
     // Create the subscription
     try {
-        const response = await api.post("/api/v1/subscriptions", {
+        const subscription = await api.post("/subscriptions", {
             price_id: selectedPlan.price_id,
             payment_method_id: paymentMethod.id,
         });
-        const subscription = await response.json();
-        if (!response.ok) throw new Error(subscription.error);
 
         // Handle success
         window.location.href = "/dashboard";

@@ -4,19 +4,59 @@
   justify-content: center;
   min-height: 100vh;
 }
+.login_gradientBallspurple {
+  position: fixed; 
+  left: 15rem; 
+  top: 3.5rem; 
+  border-radius: 9999px; 
+  width: 18rem; 
+  height: 18rem; 
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: radial-gradient(circle at center, var(--purple-500), transparent 70%);
+  pointer-events: none; 
+}
+.login_gradientBallscyan {
+  position: fixed; 
+  right: 18.5rem; 
+  top: 12rem; 
+  border-radius: 9999px; 
+  width: 18rem; 
+  height: 18rem; 
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: radial-gradient(circle at center, var(--cyan-500), transparent 60%);
+  pointer-events: none; 
+  backdrop-filter: blur(64px);
+}
+.login_gradientBallspink {
+  position: fixed;
+  right: 25rem;
+  bottom: 1.5rem;
+  border-radius: 9999px;
+  width: 18rem;
+  height: 18rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background: radial-gradient(circle at center,rgb(238, 0, 163), transparent 60%);
+  pointer-events: none;
+  backdrop-filter: blur(64px);
+  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
 .login_card {
   width: 100%;
-  max-width: 28rem; /* max-w-md */
-  padding: 2rem; /* p-8 */
-  display: flex;
+  max-width: 28rem;
+  /*max-w-md*/padding: 2rem;
+  /*p-8*/display: flex;
   flex-direction: column;
-  gap: 2rem; /* space-y-8 */
-  border-radius: 1rem; /* rounded-2xl */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
-  background-color: rgba(0, 0, 0, 0.4);
+  gap: 2rem;
+  /*space-y-8*/border-radius: 1.5rem;
+  /*rounded-2xl*/box-shadow: 0 10px 15px -3px rgba(158, 156, 156, 0.498), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /*shadow-lg*/background-color: rgba(48, 47, 66, 0.428);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(178, 5, 169, 0.757);
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
 }
 
 .login_heading {
@@ -36,6 +76,7 @@
 
 .login_inputGroup {
   display: flex;
+
   flex-direction: column;
   gap: 0.5rem; /* space-y-2 */
 }
@@ -68,3 +109,12 @@
   align-items: center;
   margin-bottom: 1rem;
 }
+
+@keyframes pulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: .2;
+    }
+  } 

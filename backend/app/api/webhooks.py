@@ -2,7 +2,7 @@
 from flask import Blueprint, request, Response, jsonify
 from .. import db, socketio
 from ..models import User, Message, Conversation, Contact, MessageDirection, MessageStatus, PhoneNumberStatus, SubscriptionPlan
-from ..services import ai_service, signalwire_service
+from ..services import ai_service, signalwire_service, laml_service
 from ..utils.security import verify_signalwire_signature
 import logging
 import time
@@ -56,14 +56,8 @@ def handle_sms_webhook(user_id):
         # 3. Check if trial is active
         if not user.is_trial_active and user.trial_status.value != 'upgraded':
             logger.warning(f"Trial expired for user {user_id}")
-            signalwire_service.send_sms(
-                to_number=from_number,
-                from_number=to_number,
-                body="Your trial has expired. Please subscribe to continue using this service.",
-                subproject_id=user.signalwire_subproject_id,
-                auth_token=user.signalwire_auth_token
-            )
-            return Response(status=200)
+            laml_response = laml_service.create_message_response("Your trial has expired. Please subscribe to continue using this service.")
+            return Response(laml_response, mimetype='application/xml')
 
         # 3a. Check message limits
         message_limits = {
@@ -194,18 +188,12 @@ def handle_sms_webhook(user_id):
         
         # 8. Send SMS response
         try:
-            signalwire_service.send_sms(
-                to_number=from_number,
-                from_number=to_number,
-                body=ai_response,
-                subproject_id=user.signalwire_subproject_id,
-                auth_token=user.signalwire_auth_token
-            )
-            logger.info(f"SMS response sent for user {user_id} in {processing_time}ms: {ai_response}")
+            laml_response = laml_service.create_message_response(ai_response)
+            logger.info(f"Generated LaML response for user {user_id}: {laml_response}")
+            return Response(laml_response, mimetype='application/xml')
         except Exception as e:
-            logger.error(f"Failed to send SMS response: {e}")
-
-        return Response(status=200)
+            logger.error(f"Failed to generate LaML response: {e}")
+            return Response(status=500)
         
     except Exception as e:
         logger.error(f"SMS webhook error for user {user_id}: {str(e)}")

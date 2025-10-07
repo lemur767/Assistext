@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import api from '../services/api';
+import { api } from '../services/api';
 
 interface Session {
   token: string;
@@ -27,11 +27,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const fetchSubscription = async () => {
         try {
-            const response = await api.get("/api/v1/subscriptions/plan");
-            const data = await response.json();
-            if (response.ok) {
-                setSubscription(data);
-            }
+            const data = await api.get("/subscriptions/plan");
+            setSubscription(data);
         } catch (err: unknown) {
             console.error((err as Error).message);
         }
@@ -39,11 +36,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const fetchUser = async () => {
         try {
-            const response = await api.get("/api/v1/users/profile");
-            const data = await response.json();
-            if (response.ok) {
-                setUser(data.user);
-            }
+            const data = await api.get("/users/profile");
+            setUser(data.user);
         } catch (err: unknown) {
             console.error((err as Error).message);
         }

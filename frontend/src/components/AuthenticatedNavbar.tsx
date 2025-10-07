@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import '../styles/AuthenticatedNavbar.css';
 
+
 const AuthenticatedNavbar: React.FC = () => {
   const { setSession } = useAuth();
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const AuthenticatedNavbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/dashboard" className="navbar-brand">Assistext</Link>
+        <Link to="/dashboard"><img className="navbar-logo" src="/assets/logonotext.png" height='90px' width='90px' alt="Logo"/></Link>
         <div className="navbar-links">
           <Link to="/dashboard" className="navbar-link">Dashboard</Link>
           <Link to="/conversations" className="navbar-link">Conversations</Link>

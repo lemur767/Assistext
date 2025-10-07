@@ -38,6 +38,7 @@ class AIService:
         if self.environment == 'development':
             # Development: prefer local Ollama
             if self._check_ollama_available(self.local_ollama_host):
+                logger.info("Using local_ollama provider for development")
                 return 'local_ollama'
             else:
                 logger.warning("Local Ollama not available, falling back to production or fallback")
@@ -45,6 +46,7 @@ class AIService:
         if self.environment == 'production' or self.environment == 'staging':
             # Production: use VPS-hosted LLM
             if self.production_llm_host and self._check_production_llm_available():
+                logger.info("Using production_llm provider")
                 return 'production_llm'
             else:
                 logger.warning("Production LLM not available, checking for local fallback")
@@ -105,22 +107,28 @@ class AIService:
             return None
 
         try:
+            logger.info(f"Generating AI response with provider: {self.provider}")
             if self.provider == 'local_ollama':
-                return self._generate_ollama_response(
+                response = self._generate_ollama_response(
                     user_message, user_email, context, 
                     self.local_ollama_host, self.local_ollama_model, self.local_timeout
                 )
             elif self.provider == 'production_llm':
-                return self._generate_production_llm_response(user_message, user_email, context)
+                response = self._generate_production_llm_response(user_message, user_email, context)
             else:
-                return self._generate_fallback_response(user_message)
+                response = self._generate_fallback_response(user_message)
+            
+            logger.info(f"Generated AI response: {response}")
+            return response
         
         except Exception as e:
             logger.error(f"AI response generation failed with {self.provider}: {e}")
             # Try to use fallback provider if primary fails
             if self.provider != 'fallback':
                 logger.info("Attempting fallback response generation")
-                return self._generate_fallback_response(user_message)
+                response = self._generate_fallback_response(user_message)
+                logger.info(f"Generated fallback response: {response}")
+                return response
             else:
                 return "I'm having trouble processing your message right now. Please try again later."
     
@@ -269,7 +277,7 @@ Respond helpfully and concisely:"""
         
         # Ensure it's suitable for SMS length
         if len(response) > 1600:  # SMS limit
-            response = response[:1597] + '...'
+            response = response[:1597] + '...' # SMS limit
         
         return response
     

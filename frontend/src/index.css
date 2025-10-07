@@ -4,6 +4,7 @@
   --purple-500: #8b5cf6;
   --purple-600: #7c3aed;
   --blue-950: #172554;
+  --fuschia-500: #ec4899;
 }
 
 /* CSS Reset */
@@ -83,10 +84,17 @@ button {
   padding: 0.5rem;
   border-radius: 0.25rem;
   border: 1px solid #475569;
-  background-color: #1e293b;
+  background-color: #b4b7bb87;
   color: white;
 }
-
+.form-input::placeholder {
+  color: #1e0429;
+}
+.form-input:focus {
+  border-color: var(--cyan-400);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--cyan-400);
+}
 .glass-morphism {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(16px);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/Settings.css";
-import api from "../services/api";
+import { api } from "../services/api";
 
 const Settings: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -19,9 +19,7 @@ const Settings: React.FC = () => {
                 throw new Error("User not authenticated.");
             }
 
-            const response = await api.get("/api/v1/users/profile");
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
+            const data = await api.get("/users/profile");
             setKeywords(data.user.keyword_triggers || []);
         } catch (err: unknown) {
             setMessage((err as Error).message);
@@ -56,9 +54,7 @@ const Settings: React.FC = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await api.post("/api/v1/training-data", formData);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || data.error);
+      await api.post("/training-data", formData);
 
       setMessage("File uploaded successfully!");
     } catch (err: unknown) {
@@ -74,7 +70,7 @@ const Settings: React.FC = () => {
 
     const updatedKeywords = [...keywords, newKeyword];
     try {
-        await api.put("/api/v1/users/profile/keyword_triggers", {
+        await api.put("/users/profile/keyword_triggers", {
             keyword_triggers: updatedKeywords,
         });
         setKeywords(updatedKeywords);
@@ -89,7 +85,7 @@ const handleRemoveKeyword = async (keywordToRemove: string) => {
         (keyword) => keyword !== keywordToRemove
     );
     try {
-        await api.put("/api/v1/users/profile/keyword_triggers", {
+        await api.put("/users/profile/keyword_triggers", {
             keyword_triggers: updatedKeywords,
         });
         setKeywords(updatedKeywords);

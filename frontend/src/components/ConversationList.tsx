@@ -5,7 +5,7 @@ import "../styles/ConversationList.css";
 import ContactModal from "./ContactModal";
 import NewConversationModal from "./NewConversationModal";
 import { Edit2Icon } from "lucide-react";
-import api from "../services/api";
+import { api } from "../services/api";
 
 interface Conversation {
   id: string;
@@ -38,9 +38,7 @@ const ConversationList: React.FC = () => {
         throw new Error("User not authenticated.");
       }
 
-      const response = await api.get(`/api/v1/conversations/?page=${page}`);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      const data = await api.get(`/conversations/?page=${page}`);
       setConversations(data.conversations);
       setTotalPages(data.pages);
     } catch (err: unknown) {
@@ -71,23 +69,12 @@ const ConversationList: React.FC = () => {
     if (!selectedConversation || !auth?.session) return;
 
     const { contact_id, contact_number } = selectedConversation;
-    const method = contact_id ? 'PUT' : 'POST';
-    const url = contact_id ? `/api/v1/contacts/${contact_id}` : '/api/v1/contacts';
-    const body = JSON.stringify({ name, phone_number: contact_number });
+    const method = contact_id ? 'put' : 'post';
+    const url = contact_id ? `/contacts/${contact_id}` : '/contacts';
+    const body = { name, phone_number: contact_number };
 
     try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth?.session.token}`,
-        },
-        body,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save contact');
-      }
+      await api[method](url, body);
 
       // Refresh conversations to show the new name
       fetchConversations();

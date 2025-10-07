@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../services/api';
+import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
 interface Message {
@@ -22,11 +22,8 @@ const RecentActivity: React.FC = () => {
                     throw new Error("User not authenticated.");
                 }
 
-                const response = await api.get('/api/v1/users/me/recent_messages');
-                const data = await response.json();
-                if (response.ok) {
-                    setMessages(data.messages);
-                }
+                const data = await api.get('/users/me/recent_messages');
+                setMessages(data.messages);
             } catch (error) {
                 console.error(error);
             } finally {

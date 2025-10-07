@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/LandingPage/LandingPage';
 import Login from './components/Login';
 import Settings from './components/Settings';
 import Subscription from './components/Subscription';
@@ -12,7 +12,10 @@ import UnprotectedRoute from './components/common/UnprotectedRoute';
 import ConversationDetail from './components/ConversationDetail';
 import ConversationList from './components/ConversationList';
 import DashboardLayout from './components/DashboardLayout';
+
 import Contacts from './components/Contacts';
+import ContactDetail from './components/ContactDetail';
+import './styles/App.css'
 
 function App() {
   return (
@@ -34,6 +37,8 @@ function App() {
               <Route path="/conversations" element={<ConversationList />} />
               <Route path="/conversations/:conversationId" element={<ConversationDetail />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/contacts/:contactId" element={<ContactDetail />} />
+
             </Route>
           </Route>
         </Routes>
