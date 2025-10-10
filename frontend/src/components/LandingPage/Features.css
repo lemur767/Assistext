@@ -435,7 +435,7 @@
     border-radius: 0.5rem;
     border-width: 1px;
     border-color: rgba(255, 255, 255, 0.1);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: url("assets/signalwire.png")
 }
 
 .features__card-stats {

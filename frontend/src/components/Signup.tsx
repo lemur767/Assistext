@@ -9,6 +9,7 @@ const Signup: React.FC = () => {
   const [country_code, setCountryCode] = useState("");
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const { setSession } = useAuth();
@@ -16,6 +17,10 @@ const Signup: React.FC = () => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreedToTerms) {
+      setMessage("You must agree to the Terms of Service and Privacy Policy.");
+      return;
+    }
     setLoading(true);
     setMessage("");
     try {
@@ -115,9 +120,23 @@ const Signup: React.FC = () => {
               placeholder="e.g. CA"
             />
           </div>
+          <div className="signup_inputGroup">
+            <div className="flex items-center">
+              <input
+                id="agree-to-terms"
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                className="form-checkbox"
+              />
+              <label htmlFor="agree-to-terms" className="ml-2 text-sm text-neutral-text">
+                I agree to the <Link to="/terms-of-service" className="text-primary hover:underline">Terms of Service</Link> and <Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>.
+              </label>
+            </div>
+          </div>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !agreedToTerms}
             className="signup_button btn btn-primary"
           >
             {loading ? "Signing up..." : "Sign up"}

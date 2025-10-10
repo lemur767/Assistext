@@ -17,6 +17,7 @@ socketio = SocketIO()
 
 def create_app(config_name=None):
     """Application factory function"""
+    load_dotenv()
     app = Flask(__name__)
 
     # Configuration

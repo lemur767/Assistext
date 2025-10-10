@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './Features.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Features: React.FC = () => {
   const featureCardsRef = useRef<HTMLDivElement[]>([]);
@@ -37,10 +38,10 @@ const Features: React.FC = () => {
       <div className="features__container">
         <div className="features__header">
           <h2 className="features__title">
-            Features that help you ship faster
+            Features Designed for Your Success
           </h2>
           <p className="features__subtitle">
-            Modular building blocks, real-time collaboration, and secure-by-default foundations.
+            We can handle the phones so you don't have to.
           </p>
         </div>
 
@@ -159,7 +160,7 @@ steps:
             <h3 className="features__card-title">Integrations</h3>
             <p className="features__card-description">Connect your favorite tools with native adapters and webhooks.</p>
             <div className="features__card-integrations">
-              <div className="features__card-integration-item"></div>
+              <div className="features__card-integration-item"><img src="assets/signalwire.png" width="50px" height="50px" alt="SignalWire"></img></div>
               <div className="features__card-integration-item"></div>
               <div className="features__card-integration-item"></div>
               <div className="features__card-integration-item"></div>

@@ -11,6 +11,7 @@ const Settings: React.FC = () => {
   const { session, isAuthenticated } = useAuth();
   const [keywords, setKeywords] = useState<string[]>([]);
   const [newKeyword, setNewKeyword] = useState("");
+  const [includeAiSignature, setIncludeAiSignature] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -21,6 +22,7 @@ const Settings: React.FC = () => {
 
             const data = await api.get("/users/profile");
             setKeywords(data.user.keyword_triggers || []);
+            setIncludeAiSignature(data.user.include_ai_signature || false);
         } catch (err: unknown) {
             setMessage((err as Error).message);
         }
@@ -93,6 +95,18 @@ const handleRemoveKeyword = async (keywordToRemove: string) => {
         setMessage((err as Error).message);
     }
 };
+
+  const handleSignatureChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSignatureValue = e.target.checked;
+    setIncludeAiSignature(newSignatureValue);
+    try {
+        await api.put("/users/profile/include_ai_signature", {
+            include_ai_signature: newSignatureValue,
+        });
+    } catch (err: unknown) {
+        setMessage((err as Error).message);
+    }
+  };
 
   return (
     <div className="settings_container">
@@ -170,6 +184,27 @@ const handleRemoveKeyword = async (keywordToRemove: string) => {
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="settings_settingsCard glass-morphism mt-8">
+          <div className="settings_formSection">
+            <h3 className="settings_formSectionTitle text-neutral-text">AI Signature</h3>
+            <p className="settings_formSectionDescription text-neutral-text/60">
+              Include a "Sent with AI using Assistext" signature on AI-generated messages.
+            </p>
+          </div>
+          <div className="flex items-center">
+            <input
+              id="ai-signature"
+              type="checkbox"
+              checked={includeAiSignature}
+              onChange={handleSignatureChange}
+              className="form-checkbox"
+            />
+            <label htmlFor="ai-signature" className="ml-2 text-sm text-neutral-text">
+              Enable AI Signature
+            </label>
           </div>
         </div>
       </main>

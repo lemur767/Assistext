@@ -91,7 +91,7 @@ def register():
                 logger.info(f"Created SignalWire subproject for {email}: {subproject.sid}")
                 
                 # 4. Search for available phone numbers in the specified country
-                available_numbers = signalwire_service.search_available_numbers(country_code, 5)
+                available_numbers = signalwire_service.search_available_numbers(country_code, 5, city=city)
                 
                 if not available_numbers:
                     raise Exception(f"No phone numbers available for country: {country_code}")

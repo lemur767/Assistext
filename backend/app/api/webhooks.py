@@ -154,7 +154,7 @@ def handle_sms_webhook(user_id):
         
         # 6. Generate AI response
         try:
-            ai_response = ai_service.generate_response(body, user.email, conversation)
+            ai_response = ai_service.generate_response(body, user, conversation)
             if ai_response is None:
                 logger.info(f"AI response skipped for user {user_id} in conversation {conversation.id} (user controlled)")
                 return Response(status=200)

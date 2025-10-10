@@ -1,5 +1,5 @@
 # app/utils/security.py
-from signalwire.request_validator import RequestValidator
+from twilio.request_validator import RequestValidator
 from flask import request
 import logging
 

@@ -70,18 +70,16 @@
     }
 }
 
-.pricing__grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+.pricing__cards-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 1.5rem;
 }
 
-@media (min-width: 768px) {
-    .pricing__grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 2rem;
-    }
-}
+
 
 .pricing-card {
     position: relative;

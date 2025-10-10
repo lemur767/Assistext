@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const fetchSubscription = async () => {
         try {
-            const data = await api.get("/subscriptions/plan");
+            const data = await api.get("/subscriptions/plans");
             setSubscription(data);
         } catch (err: unknown) {
             console.error((err as Error).message);

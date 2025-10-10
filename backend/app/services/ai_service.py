@@ -1,10 +1,10 @@
-# app/services/ai_service.py
 import os
 import requests
 import logging
 from typing import Optional
 import json
 from urllib.parse import urljoin
+from ..models.user import User
 
 logger = logging.getLogger(__name__)
 
@@ -100,7 +100,7 @@ class AIService:
         
         return False
     
-    def generate_response(self, user_message: str, user_email: str, conversation, context: Optional[str] = None) -> str:
+    def generate_response(self, user_message: str, user: User, conversation, context: Optional[str] = None) -> str:
         """Generate AI response to user message"""
         if conversation.controlled_by == 'user':
             logger.info(f"Conversation {conversation.id} is controlled by user, skipping AI response.")
@@ -110,14 +110,17 @@ class AIService:
             logger.info(f"Generating AI response with provider: {self.provider}")
             if self.provider == 'local_ollama':
                 response = self._generate_ollama_response(
-                    user_message, user_email, context, 
+                    user_message, user.email, context, 
                     self.local_ollama_host, self.local_ollama_model, self.local_timeout
                 )
             elif self.provider == 'production_llm':
-                response = self._generate_production_llm_response(user_message, user_email, context)
+                response = self._generate_production_llm_response(user_message, user.email, context)
             else:
                 response = self._generate_fallback_response(user_message)
             
+            if user.include_ai_signature:
+                response += "\n\nSent with AI using Assistext"
+
             logger.info(f"Generated AI response: {response}")
             return response
         

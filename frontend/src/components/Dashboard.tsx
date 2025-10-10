@@ -26,6 +26,10 @@ const Dashboard: React.FC = () => {
     return <div className="dashboard_loadingContainer">Loading...</div>;
   }
 
+  const currentPlan: any = subscription?.find(
+    (plan: any) => plan.nickname === user.subscription_plan
+  );
+
   return (
     <div className="dashboard_mainContainer">
       <main className="dashboard_mainContent">
@@ -66,12 +70,12 @@ const Dashboard: React.FC = () => {
                 </p>
               </div>
             </div>
-            {subscription && (
+            {currentPlan && (
               <div className="dashboard_ghostNumberCol1">
                 <div className="dashboard_ghostNumberCard">
                   <h3 className="dashboard_ghostNumberTitle">Subscription</h3>
                   <p className="dashboard_ghostNumberDisplay">
-                    {subscription.plan.product.name} - ${subscription.plan.amount / 100} / {subscription.plan.interval}
+                    {currentPlan.product.name} - ${currentPlan.amount / 100} / {currentPlan.interval}
                   </p>
                 </div>
               </div>

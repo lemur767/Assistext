@@ -58,6 +58,31 @@ def update_keyword_triggers(current_user):
         db.session.rollback()
         return jsonify({'error': 'Failed to update keyword triggers'}), 500
 
+@users_bp.route('/profile/include_ai_signature', methods=['PUT'])
+@token_required
+def update_include_ai_signature(current_user):
+    """Update user's include_ai_signature preference"""
+    try:
+        if not current_user:
+            return jsonify({'error': 'User not found'}), 404
+
+        data = request.get_json()
+        if not data or 'include_ai_signature' not in data:
+            return jsonify({'error': 'Missing include_ai_signature'}), 400
+
+        if not isinstance(data['include_ai_signature'], bool):
+            return jsonify({'error': 'include_ai_signature must be a boolean'}), 400
+
+        current_user.include_ai_signature = data['include_ai_signature']
+        db.session.commit()
+
+        return jsonify({'message': 'AI signature preference updated successfully'}), 200
+
+    except Exception as e:
+        logger.error(f"Update AI signature preference error: {str(e)}")
+        db.session.rollback()
+        return jsonify({'error': 'Failed to update AI signature preference'}), 500
+
 @users_bp.route('/messages', methods=['GET'])
 @token_required
 def get_messages(current_user):

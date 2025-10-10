@@ -5,6 +5,8 @@ from flask import current_app
 
 from alembic import context
 
+from app import create_app
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -14,6 +16,9 @@ config = context.config
 fileConfig(config.config_file_name)
 logger = logging.getLogger('alembic.env')
 
+app, _ = create_app()
+ctx = app.app_context()
+ctx.push()
 
 def get_engine():
     try:
@@ -22,7 +27,6 @@ def get_engine():
     except (TypeError, AttributeError):
         # this works with Flask-SQLAlchemy>=3
         return current_app.extensions['migrate'].db.engine
-
 
 def get_engine_url():
     try:
@@ -44,12 +48,10 @@ target_db = current_app.extensions['migrate'].db
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-
 def get_metadata():
     if hasattr(target_db, 'metadatas'):
         return target_db.metadatas[None]
     return target_db.metadata
-
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -70,7 +72,6 @@ def run_migrations_offline():
 
     with context.begin_transaction():
         context.run_migrations()
-
 
 def run_migrations_online():
     """Run migrations in 'online' mode.

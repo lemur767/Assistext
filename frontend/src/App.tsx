@@ -12,6 +12,8 @@ import UnprotectedRoute from './components/common/UnprotectedRoute';
 import ConversationDetail from './components/ConversationDetail';
 import ConversationList from './components/ConversationList';
 import DashboardLayout from './components/DashboardLayout';
+import TermsOfService from './pages/TermsOfService';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 import Contacts from './components/Contacts';
 import ContactDetail from './components/ContactDetail';
@@ -23,6 +25,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           
           <Route element={<UnprotectedRoute />}>
             <Route path="/login" element={<Login />} />

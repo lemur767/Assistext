@@ -1,5 +1,9 @@
 const getAuthToken = () => {
-  return localStorage.getItem('token');
+  const session = localStorage.getItem('session');
+  if (session) {
+    return JSON.parse(session).token;
+  }
+  return null;
 };
 
 const handleResponse = async (response: Response) => {
@@ -21,7 +25,7 @@ const fetchApi = async (url: string, options: RequestInit = {}) => {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`http://localhost:5000/api${url}`, {
+  const response = await fetch(`/api/v1${url}`, {
     ...options,
     headers,
   });

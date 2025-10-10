@@ -38,8 +38,11 @@ class SignalWireService:
         self.api_token = os.getenv('SIGNALWIRE_API_TOKEN')
         self.webhook_base_url = os.getenv('WEBHOOK_BASE_URL')
         
-        if not all([self.space_url, self.project_id, self.api_token]):
-            raise ValueError("SignalWire credentials not properly configured")
+        if not all([self.space_url, self.project_id, self.api_token, self.webhook_base_url]):
+            raise ValueError("SignalWire credentials and WEBHOOK_BASE_URL not properly configured")
+
+        if not self.webhook_base_url.startswith('https://'):
+            raise ValueError("WEBHOOK_BASE_URL must use HTTPS")
         
         self.auth = (self.project_id, self.api_token)
         self.base_url = f"https://{self.space_url}/api/laml/2010-04-01"
@@ -107,7 +110,7 @@ class SignalWireService:
             logger.error(f"Failed to create subproject: {e}")
             raise Exception("Failed to create SignalWire subproject")
     
-    def search_available_numbers(self, country_code: str, limit: int = 10) -> List[AvailablePhoneNumber]:
+    def search_available_numbers(self, country_code: str, limit: int = 10, city: Optional[str] = None) -> List[AvailablePhoneNumber]:
         """Search for available phone numbers"""
         try:
             url = f"{self.base_url}/Accounts/{self.project_id}/AvailablePhoneNumbers/{country_code}/Local.json"
@@ -116,6 +119,9 @@ class SignalWireService:
                 'PageSize': limit,
                 'SmsEnabled': True
             }
+
+            if city:
+                params['InLocality'] = city
             
             response = requests.get(url, auth=self.auth, params=params)
             response.raise_for_status()
@@ -140,35 +146,49 @@ class SignalWireService:
     def purchase_phone_number(self, phone_number: str, subproject_id: str, webhook_url: str) -> PurchasedPhoneNumber:
         """Purchase a phone number and assign to subproject"""
         try:
-            url = f"{self.base_url}/Accounts/{subproject_id}/IncomingPhoneNumbers.json"
-            
-            data = {
+            # Step 1: Purchase the number for the main project
+            purchase_url = f"{self.base_url}/Accounts/{self.project_id}/IncomingPhoneNumbers.json"
+            purchase_data = {
                 'PhoneNumber': phone_number,
                 'SmsUrl': webhook_url,
                 'SmsMethod': 'POST'
             }
             
-            response = requests.post(
-                url,
+            purchase_response = requests.post(
+                purchase_url,
                 auth=self.auth,
-                data=data,
+                data=purchase_data,
                 headers={'Content-Type': 'application/x-www-form-urlencoded'}
             )
-            response.raise_for_status()
+            purchase_response.raise_for_status()
+            purchased_number_data = purchase_response.json()
+            purchased_number_sid = purchased_number_data['sid']
+
+            # Step 2: Transfer the number to the subproject
+            transfer_url = f"{self.base_url}/Accounts/{self.project_id}/IncomingPhoneNumbers/{purchased_number_sid}.json"
+            transfer_data = {'AccountSid': subproject_id}
+
+            transfer_response = requests.post(
+                transfer_url,
+                auth=self.auth,
+                data=transfer_data,
+                headers={'Content-Type': 'application/x-www-form-urlencoded'}
+            )
+            transfer_response.raise_for_status()
             
-            result = response.json()
-            
+            transferred_number_data = transfer_response.json()
+
             return PurchasedPhoneNumber(
-                sid=result['sid'],
-                phone_number=result['phone_number'],
-                friendly_name=result.get('friendly_name', ''),
-                account_sid=result['account_sid'],
-                capabilities=result.get('capabilities', {})
+                sid=transferred_number_data['sid'],
+                phone_number=transferred_number_data['phone_number'],
+                friendly_name=transferred_number_data.get('friendly_name', ''),
+                account_sid=transferred_number_data['account_sid'],
+                capabilities=transferred_number_data.get('capabilities', {})
             )
             
         except requests.RequestException as e:
-            logger.error(f"Failed to purchase phone number: {e}")
-            raise Exception("Failed to purchase phone number")
+            logger.error(f"Failed to purchase and transfer phone number: {e}")
+            raise Exception("Failed to purchase and transfer phone number")
     
     def generate_webhook_url(self, user_id: int) -> str:
         """Generate webhook URL for a user"""

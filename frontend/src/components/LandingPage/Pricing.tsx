@@ -15,32 +15,36 @@ const Pricing: React.FC = () => {
           </p>
         </div>
 
-        <div className="pricing__grid">
+        <div className="pricing__cards-container">
           {/* Starter */}
           <div className="pricing-card">
             <div className="pricing-card__glow-line pricing-card__glow-line--fuchsia"></div>
             <div className="pricing-card__header">
               <h3 className="pricing-card__title">Starter</h3>
-              <span className="pricing-card__badge">For individuals</span>
+              <span className="pricing-card__badge">Get your feet wet</span>
             </div>
             <div className="pricing-card__price-container">
-              <span className="pricing-card__price">$0</span>
-              <span className="pricing-card__price-period">/ forever</span>
+              <span className="pricing-card__price">$9</span>
+              <span className="pricing-card__price-period">/ month</span>
             </div>
             <p className="pricing-card__description">Everything you need to get started.</p>
 
             <div className="pricing-card__features">
               <div className="pricing-card__feature pricing-card__feature--included">
                 <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                Basic components and templates
+                Basic functions
               </div>
               <div className="pricing-card__feature pricing-card__feature--included">
                 <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                Community support
+                One phone number
               </div>
-              <div className="pricing-card__feature pricing-card__feature--excluded">
-                <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path></svg>
-                Limited automation runs
+             <div className="pricing-card__feature pricing-card__feature--included">
+                <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                Limit AI Generated response up to 100
+              </div>
+                   <div className="pricing-card__feature pricing-card__feature--included">
+                <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                No trainability or customization
               </div>
             </div>
 
@@ -58,7 +62,7 @@ const Pricing: React.FC = () => {
             <div className="pricing-card__popular-badge">Most popular</div>
             <div className="pricing-card__header">
               <h3 className="pricing-card__title">Pro</h3>
-              <span className="pricing-card__badge">For teams</span>
+              <span className="pricing-card__badge">For busiest phone lines</span>
             </div>
             <div className="pricing-card__price-container">
               <span className="pricing-card__price">$19</span>
@@ -73,7 +77,7 @@ const Pricing: React.FC = () => {
                 </div>
                 <div className="pricing-card__feature pricing-card__feature--included">
                     <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                    Unlimited projects
+                    Trainable AI to mimic you
                 </div>
                 <div className="pricing-card__feature pricing-card__feature--included">
                     <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
@@ -81,7 +85,7 @@ const Pricing: React.FC = () => {
                 </div>
                 <div className="pricing-card__feature pricing-card__feature--included">
                     <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                    Team roles &amp; permissions
+                    Up to 1000 AI Generated responses
                 </div>
             </div>
 
@@ -99,31 +103,10 @@ const Pricing: React.FC = () => {
             </div>
           </div>
 
-          {/* Enterprise */}
-          <div className="pricing-card">
-            <div className="pricing-card__glow-line pricing-card__glow-line--fuchsia"></div>
-            <div className="pricing-card__header">
-              <h3 className="pricing-card__title">Enterprise</h3>
-              <span className="pricing-card__badge">For scale</span>
-            </div>
-            <div className="pricing-card__price-container">
-              <span className="pricing-card__price">Custom</span>
-            </div>
-            <p className="pricing-card__description">Tailored solutions and dedicated support.</p>
-
-            <div className="pricing-card__features">
-                <div className="pricing-card__feature pricing-card__feature--included">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                    SSO &amp; advanced security
-                </div>
-                <div className="pricing-card__feature pricing-card__feature--included">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                    Dedicated success manager
-                </div>
-            </div>
+        
           </div>
         </div>
-      </div>
+      
     </section>
   );
 };

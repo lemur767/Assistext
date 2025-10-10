@@ -37,18 +37,7 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-          <div>
-            <h3 className="footer_columnTitle">Company</h3>
-            <ul className="footer_navList">
-              {['About Us', 'Careers', 'Blog', 'Press', 'Contact'].map(item => (
-                <li key={item}>
-                  <a href="#" className="footer_navLink">
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+         
           <div>
             <h3 className="footer_columnTitle">Legal</h3>
             <ul className="footer_navList">
