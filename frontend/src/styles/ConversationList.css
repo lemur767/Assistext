@@ -5,11 +5,44 @@
 }
 
 .conversationList_container {
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.2);
-}
+  gap:8px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
 
+  color: white; 
+  width: 100%;
+  margin-top: 120px;
+}
+.conversationList_container-wrapper {
+  display:flex;
+  flex-direction: column;
+  border-radius:0.5rem;
+  padding:1rem;
+  gap: 8px;
+  background-color: rgba(62, 72, 87, 0.5);
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  -webkit-border-radius:0.5rem;
+  -moz-border-radius:0.5rem;
+  -ms-border-radius:0.5rem;
+  -o-border-radius:0.5rem;
+}
+.conversationList_main-list {
+  display:flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  width:fit-content;
+  font-size: large;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius:0.5rem;
+
+
+}
 .conversationList_header {
   margin-bottom: 1rem;
   font-size: 1.25rem;
@@ -21,7 +54,17 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+.conversationList_content-wrapper {
+  display:flex;
+  flex-direction:column;
+  border-radius:0.5rem;
+  padding:1rem;
 
+  background-color: rgba(62, 72, 87, 0.5);
+  justify-content: space-between;
+  align-items: center;
+ 
+}
 .conversationList_conversationLink {
   display: block;
   padding: 1rem;

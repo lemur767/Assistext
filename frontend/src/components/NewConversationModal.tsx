@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../styles/NewConversationModal.css';
+import { api } from '../services/api';
 
 interface Contact {
   id: number;
@@ -20,62 +22,61 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
   const [selectedContact, setSelectedContact] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [message, setMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
     if (isOpen) {
       fetchContacts();
     }
-  }, [isOpen]);
+  }, [isOpen, session]);
 
   const fetchContacts = async () => {
-    const response = await fetch('/api/v1/contacts/', {
-      headers: {
-        'Authorization': `Bearer ${session?.token}`
-      }
-    });
-    const data = await response.json();
-    setContacts(data);
+    if (!session) return;
+    try {
+        const data = await api.get('/contacts');
+        setContacts(data.contacts);
+    } catch (err) {
+        console.error("Failed to fetch contacts", err);
+        setError("Failed to load contacts.");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     const targetPhoneNumber = selectedContact || phoneNumber;
     if (!targetPhoneNumber) {
-      alert('Please select a contact or enter a phone number.');
+      setError('Please select a contact or enter a phone number.');
       return;
     }
 
-    const response = await fetch('/api/v1/conversations', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session?.token}`
-      },
-      body: JSON.stringify({ phone_number: targetPhoneNumber, message })
-    });
-
-    if (response.ok) {
-      const conversation = await response.json();
-      onClose();
-      navigate(`/conversations/${conversation.id}`);
-    } else {
-      const error = await response.json();
-      alert(error.error);
+    try {
+        const conversation = await api.post('/conversations', {
+            phone_number: targetPhoneNumber,
+            message: message
+        });
+        onClose();
+        navigate(`/conversations/${conversation.id}`);
+    } catch (err: any) {
+        setError(err.message || "Failed to start conversation.");
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>New Conversation</h2>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <form onSubmit={handleSubmit}>
           <select
             value={selectedContact}
             onChange={(e) => {
-              setSelectedContact(e.target.value);
-              setPhoneNumber(e.target.value);
+              const value = e.target.value;
+              setSelectedContact(value);
+              setPhoneNumber(value); // Also update phone number when contact is selected
             }}
           >
             <option value="">Select a contact</option>
@@ -91,7 +92,7 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
             value={phoneNumber}
             onChange={(e) => {
               setPhoneNumber(e.target.value);
-              setSelectedContact('');
+              setSelectedContact(''); // Deselect contact if typing a number
             }}
           />
           <textarea
@@ -99,8 +100,10 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <button type="submit">Start Conversation</button>
-          <button type="button" onClick={onClose}>Cancel</button>
+          <div className="modal-buttons">
+            <button type="button" onClick={onClose} className="btn btn-ghost">Cancel</button>
+            <button type="submit" className="btn btn-primary">Start Conversation</button>
+          </div>
         </form>
       </div>
     </div>

@@ -119,6 +119,16 @@ const handleRemoveKeyword = async (keywordToRemove: string) => {
 
       <main className="settings_mainContent">
         <div className="settings_settingsCard glass-morphism">
+            <div className="settings_formSection">
+              <h3 className="settings_formSectionTitle text-neutral-text">AI Personality</h3>
+              <p className="settings_formSectionDescription text-neutral-text/60">
+                Customize the AI's personality and tone (Pro feature).
+              </p>
+            </div>
+            <Link to="/settings/ai" className="btn btn-primary">Customize</Link>
+        </div>
+
+        <div className="settings_settingsCard glass-morphism mt-8">
           <form onSubmit={handleUpload} className="settings_form">
             <div className="settings_formSection">
               <h3 className="settings_formSectionTitle text-neutral-text">Upload Training Data</h3>

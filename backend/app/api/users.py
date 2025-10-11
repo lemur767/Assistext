@@ -2,7 +2,7 @@
 from flask import Blueprint, request, jsonify, Response
 from ..utils.auth import token_required
 from .. import db
-from ..models import User, Message, MessageDirection, Conversation
+from ..models import User, Message, MessageDirection, Conversation, SubscriptionPlan
 from datetime import datetime
 from ..services.signalwire_service import signalwire_service
 import json
@@ -57,6 +57,47 @@ def update_keyword_triggers(current_user):
         logger.error(f"Update keyword triggers error: {str(e)}")
         db.session.rollback()
         return jsonify({'error': 'Failed to update keyword triggers'}), 500
+
+@users_bp.route('/profile/ai-settings', methods=['PUT'])
+@token_required
+def update_ai_settings(current_user):
+    """Update user's AI settings (Pro feature)"""
+    try:
+        if not current_user:
+            return jsonify({'error': 'User not found'}), 404
+
+        # Check for Pro subscription
+        if current_user.subscription_plan != SubscriptionPlan.PRO:
+            return jsonify({'error': 'This feature is only available for Pro subscribers'}), 403
+
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Missing data'}), 400
+
+        # Update fields if they exist in the request
+        if 'ai_system_prompt' in data:
+            if not isinstance(data['ai_system_prompt'], str):
+                return jsonify({'error': 'ai_system_prompt must be a string'}), 400
+            current_user.ai_system_prompt = data['ai_system_prompt']
+
+        if 'ai_tone' in data:
+            if not isinstance(data['ai_tone'], str):
+                return jsonify({'error': 'ai_tone must be a string'}), 400
+            current_user.ai_tone = data['ai_tone']
+        
+        if 'include_ai_signature' in data:
+            if not isinstance(data['include_ai_signature'], bool):
+                return jsonify({'error': 'include_ai_signature must be a boolean'}), 400
+            current_user.include_ai_signature = data['include_ai_signature']
+
+        db.session.commit()
+
+        return jsonify({'message': 'AI settings updated successfully'}), 200
+
+    except Exception as e:
+        logger.error(f"Update AI settings error: {str(e)}")
+        db.session.rollback()
+        return jsonify({'error': 'Failed to update AI settings'}), 500
 
 @users_bp.route('/profile/include_ai_signature', methods=['PUT'])
 @token_required

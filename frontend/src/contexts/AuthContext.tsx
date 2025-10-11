@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const fetchSubscription = async () => {
         try {
-            const data = await api.get("/subscriptions/plans");
+            const data = await api.get("/subscriptions/plans", { token: session?.token });
             setSubscription(data);
         } catch (err: unknown) {
             console.error((err as Error).message);
@@ -36,14 +36,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const fetchUser = async () => {
         try {
-            const data = await api.get("/users/profile");
+            const data = await api.get("/users/profile", { token: session?.token });
             setUser(data.user);
         } catch (err: unknown) {
             console.error((err as Error).message);
         }
     };
 
-    if (session) {
+    if (session?.token) {
       localStorage.setItem('session', JSON.stringify(session));
       fetchSubscription();
       fetchUser();

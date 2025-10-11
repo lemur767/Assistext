@@ -1,4 +1,4 @@
-const getAuthToken = () => {
+const getAuthTokenFromStorage = () => {
   const session = localStorage.getItem('session');
   if (session) {
     return JSON.parse(session).token;
@@ -15,7 +15,11 @@ const handleResponse = async (response: Response) => {
 };
 
 const fetchApi = async (url: string, options: RequestInit = {}) => {
-  const token = getAuthToken();
+  // Extract token from custom options, and remove it from the options passed to fetch
+  const customOptions = options as any;
+  const token = customOptions.token || getAuthTokenFromStorage();
+  delete customOptions.token;
+
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,

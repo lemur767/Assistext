@@ -1,129 +1,153 @@
-
-
+.settings_container {
+  color: white;
+  width: 100%;
+  max-width: 800px;
+  margin: 120px auto 0;
+  padding: 2rem;
+}
 
 .settings_header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 1rem; /* p-4 */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 .settings_headerTitle {
-  font-size: 1.5rem; /* text-2xl */
-  font-weight: 700; /* font-bold */
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .settings_mainContent {
-  padding: 2rem; /* p-8 */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .settings_settingsCard {
-  max-width: 42rem; /* max-w-2xl */
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1.5rem; /* p-6 */
-  border-radius: 0.5rem; /* rounded-lg */
+  padding: 2rem;
+  border-radius: 0.5rem;
+  background-color: rgba(62, 72, 87, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .settings_form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* space-y-6 */
+  gap: 1.5rem;
 }
 
+.settings_formSection {
+  margin-bottom: 1rem;
+}
 
 .settings_formSectionTitle {
-  font-size: 1.125rem; /* text-lg */
-  font-weight: 700; /* font-bold */
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
 }
 
 .settings_formSectionDescription {
-  margin-top: 0.25rem; /* mt-1 */
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.875rem;
+  color: #94a3b8;
 }
 
 .settings_fileUploadLabel {
-  display: block;
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500; /* font-medium */
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 .settings_fileUploadArea {
-  margin-top: 0.25rem; /* mt-1 */
-  display: flex;
-  justify-content: center;
-  padding: 1.25rem 1.5rem 1.5rem 1.5rem; /* px-6 pt-5 pb-6 */
-  border: 2px dashed;
-  border-radius: 0.375rem; /* rounded-md */
+  border: 2px dashed #4a5568;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 150ms ease-in-out;
 }
 
 .settings_fileUploadArea:hover {
-  border-color: var(--primary); /* hover:border-primary */
+    border-color: #61e2ff;
 }
 
 .settings_fileUploadContent {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem; /* space-y-1 */
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .settings_fileUploadIcon {
-  width: 3rem; /* w-12 */
-  height: 3rem; /* h-12 */
-  margin-left: auto;
-  margin-right: auto;
+    width: 48px;
+    height: 48px;
+    color: #94a3b8;
 }
 
 .settings_fileUploadTextContainer {
-  display: flex;
-  font-size: 0.875rem; /* text-sm */
+    display: flex;
+    gap: 0.25rem;
+    align-items: baseline;
 }
 
 .settings_fileUploadButton {
-  position: relative;
-  font-weight: 500; /* font-medium */
-  border-radius: 0.375rem; /* rounded-md */
-  cursor: pointer;
-}
-
-.settings_fileUploadButton:focus-within {
-  outline: 2px solid transparent; /* focus-within:outline-none */
-  outline-offset: 2px;
-  box-shadow: 0 0 0 2px var(--primary); /* focus-within:ring-2 focus-within:ring-primary */
+    font-weight: 600;
+    color: #61e2ff;
+    cursor: pointer;
 }
 
 .settings_fileUploadInput {
-  position: absolute;
-  width: 1px;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
   height: 1px;
-  padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  padding: 0;
+  position: absolute;
+  width: 1px;
   white-space: nowrap;
-  border-width: 0;
 }
 
-.settings_fileUploadDragDropText {
-  padding-left: 0.25rem; /* pl-1 */
-}
-
+.settings_fileUploadDragDropText,
 .settings_fileUploadHint {
-  font-size: 0.75rem; /* text-xs */
+    font-size: 0.875rem;
+    color: #94a3b8;
 }
 
 .settings_fileName {
-  font-size: 0.875rem; /* text-sm */
+    margin-top: 1rem;
+    font-weight: 600;
 }
 
 .settings_submitButton {
-  width: 100%;
+    align-self: flex-end;
 }
 
 .settings_message {
-  margin-top: 1rem; /* mt-4 */
-  font-size: 0.875rem; /* text-sm */
-  text-align: center;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.text-success {
+  color: #34d399;
+}
+
+.text-error {
+  color: #ef4444;
+}
+
+.form-checkbox {
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 0.25rem;
+    border-color: #4a5568;
+    background-color: #1a202c;
+}
+
+.form-checkbox:checked {
+    background-color: #61e2ff;
+    border-color: #61e2ff;
 }

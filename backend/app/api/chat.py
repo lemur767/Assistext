@@ -100,3 +100,23 @@ def takeover_conversation(message):
     else:
         logger.error(f"Conversation {conversation_id} not found.")
         emit('error', {'msg': 'Conversation not found.'})
+
+
+@socketio.on('release_conversation', namespace='/chat')
+def release_conversation(message):
+    conversation_id = message['conversation_id']
+    room = f"conversation_{conversation_id}"
+    conversation = Conversation.query.get(conversation_id)
+
+    if conversation:
+        try:
+            conversation.controlled_by = 'ai'
+            db.session.commit()
+            emit('status', {'msg': 'Conversation released to AI.'}, room=room)
+            logger.info(f"Conversation {conversation.id} released to AI by user {conversation.user_id}")
+        except Exception as e:
+            logger.error(f"Error releasing conversation {conversation.id}: {e}")
+            emit('error', {'msg': 'Failed to release conversation.'}, room=room)
+    else:
+        logger.error(f"Conversation {conversation_id} not found.")
+        emit('error', {'msg': 'Conversation not found.'})

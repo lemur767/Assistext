@@ -56,6 +56,11 @@ class User(db.Model):
 
     # Notification settings
     keyword_triggers = db.Column(db.JSON, default=lambda: [])
+
+    # AI Customization
+    ai_system_prompt = db.Column(db.Text, nullable=True)
+    ai_tone = db.Column(db.Text, nullable=True)
+    include_ai_signature = db.Column(db.Boolean, default=True, nullable=False)
     
     # Relationships
     conversations = db.relationship('Conversation', backref='user', lazy=True, cascade="all, delete-orphan")

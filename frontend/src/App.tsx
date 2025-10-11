@@ -14,6 +14,7 @@ import ConversationList from './components/ConversationList';
 import DashboardLayout from './components/DashboardLayout';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import AISettingsPage from './pages/AISettingsPage';
 
 import Contacts from './components/Contacts';
 import ContactDetail from './components/ContactDetail';
@@ -36,6 +37,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route path="/settings" element={<Settings />} />
+              <Route path="/settings/ai" element={<AISettingsPage />} />
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/conversations" element={<ConversationList />} />

@@ -106,15 +106,15 @@ const ConversationList: React.FC = () => {
 
   return (
     <>
-      <div className="conversationList_container card">
-        <div className="flex justify-between items-center mb-4">
+      <div className="conversationList_container">
+        <div className="conversationList_content-wrapper">
           <h3 className="conversationList_header text-text">Conversations</h3>
           <button onClick={() => setIsNewConversationModalOpen(true)} className="btn btn-primary">
             New Conversation
           </button>
         </div>
         {conversations.length === 0 ? (
-          <p className="text-muted">No conversations yet.</p>
+          <p className="conversationList_main-list text-muted">No conversations yet.</p>
         ) : (
           <>
             <ul className="conversationList_conversationList">

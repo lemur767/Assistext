@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
 import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
-
+import "../styles/Subscription.css";
 
 const stripePromise = loadStripe(
   import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_51OeclgDdJI4l0ylPtIxmYakVI9gTP4tg38d2T8FHHspjyHAZH1AIomMM7mw1fmAhvI7JcUOlPgjtZZ3Bl7pYOdId00vnY35MMV",
@@ -37,7 +37,7 @@ const Subscription: React.FC = () => {
                 throw new Error("User not authenticated.");
             }
 
-            const data = await api.get("/subscriptions/plans");
+            const data = await api.get("/subscriptions/plans", { token: session?.token });
             setPlans(data);
         } catch (err: unknown) {
             setError((err as Error).message);
@@ -52,7 +52,7 @@ const Subscription: React.FC = () => {
                 throw new Error("User not authenticated.");
             }
 
-            const data = await api.get("/subscriptions");
+            const data = await api.get("/subscriptions", { token: session?.token });
             setCurrentSubscription(data);
         } catch (err: unknown) {
             // Don't set error for this, as it's not critical
@@ -60,22 +60,22 @@ const Subscription: React.FC = () => {
         }
     };
 
-    if (isAuthenticated) {
+    if (isAuthenticated && session?.token) {
         fetchPlans();
         fetchSubscription();
     }
-  }, [isAuthenticated, session]);
+  }, [isAuthenticated, session?.token]);
 
   const handleSelectPlan = async (plan: Plan) => {
     setLoading(true);
     setError(null);
     setSelectedPlan(plan);
     try {
-      if (!isAuthenticated || !session) {
+      if (!isAuthenticated || !session?.token) {
         throw new Error("User not authenticated.");
       }
 
-      const data = await api.post("/subscriptions/create-payment-intent", { price_id: plan.price_id });
+      const data = await api.post("/subscriptions/create-payment-intent", { price_id: plan.price_id }, { token: session?.token });
       setClientSecret(data.client_secret);
     } catch (err: unknown) {
       setError((err as Error).message);
