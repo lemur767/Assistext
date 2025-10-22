@@ -8,43 +8,59 @@ from datetime import datetime
 
 conversations_bp = Blueprint('conversations_bp', __name__)
 
+from sqlalchemy import func
+
 @conversations_bp.route('/', methods=['GET'])
 @token_required
 def get_conversations(current_user):
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
 
-    conversations_with_contacts = db.session.query(
+    # Subquery to rank messages within each conversation
+    ranked_messages_subquery = db.session.query(
+        Message.id,
+        Message.body,
+        Message.sentiment,
+        Message.conversation_id,
+        func.row_number().over(
+            partition_by=Message.conversation_id,
+            order_by=Message.created_at.desc()
+        ).label('rn')
+    ).filter(Message.user_id == current_user.id).subquery()
+
+    # Main query to get conversations and join with the last message
+    conversations_with_last_message = db.session.query(
         Conversation,
-        Contact.name
+        Contact.name,
+        ranked_messages_subquery.c.body,
+        ranked_messages_subquery.c.sentiment
     ).outerjoin(
         Contact,
         db.and_(
             Contact.id == Conversation.contact_id,
             Contact.user_id == current_user.id
         )
+    ).outerjoin(
+        ranked_messages_subquery,
+        db.and_(
+            Conversation.id == ranked_messages_subquery.c.conversation_id,
+            ranked_messages_subquery.c.rn == 1
+        )
     ).filter(Conversation.user_id == current_user.id).order_by(Conversation.last_message_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
 
     result = []
-    for conversation, contact_name in conversations_with_contacts.items:
+    for conversation, contact_name, last_message_body, last_message_sentiment in conversations_with_last_message.items:
         convo_dict = conversation.to_dict()
         convo_dict['contact_name'] = contact_name
-
-        last_message = Message.query.filter_by(conversation_id=conversation.id).order_by(Message.created_at.desc()).first()
-        if last_message:
-            convo_dict['last_message'] = last_message.body
-            convo_dict['last_message_sentiment'] = last_message.sentiment
-        else:
-            convo_dict['last_message'] = ""
-            convo_dict['last_message_sentiment'] = None
-
+        convo_dict['last_message'] = last_message_body or ""
+        convo_dict['last_message_sentiment'] = last_message_sentiment
         result.append(convo_dict)
 
     return jsonify({
         'conversations': result,
-        'page': conversations_with_contacts.page,
-        'pages': conversations_with_contacts.pages,
-        'total': conversations_with_contacts.total
+        'page': conversations_with_last_message.page,
+        'pages': conversations_with_last_message.pages,
+        'total': conversations_with_last_message.total
     })
 
 @conversations_bp.route('/', methods=['POST'])

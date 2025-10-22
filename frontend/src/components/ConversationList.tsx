@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import "../styles/ConversationList.css";
 import ContactModal from "./ContactModal";
 import NewConversationModal from "./NewConversationModal";
 import { Edit2Icon } from "lucide-react";
 import { api } from "../services/api";
+import SentimentIndicator from "./SentimentIndicator";
+import { useConversations } from "../hooks/useConversations";
 
 interface Conversation {
   id: string;
@@ -19,41 +19,11 @@ interface Conversation {
 }
 
 const ConversationList: React.FC = () => {
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const { conversations, loading, error, page, totalPages, setPage, fetchConversations } = useConversations();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewConversationModalOpen, setIsNewConversationModalOpen] = useState(false);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
-  const auth = useAuth();
   const navigate = useNavigate();
-
-  const fetchConversations = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      if (!auth?.session) {
-        throw new Error("User not authenticated.");
-      }
-
-      const data = await api.get(`/conversations/?page=${page}`);
-      setConversations(data.conversations);
-      setTotalPages(data.pages);
-    } catch (err: unknown) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (auth?.session) {
-      console.log(auth?.session.token);
-      fetchConversations();
-    }
-  }, [auth?.session, page]);
 
   const handleOpenModal = (conv: Conversation) => {
     setSelectedConversation(conv);
@@ -66,7 +36,7 @@ const ConversationList: React.FC = () => {
   };
 
   const handleSaveContact = async (name: string) => {
-    if (!selectedConversation || !auth?.session) return;
+    if (!selectedConversation) return;
 
     const { contact_id, contact_number } = selectedConversation;
     const method = contact_id ? 'put' : 'post';
@@ -75,11 +45,8 @@ const ConversationList: React.FC = () => {
 
     try {
       await api[method](url, body);
-
-      // Refresh conversations to show the new name
-      fetchConversations();
+      fetchConversations(); // Refetch conversations after saving
       handleCloseModal();
-
     } catch (error) {
       console.error("Error saving contact:", error);
     }
@@ -89,73 +56,57 @@ const ConversationList: React.FC = () => {
     navigate(`/conversations/${conversationId}`);
   };
 
-  const getSentimentColor = (sentiment: number | null) => {
-    if (sentiment === null) return "gray";
-    if (sentiment < -0.2) return "red";
-    if (sentiment > 0.2) return "green";
-    return "gray";
-  };
-
   if (loading) {
-    return <div className="conversationList_loading">Loading conversations...</div>;
+    return <div className="p-8 text-center">Loading conversations...</div>;
   }
 
   if (error) {
-    return <div className="conversationList_error">Error: {error}</div>;
+    return <div className="p-8 text-center text-red-500">Error: {error}</div>;
   }
 
   return (
     <>
-      <div className="conversationList_container">
-        <div className="conversationList_content-wrapper">
-          <h3 className="conversationList_header text-text">Conversations</h3>
-          <button onClick={() => setIsNewConversationModalOpen(true)} className="btn btn-primary">
+      <div className="container mx-auto p-4">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-2xl font-bold">Conversations</h3>
+          <button onClick={() => setIsNewConversationModalOpen(true)} className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600">
             New Conversation
           </button>
         </div>
         {conversations.length === 0 ? (
-          <p className="conversationList_main-list text-muted">No conversations yet.</p>
+          <p className="text-gray-500">No conversations yet.</p>
         ) : (
           <>
-            <ul className="conversationList_conversationList">
+            <ul className="space-y-2">
               {conversations.map((conv) => (
-                <li key={conv.id} onClick={() => handleConversationClick(conv.id)} style={{ cursor: 'pointer' }}>
-                  <div className={`conversationList_conversationLink ${conv.unread ? "conversationList_conversationLinkUnread" : ''}`}>
-                    <div className="conversationList_conversationHeader">
-                      <div className="conversationList_contactInfo">
-                        <strong className={`conversationList_contactName ${conv.unread ? "conversationList_contactNameUnread" : "conversationList_contactNameRead"}`}>
-                          {conv.contact_name || conv.contact_number}
-                        </strong>
-                        {conv.contact_name && <span className="conversationList_contactNumber">{conv.contact_number}</span>}
-                      </div>
-                      <div className="conversationList_headerActions">
-                        <button onClick={(e) => { e.stopPropagation(); handleOpenModal(conv); }} className="conversationList_editButton">
-                          <Edit2Icon size={14} />
-                        </button>
-                        <small className="conversationList_lastMessageTime">{new Date(conv.last_message_at).toLocaleString()}</small>
-                      </div>
+                <li key={conv.id} onClick={() => handleConversationClick(conv.id)} className={`p-4 rounded-md cursor-pointer transition-colors ${conv.unread ? 'bg-cyan-400/10' : 'bg-white'} hover:bg-gray-50`}>
+                  <div className={`flex justify-between items-center`}>
+                    <div className="flex flex-col">
+                      <strong className={`font-semibold ${conv.unread ? 'text-cyan-400' : 'text-gray-800'}`}>
+                        {conv.contact_name || conv.contact_number}
+                      </strong>
+                      {conv.contact_name && <span className="text-xs text-gray-500 font-mono">{conv.contact_number}</span>}
                     </div>
-                    <p className={`conversationList_lastMessage ${conv.unread ? "conversationList_lastMessageUnread" : "conversationList_lastMessageRead"}`}>
-                      <span style={{
-                        height: "10px",
-                        width: "10px",
-                        backgroundColor: getSentimentColor(conv.last_message_sentiment),
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        marginRight: "5px"
-                      }}></span>
-                      {conv.last_message}
-                    </p>
+                    <div className="flex items-center space-x-3">
+                      <button onClick={(e) => { e.stopPropagation(); handleOpenModal(conv); }} className="text-gray-500 hover:text-cyan-400">
+                        <Edit2Icon size={14} />
+                      </button>
+                      <small className="text-xs text-gray-500">{new Date(conv.last_message_at).toLocaleString()}</small>
+                    </div>
                   </div>
+                  <p className={`mt-1 text-sm truncate ${conv.unread ? 'text-gray-800' : 'text-gray-500'}`}>
+                    <SentimentIndicator sentiment={conv.last_message_sentiment} />
+                    {conv.last_message}
+                  </p>
                 </li>
               ))}
             </ul>
-            <div className="conversationList_pagination">
-              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="btn btn-ghost">
+            <div className="flex justify-between items-center mt-4">
+              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50">
                 Previous
               </button>
-              <span className="conversationList_paginationText"> Page {page} of {totalPages} </span>
-              <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="btn btn-ghost">
+              <span className="text-sm text-gray-500"> Page {page} of {totalPages} </span>
+              <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50">
                 Next
               </button>
             </div>

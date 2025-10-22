@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import '../styles/NewConversationModal.css';
 import { api } from '../services/api';
 
 interface Contact {
@@ -66,18 +65,19 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>New Conversation</h2>
-        {error && <p className="text-red-500 text-center">{error}</p>}
-        <form onSubmit={handleSubmit}>
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50" onClick={onClose}>
+      <div className="bg-slate-800 p-8 rounded-2xl border border-white/10 shadow-2xl w-full max-w-lg" onClick={(e) => e.stopPropagation()}>
+        <h2 className="text-2xl font-bold mb-6 text-center">New Conversation</h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <select
             value={selectedContact}
             onChange={(e) => {
               const value = e.target.value;
               setSelectedContact(value);
-              setPhoneNumber(value); // Also update phone number when contact is selected
+              setPhoneNumber(value);
             }}
+            className="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50"
           >
             <option value="">Select a contact</option>
             {contacts.map(contact => (
@@ -92,17 +92,19 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
             value={phoneNumber}
             onChange={(e) => {
               setPhoneNumber(e.target.value);
-              setSelectedContact(''); // Deselect contact if typing a number
+              setSelectedContact('');
             }}
+            className="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50"
           />
           <textarea
             placeholder="Initial message (optional)"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-slate-700 border border-slate-600 text-white min-h-[100px] resize-y focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50"
           />
-          <div className="modal-buttons">
-            <button type="button" onClick={onClose} className="btn btn-ghost">Cancel</button>
-            <button type="submit" className="btn btn-primary">Start Conversation</button>
+          <div className="flex justify-end gap-4 mt-4">
+            <button type="button" onClick={onClose} className="px-4 py-2 rounded-full bg-transparent border border-slate-600 text-white font-medium transition-colors hover:bg-slate-700">Cancel</button>
+            <button type="submit" className="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium transition-all hover:shadow-lg hover:shadow-purple-500/30">Start Conversation</button>
           </div>
         </form>
       </div>
@@ -111,3 +113,4 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
 };
 
 export default NewConversationModal;
+

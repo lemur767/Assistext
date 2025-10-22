@@ -18,7 +18,7 @@ import AISettingsPage from './pages/AISettingsPage';
 
 import Contacts from './components/Contacts';
 import ContactDetail from './components/ContactDetail';
-import './styles/App.css'
+
 
 function App() {
   return (

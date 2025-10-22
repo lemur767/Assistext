@@ -6,14 +6,21 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_socketio import SocketIO
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from datetime import datetime
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
+from .errors import register_error_handlers
 
 # Initialize extensions
 db = SQLAlchemy()
 migrate = Migrate()
 socketio = SocketIO()
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
 
 def create_app(config_name=None):
     """Application factory function"""
@@ -24,11 +31,13 @@ def create_app(config_name=None):
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:plmnko1423@localhost:5433/Assistext_Dev')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['RATELIMIT_STORAGE_URI'] = os.getenv('REDIS_URL', 'memory://')
 
     # Initialize extensions with app
     db.init_app(app)
     migrate.init_app(app, db)
     socketio.init_app(app, cors_allowed_origins="*")
+    limiter.init_app(app)
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
     # Set up logging

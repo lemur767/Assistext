@@ -6,9 +6,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import "../styles/Subscription.css";
 
-const stripePromise = loadStripe(
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_51OeclgDdJI4l0ylPtIxmYakVI9gTP4tg38d2T8FHHspjyHAZH1AIomMM7mw1fmAhvI7JcUOlPgjtZZ3Bl7pYOdId00vnY35MMV",
-);
+const stripePublishableKey = process.env.VITE_STRIPE_PUBLISHABLE_KEY;
+if (!stripePublishableKey) {
+  throw new Error("VITE_STRIPE_PUBLISHABLE_KEY is not set. Please check your .env file.");
+}
+const stripePromise = loadStripe(stripePublishableKey);
 
 interface Plan {
     id: string;
