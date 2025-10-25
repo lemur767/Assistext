@@ -38,7 +38,7 @@ def create_app(config_name=None):
     migrate.init_app(app, db)
     socketio.init_app(app, cors_allowed_origins="*")
     limiter.init_app(app)
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:8081"}}, supports_credentials=True)
 
     # Set up logging
     logging.basicConfig(level=logging.INFO)

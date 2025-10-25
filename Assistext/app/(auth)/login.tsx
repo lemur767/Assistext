@@ -74,9 +74,11 @@ const LoginPage: React.FC = () => {
         <View style={tw`flex-row justify-center mt-4`}>
           <Text style={tw`text-gray-400`}>
             Don&apos;t have an account?{' '}
-            <Link href="/signup" style={tw`text-blue-400 hover:underline`}>
-              Sign up
-            </Link>
+            <Text style={tw`text-blue-400 hover:underline`}>
+              <Link href="/signup">
+                Sign up
+              </Link>
+            </Text>
           </Text>
         </View>
       </View>

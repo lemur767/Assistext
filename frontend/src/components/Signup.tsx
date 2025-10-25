@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/Signup.css";
@@ -7,13 +7,29 @@ const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [country_code, setCountryCode] = useState("");
+  const [state, setState] = useState("");
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [passwordErrors, setPasswordErrors] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+  });
   const { setSession } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setPasswordErrors({
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+    });
+  }, [password]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +37,13 @@ const Signup: React.FC = () => {
       setMessage("You must agree to the Terms of Service and Privacy Policy.");
       return;
     }
+
+    const isPasswordValid = Object.values(passwordErrors).every((v) => v);
+    if (!isPasswordValid) {
+      setMessage("Please ensure your password meets all the requirements.");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
     try {
@@ -31,16 +54,27 @@ const Signup: React.FC = () => {
           email,
           password,
           country_code,
+          state,
           first_name,
           last_name,
         }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      if (!response.ok) {
+        if (data.message && data.message.includes("Password")) {
+          throw new Error(data.message);
+        } else {
+          throw new Error(data.error || "An unknown error occurred.");
+        }
+      }
       setSession({ token: data.access_token });
       navigate("/dashboard");
     } catch (err: unknown) {
-      setMessage((err as Error).message);
+      const errorMessage = (err as Error).message;
+      setMessage(errorMessage);
+      if (errorMessage.includes("Password")) {
+        setPassword("");
+      }
     } finally {
       setLoading(false);
     }
@@ -106,6 +140,22 @@ const Signup: React.FC = () => {
               className="form-input"
               placeholder="••••••••"
             />
+            <div className="password-requirements">
+              <ul>
+                <li className={passwordErrors.length ? "valid" : "invalid"}>
+                  At least 8 characters
+                </li>
+                <li className={passwordErrors.uppercase ? "valid" : "invalid"}>
+                  At least one uppercase letter
+                </li>
+                <li className={passwordErrors.lowercase ? "valid" : "invalid"}>
+                  At least one lowercase letter
+                </li>
+                <li className={passwordErrors.number ? "valid" : "invalid"}>
+                  At least one number
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="signup_inputGroup">
             <label htmlFor="country_code" className="signup_label text-neutral-text">
@@ -118,6 +168,19 @@ const Signup: React.FC = () => {
               onChange={(e) => setCountryCode(e.target.value)}
               className="form-input"
               placeholder="e.g. CA"
+            />
+          </div>
+          <div className="signup_inputGroup">
+            <label htmlFor="state" className="signup_label text-neutral-text">
+              State/Province
+            </label>
+            <input
+              id="state"
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              className="form-input"
+              placeholder="e.g. NY or ON"
             />
           </div>
           <div className="signup_inputGroup">

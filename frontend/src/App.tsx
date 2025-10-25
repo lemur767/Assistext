@@ -11,7 +11,7 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 import UnprotectedRoute from './components/common/UnprotectedRoute';
 import ConversationDetail from './components/ConversationDetail';
 import ConversationList from './components/ConversationList';
-import DashboardLayout from './components/DashboardLayout';
+import AuthenticatedLayout from './components/AuthenticatedLayout';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import AISettingsPage from './pages/AISettingsPage';
@@ -35,7 +35,7 @@ function App() {
           </Route>
 
           <Route element={<ProtectedRoute />}>
-            <Route element={<DashboardLayout />}>
+            <Route element={<AuthenticatedLayout />}>
               <Route path="/settings" element={<Settings />} />
               <Route path="/settings/ai" element={<AISettingsPage />} />
               <Route path="/subscription" element={<Subscription />} />
@@ -44,7 +44,6 @@ function App() {
               <Route path="/conversations/:conversationId" element={<ConversationDetail />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/contacts/:contactId" element={<ContactDetail />} />
-
             </Route>
           </Route>
         </Routes>

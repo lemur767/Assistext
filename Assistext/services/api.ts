@@ -33,7 +33,7 @@ const fetchApi = async (url: string, options: RequestInit = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/v1/${url}`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1${url}`, {
     ...options,
     headers,
   });

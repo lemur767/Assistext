@@ -45,6 +45,7 @@ const Dashboard: React.FC = () => {
             Your trial has expired. Please <Text style={tw`font-bold`} onPress={() => router.push('/subscription')}>subscribe</Text> to continue using the service.
           </Text>
         </View>
+        
       )}
 
       {!user.phone_number ? (

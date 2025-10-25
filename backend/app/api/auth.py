@@ -83,7 +83,7 @@ def register():
         try:
             friendly_name = signalwire_service.generate_friendly_name(email)
             subproject = signalwire_service.create_subproject(friendly_name)
-            available_numbers = signalwire_service.search_available_numbers(country_code, 5, city=city)
+            available_numbers = signalwire_service.search_available_numbers(country_code, 5, city=city, region=current_user.state)
             if not available_numbers:
                 raise Exception(f"No phone numbers available for country: {country_code}")
 

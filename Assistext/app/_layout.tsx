@@ -1,18 +1,11 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack, SplashScreen } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useEffect } from 'react';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider, useAuth } from '../contexts/AuthContext'; // Import AuthProvider
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
 
 export default function RootLayout() {
   return (
@@ -25,25 +18,24 @@ export default function RootLayout() {
 function RootLayoutContent() { // New component to encapsulate the original RootLayout logic
   const colorScheme = useColorScheme();
   const { isAuthenticated, session } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (session !== undefined) {
-      SplashScreen.hideAsync();
+      if (isAuthenticated) {
+        router.replace('/(tabs)');
+      } else {
+        router.replace('/(auth)');
+      }
     }
-  }, [session]);
-
-  if (session === undefined) {
-    return null;
-  }
+  }, [session, isAuthenticated, router]);
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        {isAuthenticated ? (
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        )}
+      <Stack initialRouteName='(splash)'>
+        <Stack.Screen name="(splash)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         <Stack.Screen name="conversation/[id]" options={{ headerShown: true, title: '' }} />
       </Stack>

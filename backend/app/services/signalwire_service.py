@@ -110,7 +110,7 @@ class SignalWireService:
             logger.error(f"Failed to create subproject: {e}")
             raise Exception("Failed to create SignalWire subproject")
     
-    def search_available_numbers(self, country_code: str, limit: int = 10, city: Optional[str] = None) -> List[AvailablePhoneNumber]:
+    def search_available_numbers(self, country_code: str, limit: int = 10, city: Optional[str] = None, region: Optional[str] = None) -> List[AvailablePhoneNumber]:
         """Search for available phone numbers"""
         try:
             url = f"{self.base_url}/Accounts/{self.project_id}/AvailablePhoneNumbers/{country_code}/Local.json"
@@ -122,6 +122,8 @@ class SignalWireService:
 
             if city:
                 params['InLocality'] = city
+            if region:
+                params['InRegion'] = region
             
             response = requests.get(url, auth=self.auth, params=params)
             response.raise_for_status()
@@ -177,6 +179,24 @@ class SignalWireService:
             transfer_response.raise_for_status()
             
             transferred_number_data = transfer_response.json()
+
+            # Step 3: Update the SmsUrl for the transferred number in the subproject
+            update_url = f"{self.base_url}/Accounts/{subproject_id}/IncomingPhoneNumbers/{purchased_number_sid}.json"
+            update_data = {
+                'SmsUrl': webhook_url,
+                'SmsMethod': 'POST'
+            }
+
+            update_response = requests.post(
+                update_url,
+                auth=self.auth,
+                data=update_data,
+                headers={'Content-Type': 'application/x-www-form-urlencoded'}
+            )
+            update_response.raise_for_status()
+            
+            # Use the updated data for the return object
+            transferred_number_data = update_response.json()
 
             return PurchasedPhoneNumber(
                 sid=transferred_number_data['sid'],

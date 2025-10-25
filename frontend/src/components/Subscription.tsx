@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import "../styles/Subscription.css";
 
-const stripePublishableKey = process.env.VITE_STRIPE_PUBLISHABLE_KEY;
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 if (!stripePublishableKey) {
   throw new Error("VITE_STRIPE_PUBLISHABLE_KEY is not set. Please check your .env file.");
 }

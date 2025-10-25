@@ -12,7 +12,7 @@ const LandingHeader: React.FC = () => {
           {/* Logo Left */}
           <a href="#" className="landing-header__logo-link">
             <div className="landing-header__logo-icon-container">
-              <img src='/assets/logo3333.png' alt="Logo" className="landing-header__logo-icon" width='150px' height='150px' />
+              <img src='/assets/logonotext.png' alt="Logo" className="landing-header__logo-icon" width='150px' height='150px' />
 
             </div>
            

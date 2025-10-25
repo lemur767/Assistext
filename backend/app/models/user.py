@@ -29,6 +29,7 @@ class User(db.Model):
     first_name = db.Column(db.String(255), nullable=True)
     last_name = db.Column(db.String(255), nullable=True)
     city = db.Column(db.String(255), nullable=True)
+    state = db.Column(db.String(255), nullable=True)
     country_code = db.Column(db.String(5), nullable=False, default='US')
     
     # SignalWire fields

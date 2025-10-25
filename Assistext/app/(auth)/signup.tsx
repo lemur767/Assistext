@@ -10,6 +10,7 @@ const SignupPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [country_code, setCountryCode] = useState('');
+  const [state, setState] = useState('');
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
@@ -27,6 +28,7 @@ const SignupPage: React.FC = () => {
         email,
         password,
         country_code,
+        state,
         first_name,
         last_name,
       });
@@ -99,6 +101,17 @@ const SignupPage: React.FC = () => {
             onChangeText={setCountryCode}
             style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
             placeholder="e.g. CA"
+            placeholderTextColor="#9CA3AF"
+          />
+        </View>
+
+        <View style={tw`mb-4`}>
+          <Text style={tw`text-sm text-gray-400 mb-2`}>State/Province</Text>
+          <TextInput
+            value={state}
+            onChangeText={setState}
+            style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+            placeholder="e.g. NY or ON"
             placeholderTextColor="#9CA3AF"
           />
         </View>

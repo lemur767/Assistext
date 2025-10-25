@@ -22,6 +22,7 @@ const fetchApi = async (url: string, options: RequestInit = {}) => {
 
   const headers = {
     'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`,
     ...options.headers,
   };
 

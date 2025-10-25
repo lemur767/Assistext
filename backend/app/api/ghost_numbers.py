@@ -26,7 +26,7 @@ def provision_ghost_number(current_user):
         
         # Search for available numbers
         available_numbers = signalwire_service.search_available_numbers(
-            current_user.country_code, limit=1
+            current_user.country_code, limit=1, region=current_user.state
         )
         
         if not available_numbers:
