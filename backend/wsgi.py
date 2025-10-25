@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # For development server
     debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
     port = int(os.getenv('PORT', 5000))
-    host = os.getenv('HOST', '127.0.0.1')
+    host = os.getenv('HOST', '0.0.0.0')
     
     print(f"🚀 Starting development server...")
     print(f"🔗 Running on: http://{host}:{port}")
