@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
       {trialDaysRemaining === 0 && user.subscription_plan === 'trial' && (
         <View style={tw`bg-yellow-500 p-4 rounded-lg mb-4`}>
           <Text style={tw`text-white text-center`}>
-            Your trial has expired. Please <Text style={tw`font-bold`} onPress={() => router.push('/subscription')}>subscribe</Text> to continue using the service.
+            Your trial has expired. Please <Text style={tw`font-bold`} onPress={() => router.push('/subscription' as any)}>subscribe</Text> to continue using the service.
           </Text>
         </View>
         
@@ -53,7 +53,7 @@ const Dashboard: React.FC = () => {
           <Text style={tw`text-lg font-bold text-white mb-2`}>No Ghost Number Assigned</Text>
           <Text style={tw`text-white`}>
             It looks like you don&apos;t have a Ghost Number yet. Please visit the{" "}
-            <Text style={tw`font-bold text-blue-400`} onPress={() => router.push('/settings')}>Settings</Text> page to set one up.
+            <Text style={tw`font-bold text-blue-400`} onPress={() => router.push({ pathname: '/settings' })}>Settings</Text> page to set one up.
           </Text>
         </View>
       ) : (
