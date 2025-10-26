@@ -2,6 +2,7 @@
 import os
 import logging
 from flask import Flask, jsonify
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -26,6 +27,7 @@ def create_app(config_name=None):
     """Application factory function"""
     load_dotenv()
     app = Flask(__name__)
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1)
 
     # Configuration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '')

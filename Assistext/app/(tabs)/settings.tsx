@@ -1,104 +1,122 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Switch, TouchableOpacity, Alert } from 'react-native'; // Removed StyleSheet
-import { useAuth } from '../../contexts/AuthContext'; // Adjusted path
-import { api } from '../../services/api'; // Adjusted path
-import tw from 'twrnc';
 
-const AISettingsPage: React.FC = () => {
-  const auth = useAuth();
-  const [systemPrompt, setSystemPrompt] = useState('');
-  const [tone, setTone] = useState('');
-  const [includeSignature, setIncludeSignature] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+import React from 'react';
+import { View, Text, SectionList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useAuth } from '../../contexts/AuthContext';
+import { FontAwesome } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { api } from '../../services/api';
 
-  useEffect(() => {
-    if (auth?.user) {
-      setSystemPrompt(auth.user.ai_system_prompt || '');
-      setTone(auth.user.ai_tone || '');
-      setIncludeSignature(auth.user.include_ai_signature);
-    }
-  }, [auth?.user]);
+const SettingsPage: React.FC = () => {
+  const { setSession, user, subscription } = useAuth();
 
-  const isPro = auth?.user?.subscription_plan === 'pro';
-
-  const handleSave = async () => {
-    if (!isPro) return;
-
-    setIsLoading(true);
-
+  const handleExport = async () => {
     try {
-      await api.put('/users/profile/ai-settings', {
-        ai_system_prompt: systemPrompt,
-        ai_tone: tone,
-        include_ai_signature: includeSignature,
+      const csvData = await api.getRaw('/users/export/csv');
+      const filename = `assistext-export-${new Date().toISOString().split('T')[0]}.csv`;
+      const uri = FileSystem.cacheDirectory + filename;
+
+      await FileSystem.writeAsStringAsync(uri, csvData, {
+        encoding: FileSystem.EncodingType.UTF8,
       });
-      Alert.alert('Success', 'AI settings saved successfully!');
-      auth?.refreshUser();
-    } catch (err: any) {
-      Alert.alert('Error', err.message || 'Failed to save settings.');
-    } finally {
-      setIsLoading(false);
+
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(uri);
+      } else {
+        Alert.alert('Sharing not available', 'Sharing is not available on your device.');
+      }
+    } catch (error: any) {
+      Alert.alert('Export Failed', error.message || 'Could not export your data.');
     }
   };
 
+  const sections = [
+    {
+      title: 'Profile',
+      data: [
+        { key: 'name', label: 'Name', value: `${user?.first_name} ${user?.last_name}` },
+        { key: 'email', label: 'Email', value: user?.email },
+        { key: 'export', label: 'Export My Data', action: handleExport },
+      ],
+    },
+    {
+      title: 'SignalWire',
+      data: [
+        { key: 'phoneNumber', label: 'Current Number', value: user?.phone_number },
+        { key: 'releaseNumber', label: 'Release Number', action: () => {} },
+        { key: 'purchaseNumber', label: 'Purchase New Number', action: () => {}, disabled: subscription?.plan !== 'pro' },
+      ],
+    },
+    {
+      title: 'AI Settings',
+      data: [
+        { key: 'aiSettings', label: 'Configure AI Personality', action: () => {} },
+      ],
+    },
+    {
+      title: 'Account',
+      data: [
+        { key: 'logout', label: 'Logout', action: () => setSession(null) },
+      ],
+    },
+  ];
+
+  const renderItem = ({ item }: { item: any }) => (
+    <TouchableOpacity onPress={item.action} disabled={item.disabled} style={[styles.item, item.disabled && styles.disabledItem]}>
+      <Text style={styles.itemLabel}>{item.label}</Text>
+      {item.value && <Text style={styles.itemValue}>{item.value}</Text>}
+      {item.action && <FontAwesome name="angle-right" size={24} color="#ccc" />}
+    </TouchableOpacity>
+  );
+
+  const renderSectionHeader = ({ section: { title } }: { section: any }) => (
+    <Text style={styles.sectionHeader}>{title}</Text>
+  );
+
   return (
-    <View style={tw`p-4`}>
-      <Text style={tw`text-2xl font-bold mb-4`}>AI Personality Settings</Text>
-
-      {!isPro && (
-        <View style={tw`bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6`}>
-          <Text style={tw`font-bold text-yellow-700`}>Pro Feature</Text>
-          <Text style={tw`text-yellow-700`}>Customizing the AI personality is a Pro feature. Please upgrade your plan to unlock this functionality.</Text>
-        </View>
-      )}
-
-      <View style={!isPro ? tw`opacity-50` : {}} pointerEvents={!isPro ? 'none' : 'auto'}>
-        <View style={tw`mb-6`}>
-          <Text style={tw`text-gray-700 font-semibold mb-2`}>System Prompt</Text>
-          <Text style={tw`text-sm text-gray-500 mb-2`}>Define the core identity and instructions for your AI assistant. This is the main driver of its personality.</Text>
-          <TextInput
-            value={systemPrompt}
-            onChangeText={setSystemPrompt}
-            style={tw`w-full px-3 py-2 text-gray-700 border rounded-lg`}
-            multiline
-            numberOfLines={6}
-            placeholder="e.g., You are a friendly and slightly sarcastic assistant for a small business..."
-            editable={isPro}
-          />
-        </View>
-
-        <View style={tw`mb-6`}>
-          <Text style={tw`text-gray-700 font-semibold mb-2`}>Tone</Text>
-          <Text style={tw`text-sm text-gray-500 mb-2`}>Specify the tone of voice the AI should use in its responses.</Text>
-          <TextInput
-            value={tone}
-            onChangeText={setTone}
-            style={tw`w-full px-3 py-2 text-gray-700 border rounded-lg`}
-            placeholder="e.g., witty, formal, cheerful, empathetic"
-            editable={isPro}
-          />
-        </View>
-
-        <View style={tw`mb-6 flex-row items-center`}>
-          <Switch
-            value={includeSignature}
-            onValueChange={setIncludeSignature}
-            disabled={!isPro}
-          />
-          <Text style={tw`ml-3 text-gray-700`}>Include AI Signature</Text>
-        </View>
-        <Text style={tw`text-sm text-gray-500 ml-8 -mt-4 mb-4`}>Append &quot;Sent with AI using Assistext&quot; to the end of AI-generated messages.</Text> {/* Escaped double quotes */}
-
-        <TouchableOpacity
-          onPress={handleSave}
-          style={tw`px-6 py-3 bg-blue-600 rounded-lg items-center`}
-          disabled={!isPro || isLoading}
-        >
-          <Text style={tw`text-white font-semibold`}>{isLoading ? 'Saving...' : 'Save Settings'}</Text>
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
+      <SectionList
+        sections={sections}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        keyExtractor={(item) => item.key}
+      />
     </View>
   );
 };
 
-export default AISettingsPage;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  disabledItem: {
+    backgroundColor: '#f9f9f9',
+  },
+  itemLabel: {
+    fontSize: 16,
+  },
+  itemValue: {
+    fontSize: 16,
+    color: '#888',
+  },
+});
+
+export default SettingsPage;

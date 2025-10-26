@@ -1,43 +1,43 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
+import { Tabs } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
+import AnimatedTabBar from '@gorhom/animated-tabbar';
 
-import { HapticTab } from '@/components/haptic-tab';
-// import { IconSymbol } from '@/components/ui/icon-symbol'; // Removed IconSymbol
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { FontAwesome } from '@expo/vector-icons'; // Import FontAwesome for icons
+const tabs = {
+  dashboard: {
+    label: 'Dashboard',
+    ripple: { color: 'rgba(0,0,0,0.12)' },
+    icon: {
+      component: (props: any) => <FontAwesome size={28} name="dashboard" {...props} />,
+      color: 'rgba(0,0,0,1)',
+    },
+  },
+  conversations: {
+    label: 'Conversations',
+    ripple: { color: 'rgba(0,0,0,0.12)' },
+    icon: {
+      component: (props: any) => <FontAwesome size={28} name="comments" {...props} />,
+      color: 'rgba(0,0,0,1)',
+    },
+  },
+  settings: {
+    label: 'Settings',
+    ripple: { color: 'rgba(0,0,0,0.12)' },
+    icon: {
+      component: (props: any) => <FontAwesome size={28} name="gears" {...props} />,
+      color: 'rgba(0,0,0,1)',
+    },
+  },
+};
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="dashboard"
-        options={{
-          title: 'Dashboard',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="dashboard" color={color} />, // Placeholder icon
-        }}
-      />
-      <Tabs.Screen
-        name="conversations"
-        options={{
-          title: 'Conversations',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="comments" color={color} />, // Placeholder icon
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: 'AI Settings',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="gears" color={color} />, // Placeholder icon
-        }}
-      />
+      tabBar={props => <AnimatedTabBar {...props} tabs={tabs} />}
+    >
+      <Tabs.Screen name="dashboard" options={{ title: 'Dashboard' }} />
+      <Tabs.Screen name="conversations" options={{ title: 'Conversations' }} />
+      <Tabs.Screen name="settings" options={{ title: 'Settings' }} />
     </Tabs>
   );
 }
