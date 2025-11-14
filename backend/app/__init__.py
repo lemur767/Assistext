@@ -31,7 +31,7 @@ def create_app(config_name=None):
 
     # Configuration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:plmnko1423@localhost:5433/Assistext_Dev')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:plmnko142e@localhost:5432/Assist_Dev')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['RATELIMIT_STORAGE_URI'] = os.getenv('REDIS_URL', 'memory://')
 

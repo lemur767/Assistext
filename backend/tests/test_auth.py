@@ -16,7 +16,7 @@ from flask_jwt_extended import JWTManager
 def client():
     app = create_app('testing')
     app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:plmnko1423@localhost:5433/Assistext_Test'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:plmnko1423@localhost:5432/Assist_Test'
     app.config['JWT_SECRET_KEY'] = 'xbaxf2xfflx16x95xcaxb3xdfxe6xb5!x1excaxd6x15Cxd7x97x08xb9x97x8exf5BpSx13'
     app.config['JWT_TOKEN_LOCATION'] = ['headers']
     app.config['JWT_HEADER_NAME'] = 'Authorization'

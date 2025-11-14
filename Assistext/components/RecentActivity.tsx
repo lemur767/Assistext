@@ -11,7 +11,11 @@ interface Activity {
   created_at: string;
 }
 
-const RecentActivity = () => {
+interface RecentActivityProps {
+  ListHeaderComponent?: React.ComponentType<any> | React.ReactElement | null;
+}
+
+const RecentActivity: React.FC<RecentActivityProps> = ({ ListHeaderComponent }) => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,31 +48,40 @@ const RecentActivity = () => {
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={styles.title}>Recent Activity</ThemedText>
-      <FlatList
-        data={activities}
-        keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-          <View style={styles.activityItem}>
-            <ThemedText>{item.body}</ThemedText>
-            <ThemedText style={styles.timestamp}>{new Date(item.created_at).toLocaleString()}</ThemedText>
-          </View>
-        )}
-      />
-    </ThemedView>
+    <FlatList
+      data={activities}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View style={styles.activityItem}>
+          <ThemedText>{item.body}</ThemedText>
+          <ThemedText style={styles.timestamp}>{new Date(item.created_at).toLocaleString()}</ThemedText>
+        </View>
+      )}
+      ListHeaderComponent={
+        <>
+          {ListHeaderComponent}
+          <ThemedText style={styles.title}>Recent Activity</ThemedText>
+        </>
+      }
+      style={styles.container}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#ed2fe1',
     padding: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#fff',
   },
   loader: {
     flex: 1,

@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from werkzeug.security import generate_password_hash
 
   # --- Configuration ---
-DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:plmnko1423@localhost:5433/Assistext_Dev')
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:plmnko1423@localhost:5432/Assist_Dev')
 USER_ID_TO_RESET = 3  # <--- This is set to user_id 3
 
   # --- Model Definition (simplified from your project) ---

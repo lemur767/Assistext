@@ -32,7 +32,7 @@ function RootLayoutContent() { // New component to encapsulate the original Root
   React.useEffect(() => {
     if (isRouterReady && session !== undefined) {
       if (isAuthenticated) {
-        router.replace('/(tabs)');
+        router.replace('/');
       } else {
         router.replace('/(auth)/login');
       }
@@ -44,7 +44,7 @@ function RootLayoutContent() { // New component to encapsulate the original Root
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DarkTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />

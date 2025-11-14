@@ -16,6 +16,17 @@ const SignupPage: React.FC = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setSession } = useAuth();
+  const [hasSpecialChar, setHasSpecialChar] = useState(false);
+  const [hasCapitalLetter, setHasCapitalLetter] = useState(false);
+
+  const validatePassword = (password: string) => {
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    const capitalLetterRegex = /[A-Z]/;
+
+    setHasSpecialChar(specialCharRegex.test(password));
+    setHasCapitalLetter(capitalLetterRegex.test(password));
+    setPassword(password);
+  };
 
   const handleSignup = async () => {
     if (!agreedToTerms) {
@@ -24,14 +35,16 @@ const SignupPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      const data = await api.post('/auth/register', { 
+      const payload = { 
         email,
         password,
         country_code,
         state,
         first_name,
         last_name,
-      });
+      };
+      console.log('Signup payload:', payload);
+      const data = await api.post('/auth/register', payload);
       setSession({ token: data.access_token });
       router.replace('/'); // Changed from navigation.navigate('Dashboard')
     } catch (err: any) {
@@ -86,12 +99,22 @@ const SignupPage: React.FC = () => {
           <Text style={tw`text-sm text-gray-400 mb-2`}>Password</Text>
           <TextInput
             value={password}
-            onChangeText={setPassword}
+            onChangeText={validatePassword}
             style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
             placeholder="••••••••"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
           />
+          <View style={tw`mt-2`}>
+            <View style={tw`flex-row items-center`}>
+              <Text style={tw`mr-2 ${hasSpecialChar ? 'text-green-500' : 'text-red-500'}`}>{hasSpecialChar ? '✓' : '✗'}</Text>
+              <Text style={tw`text-xs text-gray-500`}>At least one special character</Text>
+            </View>
+            <View style={tw`flex-row items-center`}>
+              <Text style={tw`mr-2 ${hasCapitalLetter ? 'text-green-500' : 'text-red-500'}`}>{hasCapitalLetter ? '✓' : '✗'}</Text>
+              <Text style={tw`text-xs text-gray-500`}>At least one capital letter</Text>
+            </View>
+          </View>
         </View>
 
         <View style={tw`mb-4`}>
@@ -119,7 +142,7 @@ const SignupPage: React.FC = () => {
         <View style={tw`flex-row items-center mb-6`}>
           <Switch value={agreedToTerms} onValueChange={setAgreedToTerms} />
           <Text style={tw`ml-2 text-sm text-gray-400`}>
-            I agree to the <Link href="/terms" style={tw`text-blue-400`}>Terms of Service</Link> and <Link href="/privacy" style={tw`text-blue-400`}>Privacy Policy</Link>.
+            I agree to the <Link href="/terms" style={tw`text-blue-400`}><Text>Terms of Service</Text></Link> and <Link href="/privacy" style={tw`text-blue-400`}><Text>Privacy Policy</Text></Link>.
           </Text>
         </View>
 
@@ -134,7 +157,7 @@ const SignupPage: React.FC = () => {
         <View style={tw`flex-row justify-center mt-4`}>
           <Text style={tw`text-gray-400`}>Already have an account? </Text>
           <Link href="/login" style={tw`text-blue-400 hover:underline`}>
-            Log in
+            <Text>Log in</Text>
           </Link>
         </View>
       </View>
