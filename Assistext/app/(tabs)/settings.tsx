@@ -14,10 +14,10 @@ const SettingsPage: React.FC = () => {
     try {
       const csvData = await api.getRaw('/users/export/csv');
       const filename = `assistext-export-${new Date().toISOString().split('T')[0]}.csv`;
-      const uri = FileSystem.cacheDirectory + filename;
+      const uri = FileSystem.documentDirectory + filename;
 
       await FileSystem.writeAsStringAsync(uri, csvData, {
-        encoding: FileSystem.EncodingType.UTF8,
+        encoding: FileSystem.EncodingType.Utf8,
       });
 
       if (await Sharing.isAvailableAsync()) {

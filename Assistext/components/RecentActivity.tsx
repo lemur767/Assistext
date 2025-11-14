@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { api } from '../services/api';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
@@ -25,7 +25,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({ ListHeaderComponent }) 
       try {
                         const data = await api.get('/users/me/recent_messages');
         setActivities(data.messages);
-      } catch (err) {
+      } catch {
         setError('Failed to fetch recent activity.');
       } finally {
         setLoading(false);

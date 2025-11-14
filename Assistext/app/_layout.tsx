@@ -1,23 +1,10 @@
-import React from 'react';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useRootNavigationState } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
-import { useEffect } from 'react';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { AuthProvider, useAuth } from '../contexts/AuthContext'; // Import AuthProvider
-
-export default function RootLayout() {
-  return (
-    <AuthProvider> {/* Wrap the entire app with AuthProvider */}
-      <RootLayoutContent />
-    </AuthProvider>
-  );
-}
+import React from 'react';
 
 function RootLayoutContent() { // New component to encapsulate the original RootLayout logic
-  const colorScheme = useColorScheme();
   const { isAuthenticated, session } = useAuth();
   const router = useRouter();
   const rootNavigationState = useRootNavigationState();
