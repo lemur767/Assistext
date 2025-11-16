@@ -98,14 +98,15 @@
     font-size: 0.875rem;
     border-radius: 9999px;
     transition: all 0.2s ease-in-out;
-    color: #d1d5db;
+    color: hsl(189, 100%, 54%);
     text-decoration: none;
     border: 1px solid transparent;
     font-weight: 500;
 }
 
 .landing-header__nav-link:hover {
-    color: #fff;
+    color: hsl(290, 86%, 46%);
+    text-shadow: hsl(189, 100%, 54%) 10px 10px 8px;
     background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.2);
 }

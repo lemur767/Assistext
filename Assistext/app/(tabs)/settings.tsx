@@ -14,9 +14,11 @@ const SettingsPage: React.FC = () => {
     try {
       const csvData = await api.getRaw('/users/export/csv');
       const filename = `assistext-export-${new Date().toISOString().split('T')[0]}.csv`;
+      // @ts-ignore
       const uri = FileSystem.documentDirectory + filename;
 
       await FileSystem.writeAsStringAsync(uri, csvData, {
+        // @ts-ignore
         encoding: FileSystem.EncodingType.Utf8,
       });
 

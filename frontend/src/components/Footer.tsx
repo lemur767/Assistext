@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="footer_grid">
           <div>
             <div className="footer_logo">
-              TextAI
+             <img src="assets/logo3333.png" alt="Assistext Logo" className="footer_logoImage" width="80px" height="80px" />
             </div>
             <p className="footer_description">
               AI-powered text automation that saves you time while maintaining

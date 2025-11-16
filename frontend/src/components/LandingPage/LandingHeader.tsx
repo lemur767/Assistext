@@ -31,6 +31,8 @@ const LandingHeader: React.FC = () => {
             <nav className="landing-header__nav">
               <a href="#features" className="landing-header__nav-link">Features</a>
               <a href="#pricing" className="landing-header__nav-link">Pricing</a>
+              <a href="#about" className="landing-header__nav-link">About Us</a>
+              <a href="#contact" className="landing-header__nav-link">Contact</a>
             </nav>
           )}
 

@@ -4,7 +4,9 @@ import Hero from './Hero';
 import Features from './Features';
 import Pricing from './Pricing';
 import Footer from '../Footer'
-  
+import About from './About';
+import Contact from './Contact';
+ 
 const LandingPage: React.FC = () => {
   return (
     <div className="font-sans antialiased selection:bg-fuchsia-500/30 selection:text-white text-white relative min-h-screen w-full bg-gradient-to-b from-black via-blue-950 to-black overflow-hidden flex flex-col items-center justify-center">
@@ -14,6 +16,8 @@ const LandingPage: React.FC = () => {
         <Hero />
         <Features />
         <Pricing />
+        <About />
+        <Contact />
         <Footer/>
       </div>
     </div>

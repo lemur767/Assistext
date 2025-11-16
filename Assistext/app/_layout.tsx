@@ -4,6 +4,16 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import React from 'react';
 
+import { AuthProvider, useAuth } from '../contexts/AuthContext'; // Import AuthProvider
+
+export default function RootLayout() {
+  return (
+    <AuthProvider> {/* Wrap the entire app with AuthProvider */}
+      <RootLayoutContent />
+    </AuthProvider>
+  );
+}
+
 function RootLayoutContent() { // New component to encapsulate the original RootLayout logic
   const { isAuthenticated, session } = useAuth();
   const router = useRouter();
