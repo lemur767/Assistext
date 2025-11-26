@@ -23,7 +23,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({ ListHeaderComponent }) 
   useEffect(() => {
     const fetchRecentActivity = async () => {
       try {
-                        const data = await api.get('/users/me/recent_messages');
+        const data = await api.get('/users/me/recent_messages');
         setActivities(data.messages);
       } catch {
         setError('Failed to fetch recent activity.');
@@ -71,7 +71,7 @@ const RecentActivity: React.FC<RecentActivityProps> = ({ ListHeaderComponent }) 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#222222',
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#ed2fe1',

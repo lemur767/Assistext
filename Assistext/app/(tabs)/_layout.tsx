@@ -4,7 +4,7 @@ import { Tabs } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 
 const CustomHeader = ({ title }: { title: string }) => (
-  <View style={{ flexDirection: 'row', width:'100%',  alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginVertical: 10 }}>
+  <View style={{ flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, paddingHorizontal: 8, borderRadius: 10, marginVertical: 10 }}>
     <Image
       source={require('../../assets/images/logo3333.png')}
       style={{ width: 80, height: 80, marginRight: 10 }}
@@ -13,7 +13,7 @@ const CustomHeader = ({ title }: { title: string }) => (
   </View>
 );
 
-export default function TabLayout()  {
+export default function TabLayout() {
   return (
     <Tabs>
       <Tabs.Screen

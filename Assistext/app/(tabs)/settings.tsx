@@ -35,7 +35,7 @@ const SettingsPage: React.FC = () => {
     {
       title: 'Profile',
       data: [
-        { key: 'name', label: 'Name', value: `${user?.first_name} ${user?.last_name}` },
+        { key: 'name', label: 'Name', value: user.first_name + ' ' + user.last_name },
         { key: 'email', label: 'Email', value: user?.email },
         { key: 'export', label: 'Export My Data', action: handleExport },
       ],
