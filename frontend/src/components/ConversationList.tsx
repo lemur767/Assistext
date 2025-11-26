@@ -125,6 +125,7 @@ const ConversationList: React.FC = () => {
       <NewConversationModal
         isOpen={isNewConversationModalOpen}
         onClose={() => setIsNewConversationModalOpen(false)}
+        onConversationCreated={fetchConversations}
       />
     </>
   );

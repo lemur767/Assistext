@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, /* Image, */ Alert } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
@@ -11,13 +11,14 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { setSession } = useAuth();
- 
+  const passwordRef = useRef<TextInput>(null);
+
 
   const handleLogin = async () => {
     setLoading(true);
     try {
       const data = await api.post('/auth/login', { email, password });
-      setSession({ token: data.token });
+      setSession({ token: data.token, lastActivity: Date.now() });
       router.replace('/');
     } catch (err: any) {
       Alert.alert('Login Failed', err.message);
@@ -48,6 +49,9 @@ const LoginPage: React.FC = () => {
             placeholderTextColor="#9CA3AF"
             keyboardType="email-address"
             autoCapitalize="none"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current?.focus()}
+            blurOnSubmit={false}
           />
         </View>
 
@@ -60,6 +64,9 @@ const LoginPage: React.FC = () => {
             placeholder="••••••••"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
+            ref={passwordRef}
+            returnKeyType="done"
+            onSubmitEditing={handleLogin}
           />
         </View>
 
@@ -75,8 +82,8 @@ const LoginPage: React.FC = () => {
           <Text style={tw`text-gray-400`}>
             Don&apos;t have an account?{' '}
             <Text style={tw`text-blue-400 hover:underline`}>
-              <Link href="/signup">
-                Sign up
+              <Link href="/signup" asChild>
+                <Text>Sign up</Text>
               </Link>
             </Text>
           </Text>

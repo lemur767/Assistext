@@ -16,13 +16,13 @@ overflow-x: hidden;
 .hero {
 position: relative;
 min-height: 100vh;
-background: radial-gradient(50% 50% at center, hsl(260 30% 8%) 0%, hsl(260 20% 4%) 100%);
+background: radial-gradient(50% 50% at center, hsl(258, 31%, 15%) 0%, hsl(260 20% 4%) 100%);
 }
 .hero__content-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding-right: 1rem;
+    padding-right: 2rem;
     padding-left: 1rem;
     align-items: center;
     justify-content: center;
@@ -34,7 +34,7 @@ background: radial-gradient(50% 50% at center, hsl(260 30% 8%) 0%, hsl(260 20% 4
     align-items: center;
     gap: 16px;
     justify-content: space-between;
-    margin-bottom: 2rem;
+  
     padding-top:48px;
 
 }

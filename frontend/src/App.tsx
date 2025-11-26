@@ -15,9 +15,11 @@ import AuthenticatedLayout from './components/AuthenticatedLayout';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import AISettingsPage from './pages/AISettingsPage';
-
+import ContactUs from './components/LandingPage/ContactUs';
 import Contacts from './components/Contacts';
 import ContactDetail from './components/ContactDetail';
+import About from './components/LandingPage/About';
+import { Contact } from 'lucide-react';
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
               <Route path="/settings/ai" element={<AISettingsPage />} />
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/contactus" element={<ContactUs />} />
+              <Route path="/about" element={<About />} />
               <Route path="/conversations" element={<ConversationList />} />
               <Route path="/conversations/:conversationId" element={<ConversationDetail />} />
               <Route path="/contacts" element={<Contacts />} />

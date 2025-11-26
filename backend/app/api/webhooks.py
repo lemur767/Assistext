@@ -118,6 +118,15 @@ def handle_sms_webhook(user_id):
             # Notify frontend of new message
             room = f"conversation_{conversation.id}"
             socketio.emit('new_message', incoming_message.to_dict(), room=room, namespace='/chat')
+            
+            # Notify user room for conversation list update
+            user_room = f"user_{user.id}"
+            socketio.emit('conversation_updated', {
+                'conversation_id': conversation.id,
+                'last_message': body,
+                'last_message_at': conversation.last_message_at.isoformat(),
+                'unread': True
+            }, room=user_room, namespace='/chat')
 
             # 5a. Check for keyword triggers
             if user.keyword_triggers:

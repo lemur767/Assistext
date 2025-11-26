@@ -5,7 +5,7 @@ import Features from './Features';
 import Pricing from './Pricing';
 import Footer from '../Footer'
 import About from './About';
-import Contact from './Contact';
+import ContactUs from './ContactUs';
  
 const LandingPage: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const LandingPage: React.FC = () => {
         <Features />
         <Pricing />
         <About />
-        <Contact />
+        <ContactUs />
         <Footer/>
       </div>
     </div>

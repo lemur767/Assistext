@@ -1,6 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_BASE_URL } from '../config'; // Corrected path
 
+interface ApiOptions extends RequestInit {
+  token?: string;
+}
+
 const getAuthTokenFromStorage = async () => {
   const session = await AsyncStorage.getItem('session');
   if (session) {
@@ -17,15 +21,13 @@ const handleResponse = async (response: Response) => {
   return response.json();
 };
 
-const fetchApi = async (url: string, options: RequestInit = {}) => {
-  // Extract token from custom options, and remove it from the options passed to fetch
-  const customOptions = options as any;
-  const token = customOptions.token || await getAuthTokenFromStorage();
-  delete customOptions.token;
+const fetchApi = async (url: string, options: ApiOptions = {}) => {
+  const { token: providedToken, ...fetchOptions } = options;
+  const token = providedToken || await getAuthTokenFromStorage();
 
-  const headers = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(fetchOptions.headers as Record<string, string>),
   };
 
   if (token) {
@@ -33,7 +35,7 @@ const fetchApi = async (url: string, options: RequestInit = {}) => {
   }
 
   const response = await fetch(`${API_BASE_URL}/api/v1${url}`, {
-    ...options,
+    ...fetchOptions,
     headers,
   });
 
@@ -49,15 +51,13 @@ const handleRawResponse = async (response: Response) => {
   return response.text();
 };
 
-const fetchApiRaw = async (url: string, options: RequestInit = {}) => {
-  // Extract token from custom options, and remove it from the options passed to fetch
-  const customOptions = options as any;
-  const token = customOptions.token || await getAuthTokenFromStorage();
-  delete customOptions.token;
+const fetchApiRaw = async (url: string, options: ApiOptions = {}) => {
+  const { token: providedToken, ...fetchOptions } = options;
+  const token = providedToken || await getAuthTokenFromStorage();
 
-  const headers = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(fetchOptions.headers as Record<string, string>),
   };
 
   if (token) {
@@ -65,7 +65,7 @@ const fetchApiRaw = async (url: string, options: RequestInit = {}) => {
   }
 
   const response = await fetch(`${API_BASE_URL}/api/v1${url}`, {
-    ...options,
+    ...fetchOptions,
     headers,
   });
 
@@ -73,10 +73,10 @@ const fetchApiRaw = async (url: string, options: RequestInit = {}) => {
 };
 
 export const api = {
-  get: (url: string, options?: RequestInit) => fetchApi(url, { ...options, method: 'GET' }),
-  post: (url: string, body: any, options?: RequestInit) => fetchApi(url, { ...options, method: 'POST', body: JSON.stringify(body) }),
-  put: (url: string, body: any, options?: RequestInit) => fetchApi(url, { ...options, method: 'PUT', body: JSON.stringify(body) }),
-  delete: (url: string, options?: RequestInit) => fetchApi(url, { ...options, method: 'DELETE' }),
-  getRaw: (url: string, options?: RequestInit) => fetchApiRaw(url, { ...options, method: 'GET' }),
+  get: (url: string, options?: ApiOptions) => fetchApi(url, { ...options, method: 'GET' }),
+  post: (url: string, body: any, options?: ApiOptions) => fetchApi(url, { ...options, method: 'POST', body: JSON.stringify(body) }),
+  put: (url: string, body: any, options?: ApiOptions) => fetchApi(url, { ...options, method: 'PUT', body: JSON.stringify(body) }),
+  delete: (url: string, options?: ApiOptions) => fetchApi(url, { ...options, method: 'DELETE' }),
+  getRaw: (url: string, options?: ApiOptions) => fetchApiRaw(url, { ...options, method: 'GET' }),
 };
 

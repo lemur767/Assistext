@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, Response
 from werkzeug.exceptions import BadRequest, NotFound, Forbidden
 from ..utils.auth import token_required
 from .. import db
-from ..models import User, Message, MessageDirection, Conversation, SubscriptionPlan
+from ..models import User, Message, MessageDirection, Conversation, SubscriptionPlan, PhoneNumberStatus
 from datetime import datetime
 from ..services.signalwire_service import signalwire_service
 import json
@@ -187,3 +187,66 @@ def delete_account(current_user):
     db.session.commit()
     logger.info(f"User account deleted: {current_user.email}")
     return jsonify({'message': 'Account deleted successfully'})
+
+@users_bp.route('/purchase-number', methods=['POST'])
+@token_required
+def purchase_number(current_user):
+    if not current_user:
+        raise NotFound('User not found')
+    
+    if current_user.phone_number:
+        raise BadRequest('User already has a phone number')
+
+    try:
+        # Create subproject if it doesn't exist
+        if not current_user.signalwire_subproject_id:
+            friendly_name = signalwire_service.generate_friendly_name(current_user.email)
+            subproject = signalwire_service.create_subproject(friendly_name)
+            current_user.signalwire_subproject_id = subproject.sid
+            current_user.signalwire_auth_token = subproject.auth_token
+            current_user.signalwire_signing_key = subproject.signing_key
+            current_user.signalwire_friendly_name = subproject.friendly_name
+            db.session.flush() # Ensure ID is available if needed, though we have it
+
+        # Search and purchase number
+        # Use user's location info if available, otherwise defaults might apply or we can't search specific
+        # Assuming user has country_code, city, state from registration
+        available_numbers = signalwire_service.search_available_numbers(
+            current_user.country_code, 
+            limit=5, 
+            city=current_user.city, 
+            region=current_user.state
+        )
+        
+        if not available_numbers:
+            raise BadRequest(f"No phone numbers available for country: {current_user.country_code}")
+
+        selected_number = available_numbers[0]
+        webhook_url = signalwire_service.generate_webhook_url(current_user.id)
+        purchased_number = signalwire_service.purchase_phone_number(
+            selected_number.phone_number, 
+            current_user.signalwire_subproject_id, 
+            current_user.signalwire_auth_token,
+            webhook_url
+        )
+
+        current_user.phone_number = purchased_number.phone_number
+        current_user.phone_number_sid = purchased_number.sid
+        current_user.webhook_url = webhook_url
+        current_user.phone_number_status = PhoneNumberStatus.ACTIVE
+        
+        db.session.commit()
+        
+        logger.info(f"Purchased phone number for {current_user.email}: {purchased_number.phone_number}")
+        
+        return jsonify({
+            'message': 'Phone number purchased successfully',
+            'phone_number': current_user.phone_number,
+            'user': current_user.to_dict()
+        })
+
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Failed to purchase number for {current_user.email}: {e}")
+        # If it was a signalwire error, we might want to return a specific error message
+        raise BadRequest(f"Failed to purchase number: {str(e)}")

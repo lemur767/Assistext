@@ -16,6 +16,20 @@ def join(message):
     join_room(room)
     emit('status', {'msg': f"Joined room: {room}"}, room=room)
 
+@socketio.on('join_user_room', namespace='/chat')
+def join_user_room(message):
+    user_id = message['user_id']
+    room = f"user_{user_id}"
+    join_room(room)
+    emit('status', {'msg': f"Joined user room: {room}"}, room=room)
+
+@socketio.on('leave_user_room', namespace='/chat')
+def leave_user_room(message):
+    user_id = message['user_id']
+    room = f"user_{user_id}"
+    leave_room(room)
+    emit('status', {'msg': f"Left user room: {room}"}, room=room)
+
 @socketio.on('leave', namespace='/chat')
 def leave(message):
     room = f"conversation_{message['conversation_id']}"
@@ -70,6 +84,15 @@ def send_message(message):
             logger.info("Broadcasting new message to room...")
             emit('new_message', new_message.to_dict(), room=room, include_self=False)
             logger.info(f"Message sent by user {conversation.user_id} in conversation {conversation.id}")
+
+            # Emit conversation update to user room for conversation list refresh
+            user_room = f"user_{conversation.user_id}"
+            socketio.emit('conversation_updated', {
+                'conversation_id': conversation.id,
+                'last_message': message['body'],
+                'last_message_at': conversation.last_message_at.isoformat(),
+                'unread': False
+            }, room=user_room, namespace='/chat')
 
             return {'status': 'ok', 'message': new_message.to_dict()}
 

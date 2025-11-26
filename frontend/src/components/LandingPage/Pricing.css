@@ -320,33 +320,14 @@
 }
 
 .pricing-card__cta-button:hover {
-    --active: 1;
+    ;
 }
 
 .pricing-card__cta-button:active {
     scale: 1;
 }
 
-.pricing-card__cta-button:before {
-    content: "";
-    position: absolute;
-    inset: -0.25em;
-    z-index: -1;
-    border: 0.25em solid hsl(260 97% 50% / 0.5);
-    border-radius: 100px;
-    opacity: var(--active, 0);
-    transition: opacity var(--transition);
-}
 
-.pricing-card__spark {
-    position: absolute;
-    inset: 0;
-    border-radius: 100px;
-    rotate: 0deg;
-    overflow: hidden;
-    mask: linear-gradient(white, transparent 50%);
-    animation: flip calc(var(--spark) * 2) infinite steps(2, end);
-}
 
 @keyframes flip {
     to {
@@ -354,30 +335,7 @@
     }
 }
 
-.pricing-card__spark:before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    aspect-ratio: 1;
-    top: 0%;
-    left: 50%;
-    z-index: -1;
-    translate: -50% -15%;
-    rotate: 0;
-    transform: rotate(-90deg);
-    opacity: calc((var(--active)) + 0.4);
-    background: conic-gradient(from 0deg, transparent 0 340deg, white 360deg);
-    transition: opacity var(--transition);
-    animation: rotate var(--spark) linear infinite both;
-}
 
-.pricing-card__backdrop {
-    position: absolute;
-    inset: var(--cut);
-    background: var(--bg);
-    border-radius: 100px;
-    transition: background var(--transition);
-}
 
 @keyframes rotate {
     to {
@@ -386,7 +344,7 @@
 }
 
 .pricing-card__button-text {
-    color: white;
+    color: rgb(22, 149, 199);
     transition: color var(--transition);
     font-family: 'Quicksand', sans-serif !important;
     font-weight: 500;
@@ -394,26 +352,10 @@
     line-height: 1.25rem;
 }
 
-.pricing-card__sparkle {
-    overflow: visible !important;
-    height: 1.25rem;
-    width: 1.25rem;
-}
 
-.pricing-card__sparkle path {
-    color: hsl(0 0% calc((var(--active, 0) * 70%) + var(--base)));
-    transform-box: fill-box;
-    transform-origin: center;
-    fill: currentColor;
-    stroke: currentColor;
-    animation-delay: calc((var(--transition) * 1.5) + (var(--delay) * 1s));
-    animation-duration: 0.6s;
-    transition: color var(--transition);
-}
 
-.pricing-card__cta-button:is(:hover, :focus-visible) path {
-    animation-name: bounce;
-}
+
+
 
 @keyframes bounce {
     35%, 65% {
@@ -421,20 +363,3 @@
     }
 }
 
-.pricing-card__sparkle path:nth-of-type(1) {
-    --scale: 0.5;
-    --delay: 0.1;
-    --base: 40%;
-}
-
-.pricing-card__sparkle path:nth-of-type(2) {
-    --scale: 1.5;
-    --delay: 0.2;
-    --base: 20%;
-}
-
-.pricing-card__sparkle path:nth-of-type(3) {
-    --scale: 2.5;
-    --delay: 0.35;
-    --base: 30%;
-}

@@ -31,7 +31,7 @@ def create_app(config_name=None):
 
     # Configuration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:plmnko142e@localhost:5432/Assist_Dev')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:plmnko1423@localhost:5432/Assist_Dev')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['RATELIMIT_STORAGE_URI'] = os.getenv('REDIS_URL', 'memory://')
 
@@ -124,7 +124,7 @@ def register_error_handlers(app):
     def bad_request(error):
         return jsonify({
             'error': 'Bad request',
-            'message': 'Invalid request data'
+            'message': error.description if hasattr(error, 'description') else 'Invalid request data'
         }), 400
 
     @app.errorhandler(401)

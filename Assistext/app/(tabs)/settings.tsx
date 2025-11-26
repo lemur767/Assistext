@@ -1,11 +1,11 @@
-
 import React from 'react';
-import { View, Text, SectionList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, SectionList, TouchableOpacity, Alert } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
 import { FontAwesome } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { api } from '../../services/api';
+import tw from 'twrnc';
 
 const SettingsPage: React.FC = () => {
   const { setSession, user, subscription } = useAuth();
@@ -14,12 +14,11 @@ const SettingsPage: React.FC = () => {
     try {
       const csvData = await api.getRaw('/users/export/csv');
       const filename = `assistext-export-${new Date().toISOString().split('T')[0]}.csv`;
-      // @ts-ignore
-      const uri = FileSystem.documentDirectory + filename;
+      const fs = FileSystem as any;
+      const uri = fs.documentDirectory + filename;
 
-      await FileSystem.writeAsStringAsync(uri, csvData, {
-        // @ts-ignore
-        encoding: FileSystem.EncodingType.Utf8,
+      await fs.writeAsStringAsync(uri, csvData, {
+        encoding: fs.EncodingType.UTF8,
       });
 
       if (await Sharing.isAvailableAsync()) {
@@ -45,14 +44,14 @@ const SettingsPage: React.FC = () => {
       title: 'SignalWire',
       data: [
         { key: 'phoneNumber', label: 'Current Number', value: user?.phone_number },
-        { key: 'releaseNumber', label: 'Release Number', action: () => {} },
-        { key: 'purchaseNumber', label: 'Purchase New Number', action: () => {}, disabled: subscription?.plan !== 'pro' },
+        { key: 'releaseNumber', label: 'Release Number', action: () => { } },
+        { key: 'purchaseNumber', label: 'Purchase New Number', action: () => { }, disabled: subscription?.plan !== 'pro' },
       ],
     },
     {
       title: 'AI Settings',
       data: [
-        { key: 'aiSettings', label: 'Configure AI Personality', action: () => {} },
+        { key: 'aiSettings', label: 'Configure AI Personality', action: () => { } },
       ],
     },
     {
@@ -64,19 +63,23 @@ const SettingsPage: React.FC = () => {
   ];
 
   const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity onPress={item.action} disabled={item.disabled} style={[styles.item, item.disabled && styles.disabledItem]}>
-      <Text style={styles.itemLabel}>{item.label}</Text>
-      {item.value && <Text style={styles.itemValue}>{item.value}</Text>}
-      {item.action && <FontAwesome name="angle-right" size={24} color="#ccc" />}
+    <TouchableOpacity
+      onPress={item.action}
+      disabled={item.disabled}
+      style={tw`flex-row justify-between items-center bg-gray-800 p-4 border-b border-gray-700 ${item.disabled ? 'opacity-50' : ''}`}
+    >
+      <Text style={tw`text-white text-base`}>{item.label}</Text>
+      {!!item.value && <Text style={tw`text-gray-400 text-base`}>{item.value}</Text>}
+      {!!item.action && <FontAwesome name="angle-right" size={24} color="#9ca3af" />}
     </TouchableOpacity>
   );
 
   const renderSectionHeader = ({ section: { title } }: { section: any }) => (
-    <Text style={styles.sectionHeader}>{title}</Text>
+    <Text style={tw`text-lg font-bold bg-gray-900 text-cyan-400 px-4 py-2 mt-2`}>{title}</Text>
   );
 
   return (
-    <View style={styles.container}>
+    <View style={tw`flex-1 bg-gray-900`}>
       <SectionList
         sections={sections}
         renderItem={renderItem}
@@ -86,39 +89,5 @@ const SettingsPage: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f0f0',
-  },
-  sectionHeader: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    backgroundColor: '#f0f0f0',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-  },
-  item: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  disabledItem: {
-    backgroundColor: '#f9f9f9',
-  },
-  itemLabel: {
-    fontSize: 16,
-  },
-  itemValue: {
-    fontSize: 16,
-    color: '#888',
-  },
-});
 
 export default SettingsPage;

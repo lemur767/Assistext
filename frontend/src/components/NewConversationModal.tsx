@@ -12,9 +12,10 @@ interface Contact {
 interface NewConversationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onConversationCreated?: () => void;
 }
 
-const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onClose }) => {
+const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onClose, onConversationCreated }) => {
   const { session } = useAuth();
   const navigate = useNavigate();
   const [contacts, setContacts] = useState<Contact[]>([]);
@@ -33,11 +34,11 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
   const fetchContacts = async () => {
     if (!session) return;
     try {
-        const data = await api.get('/contacts');
-        setContacts(data.contacts);
+      const data = await api.get('/contacts');
+      setContacts(data.contacts);
     } catch (err) {
-        console.error("Failed to fetch contacts", err);
-        setError("Failed to load contacts.");
+      console.error("Failed to fetch contacts", err);
+      setError("Failed to load contacts.");
     }
   };
 
@@ -51,14 +52,15 @@ const NewConversationModal: React.FC<NewConversationModalProps> = ({ isOpen, onC
     }
 
     try {
-        const conversation = await api.post('/conversations', {
-            phone_number: targetPhoneNumber,
-            message: message
-        });
-        onClose();
-        navigate(`/conversations/${conversation.id}`);
+      const conversation = await api.post('/conversations', {
+        phone_number: targetPhoneNumber,
+        message: message
+      });
+      onConversationCreated?.(); // Trigger conversation list refresh
+      onClose();
+      navigate(`/conversations/${conversation.id}`);
     } catch (err: any) {
-        setError(err.message || "Failed to start conversation.");
+      setError(err.message || "Failed to start conversation.");
     }
   };
 

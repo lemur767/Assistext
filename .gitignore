@@ -6,3 +6,4 @@ generated-page.html
 .vscode
 .DS_Store
 .gemini
+build.log

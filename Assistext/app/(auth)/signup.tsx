@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, Switch } from 'react-native'; // Removed StyleSheet
 import { useAuth } from '../../contexts/AuthContext'; // Adjusted path
 import { api } from '../../services/api'; // Adjusted path
@@ -19,6 +19,12 @@ const SignupPage: React.FC = () => {
   const [hasSpecialChar, setHasSpecialChar] = useState(false);
   const [hasCapitalLetter, setHasCapitalLetter] = useState(false);
 
+  const lastNameRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
+  const countryCodeRef = useRef<TextInput>(null);
+  const stateRef = useRef<TextInput>(null);
+
   const validatePassword = (password: string) => {
     const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
     const capitalLetterRegex = /[A-Z]/;
@@ -35,7 +41,7 @@ const SignupPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      const payload = { 
+      const payload = {
         email,
         password,
         country_code,
@@ -45,7 +51,7 @@ const SignupPage: React.FC = () => {
       };
       console.log('Signup payload:', payload);
       const data = await api.post('/auth/register', payload);
-      setSession({ token: data.access_token });
+      setSession({ token: data.access_token, lastActivity: Date.now() });
       router.replace('/'); // Changed from navigation.navigate('Dashboard')
     } catch (err: any) {
       Alert.alert('Signup Failed', err.message);
@@ -68,6 +74,9 @@ const SignupPage: React.FC = () => {
               style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
               placeholder="John"
               placeholderTextColor="#9CA3AF"
+              returnKeyType="next"
+              onSubmitEditing={() => lastNameRef.current?.focus()}
+              blurOnSubmit={false}
             />
           </View>
           <View style={tw`flex-1 ml-2`}>
@@ -78,6 +87,10 @@ const SignupPage: React.FC = () => {
               style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
               placeholder="Doe"
               placeholderTextColor="#9CA3AF"
+              ref={lastNameRef}
+              returnKeyType="next"
+              onSubmitEditing={() => emailRef.current?.focus()}
+              blurOnSubmit={false}
             />
           </View>
         </View>
@@ -92,6 +105,10 @@ const SignupPage: React.FC = () => {
             placeholderTextColor="#9CA3AF"
             keyboardType="email-address"
             autoCapitalize="none"
+            ref={emailRef}
+            returnKeyType="next"
+            onSubmitEditing={() => passwordRef.current?.focus()}
+            blurOnSubmit={false}
           />
         </View>
 
@@ -104,6 +121,10 @@ const SignupPage: React.FC = () => {
             placeholder="••••••••"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
+            ref={passwordRef}
+            returnKeyType="next"
+            onSubmitEditing={() => countryCodeRef.current?.focus()}
+            blurOnSubmit={false}
           />
           <View style={tw`mt-2`}>
             <View style={tw`flex-row items-center`}>
@@ -125,6 +146,10 @@ const SignupPage: React.FC = () => {
             style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
             placeholder="e.g. CA"
             placeholderTextColor="#9CA3AF"
+            ref={countryCodeRef}
+            returnKeyType="next"
+            onSubmitEditing={() => stateRef.current?.focus()}
+            blurOnSubmit={false}
           />
         </View>
 
@@ -136,13 +161,17 @@ const SignupPage: React.FC = () => {
             style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
             placeholder="e.g. NY or ON"
             placeholderTextColor="#9CA3AF"
+            ref={stateRef}
+            returnKeyType="done"
+            onSubmitEditing={handleSignup}
           />
         </View>
 
         <View style={tw`flex-row items-center mb-6`}>
           <Switch value={agreedToTerms} onValueChange={setAgreedToTerms} />
           <Text style={tw`ml-2 text-sm text-gray-400`}>
-            I agree to the <Link href="/terms" style={tw`text-blue-400`}><Text>Terms of Service</Text></Link> and <Link href="/privacy" style={tw`text-blue-400`}><Text>Privacy Policy</Text></Link>.
+            I agree to the <Link href="/terms" asChild><Text style={tw`text-blue-400`}>Terms of Service</Text></Link> and <Link href="/privacy" asChild><Text style={tw`text-blue-400`}>Privacy Policy</Text></Link>.
+
           </Text>
         </View>
 

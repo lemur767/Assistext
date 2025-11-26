@@ -49,7 +49,7 @@ const Pricing: React.FC = () => {
             </div>
 
             <div className="pricing-card__cta-section">
-              <a href="#" className="pricing-card__cta-link">
+              <a href="/subscriptions" className="pricing-card__cta-button">
                 <span className="pricing-card__cta-text">Get started</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__cta-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </a>
@@ -91,13 +91,7 @@ const Pricing: React.FC = () => {
 
             <div className="pricing-card__cta-section">
               <button className="pricing-card__cta-button">
-                <span className="pricing-card__backdrop"></span>
-                <span className="pricing-card__spark"></span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="pricing-card__sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"></path>
-                  <path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16z"></path>
-                  <path d="M5 16l.8 2.2L8 19l-2.2.8L5 22l-.8-2.2L2 19l2.2-.8L5 16z"></path>
-                </svg>
+               
                 <span className="pricing-card__button-text">Choose Pro</span>
               </button>
             </div>

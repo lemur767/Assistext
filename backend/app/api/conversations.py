@@ -131,6 +131,10 @@ def create_conversation(current_user):
 
     db.session.commit()
 
+    # Notify user room for conversation list update
+    user_room = f"user_{current_user.id}"
+    socketio.emit('conversation_created', conversation.to_dict(), room=user_room, namespace='/chat')
+
     return jsonify(conversation.to_dict()), 201
 
 @conversations_bp.route('/<int:conversation_id>', methods=['GET'])

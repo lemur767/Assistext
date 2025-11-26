@@ -64,17 +64,17 @@ const PrivacyPolicy: React.FC = () => {
 const markdownStyles = {
   heading1: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as 'bold',
     marginBottom: 10,
   },
   heading2: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 'bold' as 'bold',
     marginTop: 15,
     marginBottom: 10,
   },
   strong: {
-    fontWeight: 'bold',
+    fontWeight: 'bold' as 'bold',
   },
   body: {
     fontSize: 16,

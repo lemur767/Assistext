@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { api } from '../services/api';
+import { socketService } from '../services/socketService';
 
 interface Conversation {
   id: string;
@@ -20,7 +21,7 @@ export const useConversations = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { session } = useAuth();
+  const { session, user } = useAuth();
 
   const fetchConversations = async () => {
     setLoading(true);
@@ -43,6 +44,32 @@ export const useConversations = () => {
   useEffect(() => {
     if (session) {
       fetchConversations();
+      
+      // Connect to socketio and listen for conversation updates
+      const socket = socketService.connect('/chat');
+      const userId = user?.id;
+      
+      if (userId) {
+        // Join user-specific room for conversation updates
+        socket.emit('join_user_room', { user_id: userId });
+        
+        // Listen for conversation creation
+        socket.on('conversation_created', () => {
+          fetchConversations();
+        });
+        
+        // Listen for conversation updates
+        socket.on('conversation_updated', () => {
+          fetchConversations();
+        });
+      }
+      
+      // Cleanup on unmount
+      return () => {
+        if (userId) {
+          socket.emit('leave_user_room', { user_id: userId });
+        }
+      };
     }
   }, [session, page]);
 

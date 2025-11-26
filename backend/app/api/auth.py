@@ -83,13 +83,13 @@ def register():
         try:
             friendly_name = signalwire_service.generate_friendly_name(email)
             subproject = signalwire_service.create_subproject(friendly_name)
-            available_numbers = signalwire_service.search_available_numbers(country_code, 5, city=city, region=current_user.state)
+            available_numbers = signalwire_service.search_available_numbers(country_code, 5, city=city, region=user.state)
             if not available_numbers:
                 raise Exception(f"No phone numbers available for country: {country_code}")
 
             selected_number = available_numbers[0]
             webhook_url = signalwire_service.generate_webhook_url(user.id)
-            purchased_number = signalwire_service.purchase_phone_number(selected_number.phone_number, subproject.sid, webhook_url)
+            purchased_number = signalwire_service.purchase_phone_number(selected_number.phone_number, subproject.sid, subproject.auth_token, webhook_url)
 
             user.signalwire_subproject_id = subproject.sid
             user.signalwire_auth_token = subproject.auth_token

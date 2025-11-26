@@ -145,7 +145,7 @@ class SignalWireService:
             logger.error(f"Failed to search available numbers: {e}")
             raise Exception("Failed to search available phone numbers")
     
-    def purchase_phone_number(self, phone_number: str, subproject_id: str, webhook_url: str) -> PurchasedPhoneNumber:
+    def purchase_phone_number(self, phone_number: str, subproject_id: str, subproject_auth_token: str, webhook_url: str) -> PurchasedPhoneNumber:
         """Purchase a phone number and assign to subproject"""
         try:
             # Step 1: Purchase the number for the main project
@@ -187,9 +187,12 @@ class SignalWireService:
                 'SmsMethod': 'POST'
             }
 
+            # Use subproject credentials for this request
+            subproject_auth = (subproject_id, subproject_auth_token)
+
             update_response = requests.post(
                 update_url,
-                auth=self.auth,
+                auth=subproject_auth,
                 data=update_data,
                 headers={'Content-Type': 'application/x-www-form-urlencoded'}
             )

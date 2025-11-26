@@ -1,13 +1,15 @@
-import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { api } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext'; // Adjusted path
 import RecentActivity from '../../components/RecentActivity'; // Adjusted path
 import tw from 'twrnc';
 import { useRouter } from 'expo-router'; // Replaced useNavigation
 
 const Index: React.FC = () => {
-  const { user, subscription } = useAuth();
+  const { user, subscription, refreshUser } = useAuth();
   const router = useRouter();
+  const [purchasingNumber, setPurchasingNumber] = useState(false);
 
   const getTrialDaysRemaining = () => {
     if (!user?.trial_expires_at) return 0;
@@ -22,6 +24,21 @@ const Index: React.FC = () => {
     if (plan === 'basic') return 100;
     if (plan === 'pro') return 1000;
     return 0;
+  };
+
+  const handlePurchaseNumber = async () => {
+    setPurchasingNumber(true);
+    try {
+      await api.post('/users/purchase-number', {});
+      Alert.alert('Success', 'Ghost Number purchased successfully!');
+      if (refreshUser) {
+        refreshUser();
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Failed to purchase number');
+    } finally {
+      setPurchasingNumber(false);
+    }
   };
 
   if (!user) {
@@ -59,6 +76,15 @@ const Index: React.FC = () => {
                 It looks like you don&apos;t have a Ghost Number yet. Please visit the{" "}
                 <Text style={tw`font-bold text-blue-400`} onPress={() => router.push({ pathname: '/settings' })}>Settings</Text> page to set one up.
               </Text>
+              <TouchableOpacity
+                onPress={handlePurchaseNumber}
+                style={tw`mt-4 bg-blue-600 p-3 rounded-lg items-center`}
+                disabled={purchasingNumber}
+              >
+                <Text style={tw`text-white font-bold`}>
+                  {purchasingNumber ? 'Purchasing...' : 'Get Ghost Number'}
+                </Text>
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={tw`grid gap-4`}>
