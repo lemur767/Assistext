@@ -7,21 +7,28 @@
 
 .signup_card {
   width: 100%;
-  max-width: 28rem; /* max-w-md */
-  padding: 2rem; /* p-8 */
+  max-width: 28rem;
+  /* max-w-md */
+  padding: 2rem;
+  /* p-8 */
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* space-y-8 */
-  border-radius: 1rem; /* rounded-2xl */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  gap: 2rem;
+  /* space-y-8 */
+  border-radius: 1rem;
+  /* rounded-2xl */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* shadow-lg */
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .signup_heading {
-  font-size: 2.25rem; /* text-4xl */
-  font-weight: 700; /* font-bold */
+  font-size: 2.25rem;
+  /* text-4xl */
+  font-weight: 700;
+  /* font-bold */
   text-align: center;
   background-clip: text;
   color: transparent;
@@ -31,30 +38,37 @@
 .signup_form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* space-y-6 */
+  gap: 1.5rem;
+  /* space-y-6 */
 }
 
 .signup_nameFieldsGrid {
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr)); /* grid-cols-1 */
-  gap: 1rem; /* gap-4 */
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  /* grid-cols-1 */
+  gap: 1rem;
+  /* gap-4 */
 }
 
 @media (min-width: 768px) {
   .signup_nameFieldsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* md:grid-cols-2 */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* md:grid-cols-2 */
   }
 }
 
 .signup_inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* space-y-2 */
+  gap: 0.5rem;
+  /* space-y-2 */
 }
 
 .signup_label {
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500; /* font-medium */
+  font-size: 0.875rem;
+  /* text-sm */
+  font-weight: 500;
+  /* font-medium */
 }
 
 .signup_button {
@@ -62,17 +76,20 @@
 }
 
 .signup_message {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.875rem;
+  /* text-sm */
   text-align: center;
 }
 
 .signup_loginText {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.875rem;
+  /* text-sm */
   text-align: center;
 }
 
 .signup_loginLink {
-  font-weight: 500; /* font-medium */
+  font-weight: 500;
+  /* font-medium */
 }
 
 .password-requirements ul {
@@ -83,14 +100,34 @@
 
 .password-requirements li {
   font-size: 0.875rem;
-  color: #9ca3af; /* text-gray-400 */
+  color: #9ca3af;
+  /* text-gray-400 */
   transition: color 0.2s;
 }
 
 .password-requirements li.valid {
-  color: #4ade80; /* text-green-400 */
+  color: #4ade80;
+  /* text-green-400 */
 }
 
 .password-requirements li.invalid {
-  color: #f87171; /* text-red-400 */
+  color: #f87171;
+  /* text-red-400 */
+}
+
+/* Utility Classes */
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
 }

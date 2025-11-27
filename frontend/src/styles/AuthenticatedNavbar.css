@@ -122,3 +122,14 @@
         margin-top: 1rem;
     }
 }
+
+/* Additional Utility Classes */
+.hidden {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .hidden.md\:block {
+        display: block;
+    }
+}

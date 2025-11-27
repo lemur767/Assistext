@@ -15,22 +15,22 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-        try {
-            if (!isAuthenticated || !session) {
-                throw new Error("User not authenticated.");
-            }
-
-            const data = await api.get("/users/profile");
-            setKeywords(data.user.keyword_triggers || []);
-            setIncludeAiSignature(data.user.include_ai_signature || false);
-        } catch (err: unknown) {
-            setMessage((err as Error).message);
+      try {
+        if (!isAuthenticated || !session) {
+          throw new Error("User not authenticated.");
         }
+
+        const data = await api.get("/users/profile");
+        setKeywords(data.user.keyword_triggers || []);
+        setIncludeAiSignature(data.user.include_ai_signature || false);
+      } catch (err: unknown) {
+        setMessage((err as Error).message);
+      }
     };
     if (isAuthenticated) {
-        fetchProfile();
+      fetchProfile();
     }
-}, [isAuthenticated, session]);
+  }, [isAuthenticated, session]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -72,39 +72,39 @@ const Settings: React.FC = () => {
 
     const updatedKeywords = [...keywords, newKeyword];
     try {
-        await api.put("/users/profile/keyword_triggers", {
-            keyword_triggers: updatedKeywords,
-        });
-        setKeywords(updatedKeywords);
-        setNewKeyword("");
+      await api.put("/users/profile/keyword_triggers", {
+        keyword_triggers: updatedKeywords,
+      });
+      setKeywords(updatedKeywords);
+      setNewKeyword("");
     } catch (err: unknown) {
-        setMessage((err as Error).message);
+      setMessage((err as Error).message);
     }
-};
+  };
 
-const handleRemoveKeyword = async (keywordToRemove: string) => {
+  const handleRemoveKeyword = async (keywordToRemove: string) => {
     const updatedKeywords = keywords.filter(
-        (keyword) => keyword !== keywordToRemove
+      (keyword) => keyword !== keywordToRemove
     );
     try {
-        await api.put("/users/profile/keyword_triggers", {
-            keyword_triggers: updatedKeywords,
-        });
-        setKeywords(updatedKeywords);
+      await api.put("/users/profile/keyword_triggers", {
+        keyword_triggers: updatedKeywords,
+      });
+      setKeywords(updatedKeywords);
     } catch (err: unknown) {
-        setMessage((err as Error).message);
+      setMessage((err as Error).message);
     }
-};
+  };
 
   const handleSignatureChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSignatureValue = e.target.checked;
     setIncludeAiSignature(newSignatureValue);
     try {
-        await api.put("/users/profile/include_ai_signature", {
-            include_ai_signature: newSignatureValue,
-        });
+      await api.put("/users/profile/include_ai_signature", {
+        include_ai_signature: newSignatureValue,
+      });
     } catch (err: unknown) {
-        setMessage((err as Error).message);
+      setMessage((err as Error).message);
     }
   };
 
@@ -119,13 +119,13 @@ const handleRemoveKeyword = async (keywordToRemove: string) => {
 
       <main className="settings_mainContent">
         <div className="settings_settingsCard glass-morphism">
-            <div className="settings_formSection">
-              <h3 className="settings_formSectionTitle text-neutral-text">AI Personality</h3>
-              <p className="settings_formSectionDescription text-neutral-text/60">
-                Customize the AI's personality and tone (Pro feature).
-              </p>
-            </div>
-            <Link to="/settings/ai" className="btn btn-primary">Customize</Link>
+          <div className="settings_formSection">
+            <h3 className="settings_formSectionTitle text-neutral-text">AI Personality</h3>
+            <p className="settings_formSectionDescription text-neutral-text/60">
+              Customize the AI's personality and tone (Pro feature).
+            </p>
+          </div>
+          <Link to="/settings/ai" className="btn btn-primary">Customize</Link>
         </div>
 
         <div className="settings_settingsCard glass-morphism mt-8">
@@ -136,7 +136,7 @@ const handleRemoveKeyword = async (keywordToRemove: string) => {
                 Upload a .txt file of your past conversations to help the AI learn your style.
               </p>
             </div>
-            
+
             <div>
               <label htmlFor="file-upload" className="settings_fileUploadLabel text-neutral-text">Training File</label>
               <div className="settings_fileUploadArea border-neutral-border hover:border-primary">
@@ -187,9 +187,9 @@ const handleRemoveKeyword = async (keywordToRemove: string) => {
           </form>
           <div className="mt-4">
             {keywords.map((keyword) => (
-              <div key={keyword} className="inline-flex items-center bg-gray-700 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+              <div key={keyword} className="keyword-tag">
                 {keyword}
-                <button onClick={() => handleRemoveKeyword(keyword)} className="ml-2 text-red-500 hover:text-red-700">
+                <button onClick={() => handleRemoveKeyword(keyword)} className="keyword-tag-remove-button">
                   &times;
                 </button>
               </div>

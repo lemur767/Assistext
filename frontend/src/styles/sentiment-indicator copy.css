@@ -1,0 +1,21 @@
+/* SentimentIndicator Styles */
+
+.sentiment-indicator {
+    height: 0.625rem;
+    width: 0.625rem;
+    border-radius: 9999px;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.sentiment-indicator.neutral {
+    background-color: #9ca3af;
+}
+
+.sentiment-indicator.positive {
+    background-color: #22c55e;
+}
+
+.sentiment-indicator.negative {
+    background-color: #ef4444;
+}

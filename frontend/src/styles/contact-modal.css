@@ -1,0 +1,87 @@
+/* ContactModal Styles */
+
+.contact-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.contact-modal-card {
+    background: #1e293b;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 28rem;
+}
+
+.contact-modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.contact-modal-phone {
+    font-family: 'Courier New', monospace;
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+}
+
+.contact-modal-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: #334155;
+    border: 1px solid #475569;
+    color: white;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.contact-modal-input:focus {
+    outline: none;
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.5);
+}
+
+.contact-modal-button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.contact-modal-cancel-button {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: transparent;
+    border: 1px solid #475569;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.contact-modal-cancel-button:hover {
+    background: #334155;
+}
+
+.contact-modal-save-button {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: linear-gradient(to right, #06b6d4, #a855f7);
+    color: white;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.contact-modal-save-button:hover {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}

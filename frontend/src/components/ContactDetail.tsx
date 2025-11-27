@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import './ContactDetail.css';
+import '../styles/ContactDetail.css';
 
 interface Contact {
   id: number;
@@ -68,8 +68,8 @@ const ContactDetail: React.FC = () => {
             <label>Phone Number</label>
             <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
             <div className="contact-detail-buttons">
-                <button onClick={handleUpdate}>Save</button>
-                <button onClick={() => setIsEditing(false)}>Cancel</button>
+              <button onClick={handleUpdate}>Save</button>
+              <button onClick={() => setIsEditing(false)}>Cancel</button>
             </div>
           </div>
         </div>

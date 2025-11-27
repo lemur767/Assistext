@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Sparkles, Mail, Lock, AlertCircle } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-
-import "../styles/Login.css";
+import { GlassCard } from "./common/GlassCard";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -34,62 +35,183 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login_container">
-      <div className="login_gradientBallspurple"></div>
-        <div className="login_gradientBallscyan"></div>
-        <div className="login_gradientBallspink"></div>
-      
-        <div className="login_card glass-morphism">
-          <div className="login_logoContainer">
-            <img src="/assets/logo3333.png" alt="Assistext Logo" width="180px" height="180px" className="login_logoImage" />
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'var(--background)',
+      padding: '1rem',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Background gradient effects */}
+      <div style={{
+        position: 'absolute',
+        top: '-10%',
+        left: '10%',
+        width: '20rem',
+        height: '20rem',
+        background: 'radial-gradient(circle, rgba(232, 100, 124, 0.15), transparent 70%)',
+        borderRadius: '50%',
+        filter: 'blur(80px)',
+        pointerEvents: 'none'
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '-10%',
+        right: '10%',
+        width: '20rem',
+        height: '20rem',
+        background: 'radial-gradient(circle, rgba(71, 228, 187, 0.15), transparent 70%)',
+        borderRadius: '50%',
+        filter: 'blur(80px)',
+        pointerEvents: 'none'
+      }} />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ width: '100%', maxWidth: '28rem', position: 'relative', zIndex: 1 }}
+      >
+        <GlassCard variant="solid" style={{ padding: '2.5rem' }}>
+          {/* Logo */}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <div style={{
+              width: '4rem',
+              height: '4rem',
+              margin: '0 auto 1rem',
+              borderRadius: '1rem',
+              background: 'linear-gradient(135deg, var(--primary), var(--accent))',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Sparkles style={{ width: '2rem', height: '2rem', color: 'white' }} />
+            </div>
+            <h2 style={{ fontSize: '1.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+              Welcome Back
+            </h2>
+            <p style={{ color: 'var(--muted-foreground)', fontSize: '0.938rem' }}>
+              Sign in to your Assistext account
+            </p>
           </div>
-       
-        <form className="login_form" onSubmit={handleLogin}>
-          <div className="login_inputGroup">
-            <label htmlFor="email" className="login_label text-neutral-text">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-input"
-              placeholder="you@example.com"
-            />
-          </div>
-          <div className="login_inputGroup">
-            <label
-              htmlFor="password"
-              className="login_label text-neutral-text"
+
+          {/* Error Message */}
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{
+                padding: '0.75rem 1rem',
+                borderRadius: '0.75rem',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                marginBottom: '1.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+              }}
             >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
-              placeholder="••••••••"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="login_button btn btn-primary"
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-        {message && <p className="login_message text-error">{message}</p>}
-        <p className="login_signupText text-neutral-text/60">
-          Don&apos;t have an account?{" "}
-          <Link to="/signup" className="login_signupLink text-primary hover:underline">
-            Sign up
-          </Link>
-        </p>
-      </div>
+              <AlertCircle style={{ width: '1.25rem', height: '1.25rem', color: '#EF4444', flexShrink: 0 }} />
+              <p style={{ fontSize: '0.875rem', color: '#EF4444', margin: 0 }}>{message}</p>
+            </motion.div>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div>
+              <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.938rem', fontWeight: 500, color: 'var(--foreground)' }}>
+                Email
+              </label>
+              <div style={{ position: 'relative' }}>
+                <Mail style={{
+                  position: 'absolute',
+                  left: '0.875rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '1.125rem',
+                  height: '1.125rem',
+                  color: 'var(--muted-foreground)',
+                  pointerEvents: 'none'
+                }} />
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="form-input"
+                  style={{ width: '100%', paddingLeft: '2.75rem' }}
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.938rem', fontWeight: 500, color: 'var(--foreground)' }}>
+                Password
+              </label>
+              <div style={{ position: 'relative' }}>
+                <Lock style={{
+                  position: 'absolute',
+                  left: '0.875rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '1.125rem',
+                  height: '1.125rem',
+                  color: 'var(--muted-foreground)',
+                  pointerEvents: 'none'
+                }} />
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="form-input"
+                  style={{ width: '100%', paddingLeft: '2.75rem' }}
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+
+            <motion.button
+              type="submit"
+              disabled={loading}
+              whileHover={{ scale: loading ? 1 : 1.02 }}
+              whileTap={{ scale: loading ? 1 : 0.98 }}
+              className="btn-primary"
+              style={{
+                width: '100%',
+                padding: '0.875rem',
+                borderRadius: '0.75rem',
+                fontSize: '0.938rem',
+                fontWeight: 500,
+                marginTop: '0.5rem',
+                opacity: loading ? 0.7 : 1,
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
+            >
+              {loading ? "Signing in..." : "Sign In"}
+            </motion.button>
+          </form>
+
+          {/* Sign up link */}
+          <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.938rem', color: 'var(--muted-foreground)' }}>
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              style={{ color: 'var(--primary)', fontWeight: 500, textDecoration: 'none' }}
+              onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+              onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+            >
+              Sign up
+            </Link>
+          </p>
+        </GlassCard>
+      </motion.div>
     </div>
   );
 };

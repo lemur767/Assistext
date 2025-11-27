@@ -1,69 +1,224 @@
-import React from 'react';
-import './LandingHeader.css';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Menu, X, Sparkles } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 const LandingHeader: React.FC = () => {
   const { isAuthenticated } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <div className="landing-header">
-      <div className="landing-header__content">
-        <div className="landing-header__inner">
-          {/* Logo Left */}
-          <a href="#" className="landing-header__logo-link">
-            <div className="landing-header__logo-icon-container">
-              <img src='/assets/logonotext.png' alt="Logo" className="landing-header__logo-icon" width='150px' height='150px' />
-
+    <motion.nav
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        transition: 'all 0.3s ease',
+        paddingTop: scrolled ? '1rem' : '1.5rem',
+        paddingBottom: scrolled ? '1rem' : '1.5rem'
+      }}
+    >
+      <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1rem' }}>
+        <div
+          className="glass"
+          style={{
+            borderRadius: '1rem',
+            padding: '1rem 1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: scrolled ? '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)' : ''
+          }}
+        >
+          {/* Logo */}
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
+            <div style={{
+              width: '2.5rem',
+              height: '2.5rem',
+              borderRadius: '0.75rem',
+              background: 'linear-gradient(135deg, var(--primary), var(--accent))',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Sparkles style={{ width: '1.5rem', height: '1.5rem', color: 'white' }} />
             </div>
-           
+            <span style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--foreground)' }}>Assistext</span>
           </a>
 
-          {/* Center Nav */}
-          {isAuthenticated ? (
-            <nav className="landing-header__nav">
-              <a href="/dashboard" className="landing-header__nav-link">Dashboard</a>
-              <a href="/conversations" className="landing-header__nav-link">Conversations</a>
-              <a href="/contacts" className="landing-header__nav-link">Contacts</a>
-              <a href="/settings" className="landing-header__nav-link">Settings</a>
-              <a href="/subscription" className="landing-header__nav-link">Subscriptions</a>
-            </nav>
-          ) : (
-            <nav className="landing-header__nav">
-              <a href="#features" className="landing-header__nav-link">Features</a>
-              <a href="#pricing" className="landing-header__nav-link">Pricing</a>
-              <a href="#about" className="landing-header__nav-link">About Us</a>
-              <a href="#contact" className="landing-header__nav-link">Contact</a>
-            </nav>
-          )}
+          {/* Desktop Navigation */}
+          <div style={{ display: 'none', alignItems: 'center', gap: '2rem' }} className="desktop-nav">
+            {isAuthenticated ? (
+              <>
+                <a href="/dashboard" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Dashboard</a>
+                <a href="/conversations" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Conversations</a>
+                <a href="/contacts" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contacts</a>
+                <a href="/settings" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Settings</a>
+                <a href="/subscription" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Subscription</a>
+              </>
+            ) : (
+              <>
+                <a href="#features" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Features</a>
+                <a href="#pricing" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Pricing</a>
+                <a href="#about" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>About</a>
+                <a href="#contact" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contact</a>
+              </>
+            )}
+            <ThemeToggle />
+            {!isAuthenticated && (
+              <>
+                <a
+                  href="/login"
+                  style={{
+                    color: 'var(--foreground)',
+                    fontSize: '15px',
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                    transition: 'color 0.2s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}
+                >
+                  Sign In
+                </a>
+                <a
+                  href="/signup"
+                  className="btn-primary"
+                  style={{
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.75rem',
+                    fontSize: '15px',
+                    fontWeight: 500,
+                    textDecoration: 'none'
+                  }}
+                >
+                  Get Started
+                </a>
+              </>
+            )}
+          </div>
 
-            
-          {/* Right CTAs */}
-          {!isAuthenticated && (
-            <div className="landing-header__cta-container">
-              <a href="/login" className="landing-header__cta-link">
-                <span className="landing-header__cta-content">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="landing-header__cta-icon"><path d="m10 17 5-5-5-5"></path><path d="M15 12H3"></path><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path></svg>
-                  <span className="landing-header__cta-text">Sign in</span>
-                </span>
-              </a>
-              <a href="/signup" className="landing-header__get-started-link">
-                <span className="landing-header__cta-content">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="landing-header__cta-icon"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-                  <span className="landing-header__cta-text">Get started</span>
-                </span>
-              </a>
-            </div>
-          )}
-          {!isAuthenticated && (
-            <div className="landing-header__mobile-cta">
-              <a href="#pricing" className="landing-header__mobile-cta-link">
-                Get started
-              </a>
-            </div>
-          )}
+          {/* Mobile Menu Button */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} className="mobile-nav">
+            <ThemeToggle />
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              style={{
+                padding: '0.5rem',
+                borderRadius: '0.5rem',
+                transition: 'background-color 0.2s',
+                backgroundColor: 'transparent'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--muted)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              {mobileMenuOpen ? <X style={{ width: '1.5rem', height: '1.5rem' }} /> : <Menu style={{ width: '1.5rem', height: '1.5rem' }} />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ marginTop: '1rem' }}
+            className="mobile-menu"
+          >
+            <div
+              style={{
+                backgroundColor: 'var(--card)',
+                border: '1px solid var(--border)',
+                borderRadius: '1rem',
+                padding: '1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)'
+              }}
+            >
+              {isAuthenticated ? (
+                <>
+                  <a href="/dashboard" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Dashboard</a>
+                  <a href="/conversations" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Conversations</a>
+                  <a href="/contacts" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contacts</a>
+                  <a href="/settings" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Settings</a>
+                  <a href="/subscription" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Subscription</a>
+                </>
+              ) : (
+                <>
+                  <a href="#features" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Features</a>
+                  <a href="#pricing" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Pricing</a>
+                  <a href="#about" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>About</a>
+                  <a href="#contact" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contact</a>
+                  <div style={{ borderTop: '1px solid var(--border)', margin: '0.5rem 0', paddingTop: '0.5rem' }} />
+                  <a
+                    href="/login"
+                    style={{
+                      padding: '0.5rem 0',
+                      color: 'var(--foreground)',
+                      textAlign: 'center',
+                      display: 'block',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s'
+                    }}
+                    onClick={() => setMobileMenuOpen(false)}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}
+                  >
+                    Sign In
+                  </a>
+                  <a
+                    href="/signup"
+                    className="btn-primary"
+                    style={{
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '0.75rem',
+                      fontWeight: 500,
+                      textAlign: 'center',
+                      marginTop: '0.5rem',
+                      textDecoration: 'none',
+                      display: 'block'
+                    }}
+                  >
+                    Get Started
+                  </a>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
       </div>
-    </div>
+
+      <style>{`
+        @media (min-width: 768px) {
+          .desktop-nav {
+            display: flex !important;
+          }
+          .mobile-nav {
+            display: none !important;
+          }
+        }
+        @media (max-width: 767px) {
+          .mobile-menu {
+            display: block;
+          }
+        }
+      `}</style>
+    </motion.nav>
   );
 };
 

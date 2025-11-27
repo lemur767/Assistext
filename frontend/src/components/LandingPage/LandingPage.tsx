@@ -6,19 +6,38 @@ import Pricing from './Pricing';
 import Footer from '../Footer'
 import About from './About';
 import ContactUs from './ContactUs';
- 
+
 const LandingPage: React.FC = () => {
   return (
-    <div className="font-sans antialiased selection:bg-fuchsia-500/30 selection:text-white text-white relative min-h-screen w-full bg-gradient-to-b from-black via-blue-950 to-black overflow-hidden flex flex-col items-center justify-center">
-      <div className="absolute inset-0 opacity-5 bg-cover bg-center" style={{backgroundImage: "url('https://images.unsplash.com/photo-1557682250-27278ae3485a?q=80&w=2830&auto=format&fit=crop')"}}></div>
-      <div className="z-10 w-full">
+    <div style={{
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      position: 'relative',
+      minHeight: '100vh',
+      width: '100%',
+      backgroundColor: 'var(--background)',
+      color: 'var(--foreground)',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      {/* Background gradient overlay */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 0,
+        background: 'radial-gradient(circle at 50% 0%, rgba(232, 100, 124, 0.08), transparent 60%)'
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 10, width: '100%' }}>
         <LandingHeader />
         <Hero />
         <Features />
         <Pricing />
         <About />
         <ContactUs />
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );

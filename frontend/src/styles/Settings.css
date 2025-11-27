@@ -55,10 +55,10 @@
 }
 
 .settings_fileUploadLabel {
-    font-weight: 600;
-    color: white;
-    margin-bottom: 0.5rem;
-    display: block;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
 .settings_fileUploadArea {
@@ -71,32 +71,32 @@
 }
 
 .settings_fileUploadArea:hover {
-    border-color: #61e2ff;
+  border-color: #61e2ff;
 }
 
 .settings_fileUploadContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .settings_fileUploadIcon {
-    width: 48px;
-    height: 48px;
-    color: #94a3b8;
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
 }
 
 .settings_fileUploadTextContainer {
-    display: flex;
-    gap: 0.25rem;
-    align-items: baseline;
+  display: flex;
+  gap: 0.25rem;
+  align-items: baseline;
 }
 
 .settings_fileUploadButton {
-    font-weight: 600;
-    color: #61e2ff;
-    cursor: pointer;
+  font-weight: 600;
+  color: #61e2ff;
+  cursor: pointer;
 }
 
 .settings_fileUploadInput {
@@ -113,22 +113,22 @@
 
 .settings_fileUploadDragDropText,
 .settings_fileUploadHint {
-    font-size: 0.875rem;
-    color: #94a3b8;
+  font-size: 0.875rem;
+  color: #94a3b8;
 }
 
 .settings_fileName {
-    margin-top: 1rem;
-    font-weight: 600;
+  margin-top: 1rem;
+  font-weight: 600;
 }
 
 .settings_submitButton {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 
 .settings_message {
-    margin-top: 1rem;
-    text-align: center;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .text-success {
@@ -140,14 +140,64 @@
 }
 
 .form-checkbox {
-    height: 1.25rem;
-    width: 1.25rem;
-    border-radius: 0.25rem;
-    border-color: #4a5568;
-    background-color: #1a202c;
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 0.25rem;
+  border-color: #4a5568;
+  background-color: #1a202c;
 }
 
 .form-checkbox:checked {
-    background-color: #61e2ff;
-    border-color: #61e2ff;
+  background-color: #61e2ff;
+  border-color: #61e2ff;
+}
+
+/* Utility Classes */
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+/* Keyword Tags */
+.keyword-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #374151;
+  color: white;
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.keyword-tag-remove-button {
+  margin-left: 0.5rem;
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.keyword-tag-remove-button:hover {
+  color: #dc2626;
 }

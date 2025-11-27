@@ -4,9 +4,17 @@ import AuthenticatedNavbar from './AuthenticatedNavbar';
 
 const AuthenticatedLayout: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: 'var(--background)',
+      transition: 'background-color 0.3s ease'
+    }}>
       <AuthenticatedNavbar />
-      <main className="flex-1">
+      <main style={{
+        maxWidth: '80rem',
+        margin: '0 auto',
+        padding: '2rem 1rem'
+      }}>
         <Outlet />
       </main>
     </div>

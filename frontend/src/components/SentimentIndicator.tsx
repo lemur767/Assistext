@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface SentimentIndicatorProps {
@@ -7,16 +6,20 @@ interface SentimentIndicatorProps {
 
 const SentimentIndicator: React.FC<SentimentIndicatorProps> = ({ sentiment }) => {
   const getSentimentColor = () => {
-    if (sentiment === null) return 'bg-gray-400';
-    if (sentiment < -0.2) return 'bg-red-500';
-    if (sentiment > 0.2) return 'bg-green-500';
-    return 'bg-gray-400';
+    if (sentiment === null) return 'var(--muted-foreground)';
+    if (sentiment < -0.2) return '#EF4444'; // red for negative
+    if (sentiment > 0.2) return 'var(--secondary)'; // secondary for positive
+    return 'var(--accent)'; // accent for neutral
   };
 
   return (
-    <span
-      className={`h-2.5 w-2.5 rounded-full inline-block mr-2 ${getSentimentColor()}`}
-    ></span>
+    <div style={{
+      width: '0.5rem',
+      height: '0.5rem',
+      borderRadius: '50%',
+      backgroundColor: getSentimentColor(),
+      flexShrink: 0
+    }} />
   );
 };
 

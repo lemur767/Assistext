@@ -20,7 +20,7 @@
     bottom: 0;
     left: 0;
     z-index: -10;
-    background-image: radial-gradient(50% 50% at 50% 0%,rgba(79,70,229,0.08),transparent 60%);
+    background-image: radial-gradient(50% 50% at 50% 0%, rgba(79, 70, 229, 0.08), transparent 60%);
 }
 
 .features__container {
@@ -89,6 +89,7 @@
         opacity: 0;
         transform: translateX(-100%);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -100,6 +101,7 @@
         opacity: 0;
         transform: translateX(100%);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -119,7 +121,8 @@
     border-color: rgba(255, 255, 255, 0.1);
     background-color: rgba(255, 255, 255, 0.05);
     overflow: hidden;
-    opacity: 0; /* Start hidden */
+    opacity: 0;
+    /* Start hidden */
 }
 
 .features__card.visible.fly-in-left {
@@ -134,7 +137,8 @@
 
 
 .features__card:hover {
-    border-color: rgba(217, 70, 239, 0.3);
+    border-color: rgba(232, 100, 124, 0.3);
+    /* primary color */
 }
 
 @media (min-width: 768px) {
@@ -175,7 +179,8 @@
     bottom: -4rem;
     height: 16rem;
     width: 16rem;
-    background-color: rgba(217, 70, 239, 0.1);
+    background-color: rgba(232, 100, 124, 0.15);
+    /* primary */
 }
 
 .features__card-glow--indigo {
@@ -183,7 +188,8 @@
     bottom: -4rem;
     height: 16rem;
     width: 16rem;
-    background-color: rgba(99, 102, 241, 0.1);
+    background-color: rgba(71, 228, 187, 0.15);
+    /* secondary */
 }
 
 .features__card-header-line {
@@ -196,11 +202,13 @@
 }
 
 .features__card-header-line--fuchsia {
-    --glow-color: rgba(217, 70, 239, 0.4);
+    --glow-color: rgba(232, 100, 124, 0.4);
+    /* primary */
 }
 
 .features__card-header-line--indigo {
-    --glow-color: rgba(129, 140, 248, 0.5);
+    --glow-color: rgba(71, 228, 187, 0.5);
+    /* secondary */
 }
 
 .features__card-content {
@@ -336,7 +344,7 @@
     display: flex;
 }
 
-.features__card-avatars > :not([hidden]) ~ :not([hidden]) {
+.features__card-avatars> :not([hidden])~ :not([hidden]) {
     --tw-space-x-reverse: 0;
     margin-right: calc(-0.5rem * var(--tw-space-x-reverse));
     margin-left: calc(-0.5rem * calc(1 - var(--tw-space-x-reverse)));
@@ -353,19 +361,19 @@
 
 .features__card-avatar--1 {
     --tw-gradient-from: rgba(217, 70, 239, 0.4);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(217,70,239,0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(217, 70, 239, 0));
     --tw-gradient-to: rgba(99, 102, 241, 0.4);
 }
 
 .features__card-avatar--2 {
     --tw-gradient-from: rgba(244, 63, 94, 0.4);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(244,63,94,0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(244, 63, 94, 0));
     --tw-gradient-to: rgba(245, 158, 11, 0.4);
 }
 
 .features__card-avatar--3 {
     --tw-gradient-from: rgba(16, 185, 129, 0.4);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(16,185,129,0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(16, 185, 129, 0));
     --tw-gradient-to: rgba(20, 184, 166, 0.4);
 }
 
@@ -380,10 +388,10 @@
 
 .features__card-progress-bar-container {
     margin-top: 0.75rem;
-    space-y: 0.5rem;
 }
 
 .features__card-progress-bar {
+    margin-bottom: 0.5rem;
     height: 0.5rem;
     border-radius: 9999px;
     background-color: rgba(255, 255, 255, 0.1);
@@ -399,14 +407,14 @@
 .features__card-progress-bar-inner--1 {
     width: 80%;
     --tw-gradient-from: rgba(52, 211, 153, 0.8);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(52,211,153,0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(52, 211, 153, 0));
     --tw-gradient-to: rgba(45, 212, 191, 0.8);
 }
 
 .features__card-progress-bar-inner--2 {
     width: 60%;
     --tw-gradient-from: rgba(129, 140, 248, 0.8);
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(129,140,248,0));
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(129, 140, 248, 0));
     --tw-gradient-to: rgba(217, 70, 239, 0.8);
 }
 

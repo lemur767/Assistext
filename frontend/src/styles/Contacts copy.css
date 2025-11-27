@@ -1,0 +1,71 @@
+.contacts-container {
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 100%;
+  margin-top: 120px;
+}
+
+.contacts-header {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+}
+
+.no-contacts-message {
+  display:flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  width:fit-content;
+  font-size: large;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius:0.5rem;
+  background-color: rgba(62, 72, 87, 0.5);
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(62, 72, 87, 0.5);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.contact-item {
+    border-radius: 0.5rem;
+}
+
+.contact-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.contact-link {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-name {
+  font-weight: 600;
+  color: white;
+}
+
+.contact-number {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-family: monospace;
+}

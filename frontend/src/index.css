@@ -1,10 +1,72 @@
 :root {
+  /* New Color Scheme - Light Theme */
+  --font-size: 16px;
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --card: #fff;
+  --card-foreground: #1a1a1a;
+  --popover: #fff;
+  --popover-foreground: #1a1a1a;
+  --primary: #e8647c;
+  --primary-foreground: #fff;
+  --secondary: #47e4bb;
+  --secondary-foreground: #1a1a1a;
+  --accent: #ec9b3b;
+  --accent-foreground: #fff;
+  --muted: #f5f5f5;
+  --muted-foreground: #555;
+  --destructive: #e8647c;
+  --destructive-foreground: #fff;
+  --border: rgba(34, 34, 34, 0.12);
+  --input: rgba(34, 34, 34, 0.2);
+  --input-background: #fff;
+  --switch-background: rgba(34, 34, 34, 0.2);
+  --ring: #e8647c;
+  --radius: 1rem;
+
+  /* Glass Morphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.08);
+
+  /* Font Weights */
+  --font-weight-medium: 600;
+  --font-weight-normal: 400;
+
+  /* Legacy color variables for compatibility */
   --cyan-400: #67e8f9;
   --cyan-500: #06b6d4;
   --purple-500: #8b5cf6;
   --purple-600: #7c3aed;
   --blue-950: #172554;
   --fuschia-500: #ec4899;
+}
+
+.dark {
+  --background: #1a1a1a;
+  --foreground: #f5f5f5;
+  --card: #2a2a2a;
+  --card-foreground: #f5f5f5;
+  --popover: #2a2a2a;
+  --popover-foreground: #f5f5f5;
+  --primary: #e8647c;
+  --primary-foreground: #fff;
+  --secondary: #47e4bb;
+  --secondary-foreground: #1a1a1a;
+  --accent: #ec9b3b;
+  --accent-foreground: #fff;
+  --muted: #2a2a2a;
+  --muted-foreground: #999;
+  --destructive: #e8647c;
+  --destructive-foreground: #fff;
+  --border: rgba(255, 255, 255, 0.15);
+  --input: rgba(255, 255, 255, 0.15);
+  --input-background: #2a2a2a;
+  --switch-background: rgba(255, 255, 255, 0.2);
+  --ring: #e8647c;
+  --glass-bg: rgba(42, 42, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* CSS Reset */
@@ -16,110 +78,201 @@
   padding: 0;
 }
 
+html {
+  font-size: var(--font-size);
+}
+
 body {
+  width: 100vw;
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
-  color: white;
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: 0.5em;
+  font-weight: var(--font-weight-medium);
 }
 
 a {
-  color: var(--cyan-400);
+  color: var(--primary);
   text-decoration: none;
-  cursor : pointer;;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
-
+a:hover {
+  color: var(--accent);
+}
 
 button {
   font-family: inherit;
   cursor: pointer;
+  border: none;
+  background: none;
 }
 
+/* Button Styles */
 .btn {
   padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  border-radius: 0.75rem;
   border: 1px solid transparent;
   font-weight: 500;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease;
 }
 
 .btn-primary {
-  background-color: var(--purple-600);
-  color: white;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
 .btn-primary:hover {
-  background-color: var(--purple-500);
+  opacity: 0.9;
+  transform: scale(1.02);
 }
 
 .btn-secondary {
-  background-color: var(--cyan-500);
-  color: white;
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
 }
 
 .btn-secondary:hover {
-  background-color: var(--cyan-400);
+  opacity: 0.9;
+  transform: scale(1.02);
 }
 
 .btn-ghost {
   background-color: transparent;
-  border-color: var(--cyan-500);
-  color: var(--cyan-500);
+  border: 2px solid var(--border);
+  color: var(--foreground);
 }
 
 .btn-ghost:hover {
-  background-color: var(--cyan-500);
-  color: white;
+  border-color: var(--primary);
+  background-color: rgba(232, 100, 124, 0.1);
 }
 
+/* Form Input Styles */
 .form-input {
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-  border: 1px solid #475569;
-  background-color: #b4b7bb87;
-  color: white;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background-color: var(--input-background);
+  color: var(--foreground);
+  transition: all 0.2s ease;
 }
+
 .form-input::placeholder {
-  color: #1e0429;
+  color: var(--muted-foreground);
 }
+
 .form-input:focus {
-  border-color: var(--cyan-400);
+  border-color: var(--primary);
   outline: none;
-  box-shadow: 0 0 0 2px var(--cyan-400);
+  box-shadow: 0 0 0 3px rgba(232, 100, 124, 0.1);
 }
+
+/* Glass Morphism Utilities */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-strong {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
 .glass-morphism {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Gradient Text */
 .gradient-text-brand {
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
-  background-image: linear-gradient(to right, var(--cyan-400), var(--purple-500));
+  background-image: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
 }
 
+/* Animation Keyframes */
+@keyframes fly-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fly-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Text Color Utilities */
 .text-neutral-text {
-  color: #e2e8f0;
+  color: var(--foreground);
 }
 
 .text-neutral-text\/60 {
-  color: rgba(226, 232, 240, 0.6);
+  color: var(--muted-foreground);
 }
 
 .text-primary {
-  color: var(--cyan-400);
+  color: var(--primary);
 }
 
+.text-secondary {
+  color: var(--secondary);
+}
 
+.text-accent {
+  color: var(--accent);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
 
 .text-error {
   color: #EF4444;
@@ -129,30 +282,45 @@ button {
   color: #10B981;
 }
 
-.shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+/* Shadow Utilities */
+.shadow-sm {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Border Utilities */
 .border-neutral-border {
-  border-color: #475569;
+  border-color: var(--border);
 }
 
 .hover\:border-primary:hover {
-  border-color: var(--cyan-400);
+  border-color: var(--primary);
 }
 
+/* Focus Utilities */
 .focus-within\:outline-none:focus-within {
   outline: none;
 }
 
 .focus-within\:ring-2:focus-within {
-  box-shadow: 0 0 0 2px var(--purple-500);
+  box-shadow: 0 0 0 2px var(--ring);
 }
 
 .focus-within\:ring-offset-2:focus-within {
-  box-shadow: 0 0 0 2px var(--purple-500);
+  box-shadow: 0 0 0 2px var(--ring);
 }
 
 .focus-within\:ring-primary:focus-within {
-  box-shadow: 0 0 0 2px var(--cyan-400);
+  box-shadow: 0 0 0 2px var(--primary);
 }

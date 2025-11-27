@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import './Features.css';
+import '../../styles/FeaturesSection.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Features: React.FC = () => {
@@ -61,7 +61,7 @@ const Features: React.FC = () => {
                 </div>
                 <h3 className="features__card-title">1. Your Always-On Assistant</h3>
                 <p className="features__card-description">
-                  Never miss a serious inquiry again. Assistext works around the clock to instantly engage with every message, filtering out 
+                  Never miss a serious inquiry again. Assistext works around the clock to instantly engage with every message, filtering out
                   the noise and ensuring your best clients get the attention they deserve. Reclaim your time and your peace of mind.
                 </p>
                 <div className="features__card-tags">
@@ -75,10 +75,10 @@ const Features: React.FC = () => {
                   <div className="features__card-code-block-header">workflow.yaml</div>
                   <div className="features__card-code-block-content">
                     <pre className="features__card-code">on: schedule
-steps:
-  - fetch: GET /api/users
-  - map: transform(user)
-  - notify: post(#ops)</pre>
+                      steps:
+                      - fetch: GET /api/users
+                      - map: transform(user)
+                      - notify: post(#ops)</pre>
                   </div>
                 </div>
               </div>
@@ -99,7 +99,7 @@ steps:
             </div>
             <h3 className="features__card-title">2. Authentically You, Automatically</h3>
             <p className="features__card-description">
-              Your clients want to connect with you, not a robot. Assistext learns your unique communication style—from phrasing to 
+              Your clients want to connect with you, not a robot. Assistext learns your unique communication style—from phrasing to
               emojis—to create responses so authentic, no one will know it’s not you. Maintain your personal brand, effortlessly.
             </p>
             <div className="features__card-avatars">
@@ -142,7 +142,7 @@ steps:
               </svg>
             </div>
             <h3 className="features__card-title">3. Protect Your Privacy</h3>
-            <p className="features__card-description">Your safety and privacy are non-negotiable. Sign up and instantly receive a secure, private "ghost" number for all your 
+            <p className="features__card-description">Your safety and privacy are non-negotiable. Sign up and instantly receive a secure, private "ghost" number for all your
               business communications. Keep your personal life separate and interact with confidence.</p>
           </div>
 
@@ -184,7 +184,7 @@ steps:
                   </svg>
                 </div>
                 <h3 className="features__card-title">4. You’re Always in Control</h3>
-                <p className="features__card-description max-w-sm">Automation doesn’t mean giving up control. Our clean, intuitive dashboard gives you a bird’s-eye view of all conversations. 
+                <p className="features__card-description max-w-sm">Automation doesn’t mean giving up control. Our clean, intuitive dashboard gives you a bird’s-eye view of all conversations.
                   Monitor your AI’s performance, review interactions, and rest easy knowing you’re always in the loop.</p>
               </div>
               <span className="features__card-badge">Beta</span>
@@ -193,8 +193,8 @@ steps:
               <div className="features__card-code-block-header">assistant.ts</div>
               <div className="features__card-code-block-content">
                 <pre className="features__card-code">suggest("convert card to grid");
-apply("optimize re-render");
-doc("explain automation step");</pre>
+                  apply("optimize re-render");
+                  doc("explain automation step");</pre>
               </div>
             </div>
             <div className="features__card-glow features__card-glow--indigo"></div>
@@ -209,7 +209,7 @@ doc("explain automation step");</pre>
               </svg>
             </div>
             <h3 className="features__card-title">6. Find Your Focus, Risk-Free</h3>
-            <p className="features__card-description">Experience the peace of mind that comes from an organized inbox. Try every feature of Assistext free for 14 days. No 
+            <p className="features__card-description">Experience the peace of mind that comes from an organized inbox. Try every feature of Assistext free for 14 days. No
               commitment, no hassle. Just simple, transparent pricing when you’re ready.</p>
             <div className="features__card-stats">
               <div className="features__card-stat-item">

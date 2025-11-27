@@ -1,114 +1,145 @@
 import React from 'react';
-import { SparklesIcon, MessageSquareTextIcon } from 'lucide-react';
-import './Hero.css';
+import { motion } from 'framer-motion';
+import { Zap, ArrowRight, Users, TrendingUp } from 'lucide-react';
+import { GlassCard } from '../common/GlassCard';
+import { StatCard } from '../common/StatCard';
+import { AnimatedSection } from '../common/AnimatedSection';
 
 const Hero: React.FC = () => {
   return (
-    <>
-    <div className="hero">
-      <div className="hero__grid"></div>
-      
-      <div className="hero__particles">
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-        <div className="hero__particle"></div>
-      </div>
-<div className="hero__title-content">
-  
-          <div className="heroSection_chatColumn">
-            <div className="heroSection_chatCardWrapper">
-              <div className="heroSection_chatCardBlur"></div>
-              <div className="heroSection_chatCard">
-                <div className="heroSection_chatHeader">
-                  <div className="heroSection_chatAvatarContainer">
-                    <div className="heroSection_chatAvatar">
-                      J
-                    </div>
-                    <div className="heroSection_chatUserName">
-                      <p>John Smith</p>
-                      <p className="heroSection_chatUserStatus">Online</p>
-                    </div>
-                  </div>
-                  <div className="heroSection_chatAiStatus">AI Responding</div>
-                </div>
-                <div className="heroSection_chatMessages">
-                  <div className="heroSection_messageFlexStart">
-                    <div className="heroSection_incomingMessage">
-                      <p className="heroSection_messageText">
-                        Hey, are you available for that meeting today?
-                      </p>
-                    </div>
-                  </div>
-                  <div className="heroSection_messageFlexEnd">
-                    <div className="heroSection_outgoingMessage">
-                      <p className="heroSection_messageText">
-                        I'm in a client meeting until 3pm. I can join after that
-                        or we can reschedule for tomorrow morning.
-                      </p>
-                      <div className="heroSection_aiReplyInfo">
-                        <SparklesIcon size={12} className="heroSection_aiReplyIcon" />
-                        <p className="heroSection_aiReplyText">AI Reply</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="heroSection_messageFlexStart">
-                    <div className="heroSection_incomingMessage">
-                      <p className="heroSection_messageText">
-                        Perfect, let's do 3:30pm then. I'll send a calendar
-                        invite.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="heroSection_typingIndicatorContainer">
-                    <div className="heroSection_typingIndicatorLine"></div>
-                    <span className="heroSection_typingIndicatorText">
-                      AI is typing...
-                    </span>
-                    <div className="heroSection_typingIndicatorLine"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-        
-  </div>
-      <div className="hero__content-wrapper">
-        <div className="hero__content">
-          <h1 className="hero__title">
-            Assist Text
-            <br />
-          Text Message Assistant
-          </h1>
+    <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1rem', paddingTop: '7rem', paddingBottom: '7rem' }}>
+      <div style={{ maxWidth: '64rem', margin: '0 auto', textAlign: 'center' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <GlassCard variant="solid" style={{ marginBottom: '2.5rem' }}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.625rem 1.25rem',
+                backgroundColor: 'rgba(232, 100, 124, 0.1)',
+                borderRadius: '9999px',
+                marginBottom: '2rem'
+              }}
+            >
+              <Zap style={{ width: '1rem', height: '1rem', color: 'var(--primary)' }} />
+              <span style={{ fontSize: '0.875rem', color: 'var(--primary)', fontWeight: 500 }}>Powered by AI</span>
+            </motion.div>
 
-          <p className="hero__subtitle">
-                 Our AI automatically responds to your incoming texts with
-              personalized, context-aware replies while you focus on what
-              matters.
-          </p>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="gradient-text-brand"
+              style={{
+                fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
+                marginBottom: '2rem',
+                fontWeight: 700,
+                lineHeight: 1.1
+              }}
+            >
+              Transform Your Text Messaging Into Your Superpower
+            </motion.h1>
 
-          <div className="hero__cta-container">
-            <button className="hero__cta-button">
-              <span className="hero__backdrop"></span>
-              <span className="hero__spark"></span>
-              <svg className="hero__sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 3l1.2 3.6A4 4 0 0 0 17.4 11l3.6 1-3.6 1a4 4 0 0 0-4.2 4.4L12 21l-1.2-3.6A4 4 0 0 0 6.6 13l-3.6-1 3.6-1a4 4 0 0 0 4.2-4.4L12 3z" stroke="currentColor" strokeWidth="1.5" fill="currentColor"></path>
-                <path d="M7.5 4.5l.6 1.8a2 2 0 0 0 1.5 1.3l1.8.4-1.8.4a2 2 0 0 0-1.5 1.3l-.6 1.8-.6-1.8A2 2 0 0 0 5.4 8l-1.8-.4L5.4 7a2 2 0 0 0 1.5-1.3l.6-1.2z" stroke="currentColor" strokeWidth="1.5" fill="currentColor"></path>
-                <path d="M17.5 5.5l.6 1.6a2 2 0 0 0 1.2 1.2l1.6.6-1.6.6a2 2 0 0 0-1.2 1.2l-.6 1.6-.6-1.6A2 2 0 0 0 15.7 9l-1.6-.6 1.6-.6a2 2 0 0 0 1.2-1.2l.6-1.1z" stroke="currentColor" strokeWidth="1.5" fill="currentColor"></path>
-              </svg>
-              <span className="hero__button-text">Start building</span>
-            </button>
-          </div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              style={{
+                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                color: 'var(--muted-foreground)',
+                marginBottom: '2.5rem',
+                maxWidth: '48rem',
+                margin: '0 auto 2.5rem',
+                lineHeight: 1.625
+              }}
+            >
+              Our AI automatically responds to your incoming texts with personalized,
+              context-aware replies while you focus on what matters most.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1rem',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+              className="hero-buttons"
+            >
+              <motion.a
+                href="/signup"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="btn-primary"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '0.5rem',
+                  padding: '1rem 2.25rem',
+                  borderRadius: '0.75rem',
+                  fontSize: '15px',
+                  fontWeight: 500,
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
+                  textDecoration: 'none'
+                }}
+              >
+                Get Started
+                <ArrowRight style={{ width: '1.25rem', height: '1.25rem' }} />
+              </motion.a>
+              <motion.a
+                href="#pricing"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="btn-ghost"
+                style={{
+                  padding: '1rem 2.25rem',
+                  borderRadius: '0.75rem',
+                  fontSize: '15px',
+                  fontWeight: 500,
+                  textDecoration: 'none'
+                }}
+              >
+                View Pricing
+              </motion.a>
+            </motion.div>
+          </GlassCard>
+        </motion.div>
+
+        {/* Stats */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginTop: '2.5rem' }}>
+          <AnimatedSection delay={0.2}>
+            <StatCard value="24/7" label="AI Availability" color="primary" />
+          </AnimatedSection>
+          <AnimatedSection delay={0.3}>
+            <StatCard value="99.9%" label="Uptime" color="secondary" />
+          </AnimatedSection>
+          <AnimatedSection delay={0.4}>
+            <StatCard value="10K+" label="Messages Handled" color="accent" />
+          </AnimatedSection>
         </div>
       </div>
-    </div>
-    </div>
-    </>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .hero-buttons {
+            flex-direction: row !important;
+          }
+        }
+      `}</style>
+    </section>
   );
 };
 
