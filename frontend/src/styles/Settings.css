@@ -1,5 +1,5 @@
 .settings_container {
-  color: white;
+  color: var(--foreground);
   width: 100%;
   max-width: 800px;
   margin: 120px auto 0;
@@ -29,8 +29,8 @@
 .settings_settingsCard {
   padding: 2rem;
   border-radius: 0.5rem;
-  background-color: rgba(62, 72, 87, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--card);
+  border: 1px solid var(--border);
 }
 
 .settings_form {
@@ -46,23 +46,23 @@
 .settings_formSectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: white;
+  color: var(--foreground);
 }
 
 .settings_formSectionDescription {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--muted-foreground);
 }
 
 .settings_fileUploadLabel {
   font-weight: 600;
-  color: white;
+  color: var(--foreground);
   margin-bottom: 0.5rem;
   display: block;
 }
 
 .settings_fileUploadArea {
-  border: 2px dashed #4a5568;
+  border: 2px dashed var(--border);
   border-radius: 0.5rem;
   padding: 2rem;
   text-align: center;
@@ -71,7 +71,7 @@
 }
 
 .settings_fileUploadArea:hover {
-  border-color: #61e2ff;
+  border-color: var(--primary);
 }
 
 .settings_fileUploadContent {
@@ -84,7 +84,7 @@
 .settings_fileUploadIcon {
   width: 48px;
   height: 48px;
-  color: #94a3b8;
+  color: var(--muted-foreground);
 }
 
 .settings_fileUploadTextContainer {
@@ -95,7 +95,7 @@
 
 .settings_fileUploadButton {
   font-weight: 600;
-  color: #61e2ff;
+  color: var(--primary);
   cursor: pointer;
 }
 
@@ -114,7 +114,7 @@
 .settings_fileUploadDragDropText,
 .settings_fileUploadHint {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--muted-foreground);
 }
 
 .settings_fileName {
@@ -132,24 +132,24 @@
 }
 
 .text-success {
-  color: #34d399;
+  color: var(--success);
 }
 
 .text-error {
-  color: #ef4444;
+  color: var(--destructive);
 }
 
 .form-checkbox {
   height: 1.25rem;
   width: 1.25rem;
   border-radius: 0.25rem;
-  border-color: #4a5568;
-  background-color: #1a202c;
+  border-color: var(--border);
+  background-color: var(--input-background);
 }
 
 .form-checkbox:checked {
-  background-color: #61e2ff;
-  border-color: #61e2ff;
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
 
 /* Utility Classes */
@@ -177,8 +177,8 @@
 .keyword-tag {
   display: inline-flex;
   align-items: center;
-  background-color: #374151;
-  color: white;
+  background-color: var(--muted);
+  color: var(--foreground);
   border-radius: 9999px;
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
@@ -189,7 +189,7 @@
 
 .keyword-tag-remove-button {
   margin-left: 0.5rem;
-  color: #ef4444;
+  color: var(--destructive);
   background: none;
   border: none;
   cursor: pointer;
@@ -199,5 +199,5 @@
 }
 
 .keyword-tag-remove-button:hover {
-  color: #dc2626;
+  color: var(--destructive-foreground);
 }

@@ -4,6 +4,7 @@ import { Zap, ArrowRight, Users, TrendingUp } from 'lucide-react';
 import { GlassCard } from '../common/GlassCard';
 import { StatCard } from '../common/StatCard';
 import { AnimatedSection } from '../common/AnimatedSection';
+import { MorphingText } from '../animate-ui/primitives/texts/morphing';
 
 const Hero: React.FC = () => {
   return (
@@ -33,10 +34,7 @@ const Hero: React.FC = () => {
               <span style={{ fontSize: '0.875rem', color: 'var(--primary)', fontWeight: 500 }}>Powered by AI</span>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+            <div
               className="gradient-text-brand"
               style={{
                 fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
@@ -45,8 +43,13 @@ const Hero: React.FC = () => {
                 lineHeight: 1.1
               }}
             >
-              Transform Your Text Messaging Into Your Superpower
-            </motion.h1>
+              <MorphingText
+                text="Transform Your Text Messaging Into Your Superpower"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              />
+            </div>
 
             <motion.p
               initial={{ opacity: 0 }}

@@ -52,20 +52,9 @@ const AuthenticatedNavbar: React.FC = () => {
           }}
         >
           {/* Logo */}
-          <Link to="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-            <div style={{
-              width: '2.5rem',
-              height: '2.5rem',
-              borderRadius: '0.75rem',
-              background: 'linear-gradient(135deg, var(--primary), var(--accent))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Sparkles style={{ width: '1.5rem', height: '1.5rem', color: 'white' }} />
-            </div>
-            <span style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--foreground)' }}>Assistext</span>
-          </Link>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
+            <img src="/assets/logo3333.png" width={120} height={120} alt="Assistext Logo " />
+          </a>
 
           {/* Desktop Navigation */}
           <div style={{ display: 'none', alignItems: 'center', gap: '0.5rem' }} className="desktop-nav">
@@ -86,11 +75,11 @@ const AuthenticatedNavbar: React.FC = () => {
                     fontWeight: 500,
                     textDecoration: 'none',
                     color: active ? 'var(--primary)' : 'var(--foreground)',
-                    backgroundColor: active ? 'rgba(232, 100, 124, 0.1)' : 'transparent',
+                    backgroundColor: active ? 'color-mix(in srgb, var(--primary), transparent 90%)' : 'transparent',
                     transition: 'all 0.2s'
                   }}
                   onMouseEnter={(e) => {
-                    if (!active) e.currentTarget.style.backgroundColor = 'var(--muted)';
+                    if (!active) e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--accent), transparent 90%)';
                   }}
                   onMouseLeave={(e) => {
                     if (!active) e.currentTarget.style.backgroundColor = 'transparent';
@@ -124,8 +113,8 @@ const AuthenticatedNavbar: React.FC = () => {
                   transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-                  e.currentTarget.style.color = '#EF4444';
+                  e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--destructive), transparent 90%)';
+                  e.currentTarget.style.color = 'var(--destructive)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
@@ -200,11 +189,11 @@ const AuthenticatedNavbar: React.FC = () => {
                         fontWeight: 500,
                         textDecoration: 'none',
                         color: active ? 'var(--primary)' : 'var(--foreground)',
-                        backgroundColor: active ? 'rgba(232, 100, 124, 0.1)' : 'transparent',
+                        backgroundColor: active ? 'color-mix(in srgb, var(--primary), transparent 90%)' : 'transparent',
                         transition: 'all 0.2s'
                       }}
                       onMouseEnter={(e) => {
-                        if (!active) e.currentTarget.style.backgroundColor = 'var(--muted)';
+                        if (!active) e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--accent), transparent 90%)';
                       }}
                       onMouseLeave={(e) => {
                         if (!active) e.currentTarget.style.backgroundColor = 'transparent';
@@ -229,7 +218,7 @@ const AuthenticatedNavbar: React.FC = () => {
                     borderRadius: '0.625rem',
                     fontSize: '0.938rem',
                     fontWeight: 500,
-                    color: '#EF4444',
+                    color: 'var(--destructive)',
                     backgroundColor: 'transparent',
                     border: 'none',
                     cursor: 'pointer',
@@ -237,7 +226,7 @@ const AuthenticatedNavbar: React.FC = () => {
                     textAlign: 'left',
                     width: '100%'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--destructive), transparent 90%)'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                 >
                   <LogOut style={{ width: '1.25rem', height: '1.25rem' }} />

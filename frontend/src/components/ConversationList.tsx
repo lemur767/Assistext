@@ -80,7 +80,7 @@ const ConversationList: React.FC = () => {
   if (error) {
     return (
       <GlassCard variant="solid">
-        <p style={{ color: '#EF4444', textAlign: 'center', padding: '2rem' }}>Error: {error}</p>
+        <p style={{ color: 'var(--destructive)', textAlign: 'center', padding: '2rem' }}>Error: {error}</p>
       </GlassCard>
     );
   }
@@ -95,7 +95,7 @@ const ConversationList: React.FC = () => {
               width: '2.5rem',
               height: '2.5rem',
               borderRadius: '0.625rem',
-              backgroundColor: 'rgba(232, 100, 124, 0.1)',
+              backgroundColor: 'color-mix(in srgb, var(--secondary), transparent 90%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -149,8 +149,8 @@ const ConversationList: React.FC = () => {
                   style={{
                     padding: '1rem',
                     borderRadius: '0.75rem',
-                    backgroundColor: conv.unread ? 'rgba(232, 100, 124, 0.05)' : 'var(--muted)',
-                    border: `1px solid ${conv.unread ? 'rgba(232, 100, 124, 0.2)' : 'var(--border)'}`,
+                    backgroundColor: conv.unread ? 'color-mix(in srgb, var(--secondary), transparent 95%)' : 'var(--muted)',
+                    border: `1px solid ${conv.unread ? 'color-mix(in srgb, var(--secondary), transparent 80%)' : 'var(--border)'}`,
                     cursor: 'pointer',
                     transition: 'all 0.2s'
                   }}
@@ -160,7 +160,7 @@ const ConversationList: React.FC = () => {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateX(0)';
-                    e.currentTarget.style.borderColor = conv.unread ? 'rgba(232, 100, 124, 0.2)' : 'var(--border)';
+                    e.currentTarget.style.borderColor = conv.unread ? 'color-mix(in srgb, var(--secondary), transparent 80%)' : 'var(--border)';
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '0.5rem' }}>

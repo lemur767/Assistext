@@ -1,14 +1,17 @@
-
 .paymentForm_form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* space-y-6 */
+  gap: 1.5rem;
+  /* space-y-6 */
 }
 
 .paymentForm_paymentElementContainer {
-  padding: 1.5rem; /* p-6 */
-  border: 1px solid;
-  border-radius: 0.5rem; /* rounded-lg */
+  padding: 1.5rem;
+  /* p-6 */
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  /* rounded-lg */
+  background-color: var(--input-background);
 }
 
 .paymentForm_button {
@@ -16,6 +19,8 @@
 }
 
 .paymentForm_errorMessage {
-  font-size: 0.875rem; /* text-sm */
+  font-size: 0.875rem;
+  /* text-sm */
   text-align: center;
+  color: var(--destructive);
 }

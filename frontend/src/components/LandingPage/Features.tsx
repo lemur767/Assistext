@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import '../../styles/FeaturesSection.css';
+import '../../styles/Features.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Features: React.FC = () => {

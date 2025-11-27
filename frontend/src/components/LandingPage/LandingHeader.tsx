@@ -36,7 +36,7 @@ const LandingHeader: React.FC = () => {
           className="glass"
           style={{
             borderRadius: '1rem',
-            padding: '1rem 1.5rem',
+            padding: '1rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -45,18 +45,7 @@ const LandingHeader: React.FC = () => {
         >
           {/* Logo */}
           <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-            <div style={{
-              width: '2.5rem',
-              height: '2.5rem',
-              borderRadius: '0.75rem',
-              background: 'linear-gradient(135deg, var(--primary), var(--accent))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Sparkles style={{ width: '1.5rem', height: '1.5rem', color: 'white' }} />
-            </div>
-            <span style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--foreground)' }}>Assistext</span>
+            <img src="/assets/logo3333.png" width={120} height={120} alt="Assistext Logo " />
           </a>
 
           {/* Desktop Navigation */}

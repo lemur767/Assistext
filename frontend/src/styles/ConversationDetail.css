@@ -5,7 +5,8 @@
   flex-direction: column;
   height: 100vh;
   position: relative;
-  background-color: #020617; /* From hero section background */
+  background-color: var(--background);
+  /* From hero section background */
 }
 
 .conv-detail-background-grid {
@@ -29,7 +30,7 @@
 .conv-detail-card-blur {
   position: absolute;
   inset: -0.25rem;
-  background-image: linear-gradient(to right, #06b6d4, #a78bfa);
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
   border-radius: 1.5rem;
   filter: blur(24px);
   opacity: 0.7;
@@ -46,7 +47,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin: 1rem; /* Add some margin to see the blur effect */
+  margin: 1rem;
+  /* Add some margin to see the blur effect */
 }
 
 .conv-detail-header {
@@ -66,13 +68,13 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 9999px;
-  background-image: linear-gradient(to right, #06b6d4, #a78bfa);
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-weight: 700;
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 10px rgba(236, 155, 59, 0.5);
 }
 
 .conv-detail-user-name {
@@ -83,11 +85,11 @@
 
 .conv-detail-user-status {
   font-size: 0.75rem;
-  color: #67e8f9;
+  color: var(--accent);
 }
 
 .conv-detail-ai-status {
-  color: #22d3ee;
+  color: var(--primary);
   font-size: 0.875rem;
 }
 
@@ -111,31 +113,31 @@
 }
 
 .incoming-message {
-  background-color: rgba(71, 85, 105, 0.8);
+  background-color: var(--card);
   backdrop-filter: blur(8px);
   border-radius: 1rem;
   border-top-left-radius: 0;
   padding: 0.5rem 1rem;
   max-width: 75%;
-  border: 1px solid #475569;
-  color: white;
+  border: 1px solid var(--border);
+  color: var(--foreground);
 }
 
 .outgoing-message {
-  background-image: linear-gradient(to right, rgba(6, 182, 212, 0.1), rgba(167, 139, 250, 0.1));
+  background-image: linear-gradient(to right, rgba(236, 155, 59, 0.1), rgba(232, 100, 124, 0.1));
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(167, 139, 250, 0.3);
+  border: 1px solid rgba(232, 100, 124, 0.3);
   border-radius: 1rem;
   border-top-right-radius: 0;
   padding: 0.5rem 1rem;
   max-width: 75%;
-  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-  color: white;
+  box-shadow: 0 0 15px rgba(232, 100, 124, 0.2);
+  color: var(--foreground);
 }
 
 .ai-reply-message {
-    background-image: linear-gradient(to right, rgba(6, 182, 212, 0.2), rgba(167, 139, 250, 0.2));
-    border: 1px solid rgba(6, 182, 212, 0.5);
+  background-image: linear-gradient(to right, rgba(71, 228, 187, 0.2), rgba(236, 155, 59, 0.2));
+  border: 1px solid rgba(71, 228, 187, 0.5);
 }
 
 
@@ -144,10 +146,10 @@
 }
 
 .message-timestamp {
-    display: block;
-    margin-top: 0.25rem;
-    font-size: 0.75rem;
-    opacity: 0.7;
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
 }
 
 .ai-reply-info {
@@ -160,13 +162,13 @@
 .ai-reply-icon {
   width: 0.75rem;
   height: 0.75rem;
-  color: #22d3ee;
+  color: var(--accent);
   margin-right: 0.25rem;
 }
 
 .ai-reply-text {
   font-size: 0.75rem;
-  color: #22d3ee;
+  color: var(--accent);
 }
 
 .conv-detail-footer {
@@ -181,23 +183,23 @@
 
 .conv-detail-message-input {
   flex: 1;
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid #475569;
+  background-color: var(--input-background);
+  border: 1px solid var(--border);
   border-radius: 9999px;
-  color: white;
+  color: var(--foreground);
   padding: 0.75rem 1.5rem;
 }
 
 .conv-detail-message-input::placeholder {
-    color: #94a3b8;
+  color: var(--muted-foreground);
 }
 
 .conv-detail-send-button {
-    padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    background-image: linear-gradient(to right, #06b6d4, #a78bfa);
-    color: white;
-    font-weight: 500;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
+  color: var(--primary-foreground);
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 15px rgba(232, 100, 124, 0.5);
 }

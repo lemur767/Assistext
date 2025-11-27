@@ -184,7 +184,7 @@ const Contacts: React.FC = () => {
                 }}>
                   {contact.name.charAt(0).toUpperCase()}
                 </div>
-                <div style={{ flex: 1, min Width: 0 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{
                     fontSize: '1rem',
                     fontWeight: 600,
