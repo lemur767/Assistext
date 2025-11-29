@@ -1,0 +1,27 @@
+[Unit]
+Description=Assistext Backend Gunicorn Service
+After=network.target
+
+[Service]
+# User/Group to run the service
+# REPLACE 'your_user' with your actual username (e.g., ubuntu, root, etc.)
+User=root
+Group=root
+
+# Working Directory
+WorkingDirectory=/path/to/Assistext/backend
+
+# Environment variables
+# You can load from .env or set them here
+Environment="PATH=/path/to/Assistext/backend/venv/bin"
+EnvironmentFile=/path/to/Assistext/backend/.env
+
+# Command to start Gunicorn
+ExecStart=/path/to/Assistext/backend/venv/bin/gunicorn -c gunicorn_config.py wsgi:application
+
+# Restart on failure
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

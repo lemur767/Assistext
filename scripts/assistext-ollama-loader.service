@@ -1,0 +1,12 @@
+[Unit]
+Description=Assistext Ollama Model Loader
+After=ollama.service network.target
+Requires=ollama.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /path/to/Assistext/scripts/preload_ollama_model.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
