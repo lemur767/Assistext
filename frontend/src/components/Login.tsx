@@ -77,47 +77,37 @@ const Login: React.FC = () => {
       >
         <GlassCard variant="solid" style={{ padding: '2.5rem' }}>
           {/* Logo */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <div style={{
-              width: '4rem',
-              height: '4rem',
-              margin: '0 auto 1rem',
-              borderRadius: '1rem',
-              background: 'linear-gradient(135deg, var(--primary), var(--accent))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Sparkles style={{ width: '2rem', height: '2rem', color: 'white' }} />
-            </div>
-            <h2 style={{ fontSize: '1.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginBottom: '1rem' }}>
+            <img src="assets/logonew.png" alt="Logo" style={{ width: '220px', height: '180px' }} />
+            <h2 style={{ fontSize: '1.875rem', justifyContent: 'center', fontWeight: 600, marginBottom: '0.5rem' }}>
               Welcome Back
             </h2>
-            <p style={{ color: 'var(--muted-foreground)', fontSize: '0.938rem' }}>
+            <p style={{ color: 'var(--muted-foreground)', justifyContent: 'center', fontSize: '0.938rem' }}>
               Sign in to your Assistext account
             </p>
           </div>
-
           {/* Error Message */}
-          {message && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '0.75rem',
-                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem'
-              }}
-            >
-              <AlertCircle style={{ width: '1.25rem', height: '1.25rem', color: '#EF4444', flexShrink: 0 }} />
-              <p style={{ fontSize: '0.875rem', color: '#EF4444', margin: 0 }}>{message}</p>
-            </motion.div>
-          )}
+          {
+            message && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  padding: '0.75rem 1rem',
+                  borderRadius: '0.75rem',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  marginBottom: '1.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem'
+                }}
+              >
+                <AlertCircle style={{ width: '1.25rem', height: '1.25rem', color: '#EF4444', flexShrink: 0 }} />
+                <p style={{ fontSize: '0.875rem', color: '#EF4444', margin: 0 }}>{message}</p>
+              </motion.div>
+            )
+          }
 
           {/* Form */}
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

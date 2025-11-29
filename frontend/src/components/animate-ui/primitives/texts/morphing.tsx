@@ -23,6 +23,7 @@ type MorphingTextProps = Omit<HTMLMotionProps<'span'>, 'children'> & {
   loop?: boolean;
   holdDelay?: number;
   text: string | string[];
+  charClassName?: string;
 } & UseIsInViewOptions;
 
 function MorphingText({
@@ -39,6 +40,7 @@ function MorphingText({
   inViewOnce = true,
   loop = false,
   holdDelay = 2500,
+  charClassName,
   ...props
 }: MorphingTextProps) {
   const { ref: localRef, isInView } = useIsInView(
@@ -113,6 +115,7 @@ function MorphingText({
           <motion.span
             key={char.layoutId}
             layoutId={char.layoutId}
+            className={charClassName}
             style={{ display: 'inline-block' }}
             aria-hidden="true"
             initial={initial}

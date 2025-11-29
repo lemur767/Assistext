@@ -52,8 +52,8 @@ const AuthenticatedNavbar: React.FC = () => {
           }}
         >
           {/* Logo */}
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-            <img src="/assets/logo3333.png" width={120} height={120} alt="Assistext Logo " />
+          <a href="/" style={{ display: 'flex', paddingLeft: '16px', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
+            <img src="/assets/logonew.png" width={120} height={120} alt="Assistext Logo " />
           </a>
 
           {/* Desktop Navigation */}

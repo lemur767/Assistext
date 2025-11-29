@@ -108,6 +108,7 @@ const RecentActivity: React.FC = () => {
                                     width: '2rem',
                                     height: '2rem',
                                     borderRadius: '0.5rem',
+                                    color: message.direction === 'inbound' ? 'var(--primary)' : 'var(--primary)',
                                     backgroundColor: message.direction === 'inbound'
                                         ? 'rgba(71, 228, 187, 0.15)'
                                         : 'rgba(232, 100, 124, 0.15)',
@@ -126,7 +127,7 @@ const RecentActivity: React.FC = () => {
                                     <p style={{
                                         fontSize: '0.875rem',
                                         fontWeight: 500,
-                                        color: message.direction === 'inbound' ? 'var(--secondary)' : 'var(--primary)',
+                                        color: message.direction === 'inbound' ? 'var(--primary)' : 'var(--primary)',
                                         marginBottom: '0.25rem'
                                     }}>
                                         {message.direction === 'inbound' ? 'Received' : 'Sent'}

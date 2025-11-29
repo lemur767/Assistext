@@ -6,7 +6,20 @@ import { StatCard } from '../common/StatCard';
 import { AnimatedSection } from '../common/AnimatedSection';
 import { MorphingText } from '../animate-ui/primitives/texts/morphing';
 
-const Hero: React.FC = () => {
+const texts = [
+  'Transform Your Text Messaging',
+  'Into Your Superpower!',
+  'Easily with AI',
+  'Assist Text! ',
+];
+
+interface MorphingTextProps {
+  loop: boolean;
+  holdDelay?: number;
+  delay?: number;
+}
+
+export const Hero = ({ loop, holdDelay, delay }: MorphingTextProps) => {
   return (
     <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1rem', paddingTop: '7rem', paddingBottom: '7rem' }}>
       <div style={{ maxWidth: '64rem', margin: '0 auto', textAlign: 'center' }}>
@@ -35,7 +48,6 @@ const Hero: React.FC = () => {
             </motion.div>
 
             <div
-              className="gradient-text-brand"
               style={{
                 fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
                 marginBottom: '2rem',
@@ -44,10 +56,13 @@ const Hero: React.FC = () => {
               }}
             >
               <MorphingText
-                text="Transform Your Text Messaging Into Your Superpower"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                key={`${loop}-${holdDelay}-${delay}`}
+                className="text-96px font-bold max-w-2xl"
+                charClassName="hero-morphing-char"
+                text={texts}
+                loop={loop}
+                holdDelay={holdDelay}
+                delay={delay}
               />
             </div>
 
@@ -140,6 +155,14 @@ const Hero: React.FC = () => {
           .hero-buttons {
             flex-direction: row !important;
           }
+        }
+        
+        .hero-morphing-char {
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          background-image: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+          background-attachment: fixed;
         }
       `}</style>
     </section>
