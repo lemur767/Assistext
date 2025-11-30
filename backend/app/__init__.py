@@ -17,7 +17,7 @@ from .errors import register_error_handlers
 # Initialize extensions
 db = SQLAlchemy()
 migrate = Migrate()
-socketio = SocketIO()
+socketio = SocketIO(async_mode='gevent')
 limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["200 per day", "50 per hour"]

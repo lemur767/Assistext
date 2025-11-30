@@ -9,14 +9,17 @@ User=root
 Group=root
 
 # Working Directory
+# IMPORTANT: Update this path to your actual backend directory
 WorkingDirectory=/path/to/Assistext/backend
 
 # Environment variables
-# You can load from .env or set them here
+# IMPORTANT: Update this path to your actual venv bin directory
 Environment="PATH=/path/to/Assistext/backend/venv/bin"
+# IMPORTANT: Update this path to your actual .env file
 EnvironmentFile=/path/to/Assistext/backend/.env
 
 # Command to start Gunicorn
+# IMPORTANT: Update this path to your actual gunicorn executable
 ExecStart=/path/to/Assistext/backend/venv/bin/gunicorn -c gunicorn_config.py wsgi:application
 
 # Restart on failure

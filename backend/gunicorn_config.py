@@ -9,7 +9,7 @@ bind = "127.0.0.1:5000"
 
 # Worker Options
 # Using eventlet for Flask-SocketIO support
-worker_class = "eventlet"
+worker_class = "gevent"
 workers = 1  # Start with 1 worker for SocketIO to avoid session issues unless using Redis/MessageQueue
 # If you scale workers, ensure you have a message queue configured for SocketIO
 

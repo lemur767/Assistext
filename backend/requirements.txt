@@ -2,7 +2,8 @@
 # requirements.txt
 Flask==3.0.0
 Flask-SocketIO==5.3.6
-eventlet==0.30.2
+gevent>=24.2.0
+gevent-websocket==0.10.1
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.0.5
 Flask-CORS==4.0.0
@@ -11,7 +12,8 @@ psycopg2-binary
 python-dotenv==1.0.0
 requests==2.31.0
 Werkzeug==3.0.1
-gunicorn==21.2.0
+gunicorn==22.0.0
+dnspython>=2.6.1
 waitress==2.1.2
 Flask-Limiter==3.5.0
 
