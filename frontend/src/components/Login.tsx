@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Sparkles, Mail, Lock, AlertCircle } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { GlassCard } from "./common/GlassCard";
+import { api } from "../services/api";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -18,13 +19,7 @@ const Login: React.FC = () => {
     setLoading(true);
     setMessage("");
     try {
-      const response = await fetch("/api/v1/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      const data = await api.post("/auth/login", { email, password });
       setSession({ token: data.token });
       navigate("/dashboard");
     } catch (err: unknown) {

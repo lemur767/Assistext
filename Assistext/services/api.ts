@@ -16,7 +16,7 @@ const getAuthTokenFromStorage = async () => {
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Something went wrong');
+    throw new Error(error.message || error.error || 'Something went wrong');
   }
   return response.json();
 };
@@ -34,7 +34,7 @@ const fetchApi = async (url: string, options: ApiOptions = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/v1${url}`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/${url}`, {
     ...fetchOptions,
     headers,
   });
@@ -46,7 +46,7 @@ const fetchApi = async (url: string, options: ApiOptions = {}) => {
 const handleRawResponse = async (response: Response) => {
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Something went wrong');
+    throw new Error(error.message || error.error || 'Something went wrong');
   }
   return response.text();
 };
@@ -64,7 +64,7 @@ const fetchApiRaw = async (url: string, options: ApiOptions = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/v1${url}`, {
+  const response = await fetch(`${API_BASE_URL}/api/v1/${url}`, {
     ...fetchOptions,
     headers,
   });

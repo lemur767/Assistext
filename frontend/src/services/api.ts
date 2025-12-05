@@ -9,7 +9,7 @@ const getAuthTokenFromStorage = () => {
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Something went wrong');
+    throw new Error(error.message || error.error || 'Something went wrong');
   }
   return response.json();
 };
@@ -30,7 +30,8 @@ const fetchApi = async (url: string, options: RequestInit = {}) => {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`/api/v1${url}`, {
+  const baseUrl = import.meta.env.VITE_BACKEND_URL;
+  const response = await fetch(`${baseUrl}/api/v1${url}`, {
     ...options,
     headers,
   });

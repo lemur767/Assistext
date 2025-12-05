@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import AuthenticatedNavbar from './AuthenticatedNavbar';
+import '../index.css';
 
 const AuthenticatedLayout: React.FC = () => {
   return (

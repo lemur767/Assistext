@@ -4,6 +4,7 @@ import { Sparkles, LayoutDashboard, MessageSquare, Users, Settings, CreditCard, 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { ThemeToggle } from './common/ThemeToggle';
+import { api } from "../services/api";
 
 const AuthenticatedNavbar: React.FC = () => {
   const { setSession } = useAuth();
@@ -13,7 +14,7 @@ const AuthenticatedNavbar: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/v1/auth/logout', { method: 'POST' });
+      await api.post('/auth/logout', {});
     } catch (error) {
       console.error('Logout failed:', error);
     } finally {

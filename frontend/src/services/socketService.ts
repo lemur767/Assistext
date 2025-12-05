@@ -1,7 +1,7 @@
 // frontend/src/services/socketService.ts
 import { io, Socket } from 'socket.io-client';
 
-const URL = process.env.NODE_ENV === 'production' ? 'https://your-production-url.com' : 'http://localhost:5000';
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 class SocketService {
   private socket: Socket | null = null;

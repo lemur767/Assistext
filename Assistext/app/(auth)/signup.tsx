@@ -61,17 +61,17 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <View style={tw`flex-1 items-center justify-center bg-gray-900 p-4`}>
-      <View style={tw`w-full max-w-md p-8 rounded-2xl bg-gray-800 bg-opacity-40 border border-purple-400`}>
-        <Text style={tw`text-2xl font-bold text-white text-center mb-6`}>Create Account</Text>
+    <View style={tw`flex-1 items-center justify-center bg-background p-4`}>
+      <View style={tw`w-full max-w-md p-8 rounded-2xl bg-card border border-accent`}>
+        <Text style={tw`text-2xl font-bold text-foreground text-center mb-6`}>Create Account</Text>
 
         <View style={tw`flex-row mb-4`}>
           <View style={tw`flex-1 mr-2`}>
-            <Text style={tw`text-sm text-gray-400 mb-2`}>First Name</Text>
+            <Text style={tw`text-sm text-muted-foreground mb-2`}>First Name</Text>
             <TextInput
               value={first_name}
               onChangeText={setFirstName}
-              style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+              style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
               placeholder="John"
               placeholderTextColor="#9CA3AF"
               returnKeyType="next"
@@ -80,11 +80,11 @@ const SignupPage: React.FC = () => {
             />
           </View>
           <View style={tw`flex-1 ml-2`}>
-            <Text style={tw`text-sm text-gray-400 mb-2`}>Last Name</Text>
+            <Text style={tw`text-sm text-muted-foreground mb-2`}>Last Name</Text>
             <TextInput
               value={last_name}
               onChangeText={setLastName}
-              style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+              style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
               placeholder="Doe"
               placeholderTextColor="#9CA3AF"
               ref={lastNameRef}
@@ -96,11 +96,11 @@ const SignupPage: React.FC = () => {
         </View>
 
         <View style={tw`mb-4`}>
-          <Text style={tw`text-sm text-gray-400 mb-2`}>Email</Text>
+          <Text style={tw`text-sm text-muted-foreground mb-2`}>Email</Text>
           <TextInput
             value={email}
             onChangeText={setEmail}
-            style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+            style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
             placeholder="you@example.com"
             placeholderTextColor="#9CA3AF"
             keyboardType="email-address"
@@ -113,11 +113,11 @@ const SignupPage: React.FC = () => {
         </View>
 
         <View style={tw`mb-4`}>
-          <Text style={tw`text-sm text-gray-400 mb-2`}>Password</Text>
+          <Text style={tw`text-sm text-muted-foreground mb-2`}>Password</Text>
           <TextInput
             value={password}
             onChangeText={validatePassword}
-            style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+            style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
             placeholder="••••••••"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
@@ -139,11 +139,11 @@ const SignupPage: React.FC = () => {
         </View>
 
         <View style={tw`mb-4`}>
-          <Text style={tw`text-sm text-gray-400 mb-2`}>Country Code</Text>
+          <Text style={tw`text-sm text-muted-foreground mb-2`}>Country Code</Text>
           <TextInput
             value={country_code}
             onChangeText={setCountryCode}
-            style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+            style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
             placeholder="e.g. CA"
             placeholderTextColor="#9CA3AF"
             ref={countryCodeRef}
@@ -154,11 +154,11 @@ const SignupPage: React.FC = () => {
         </View>
 
         <View style={tw`mb-4`}>
-          <Text style={tw`text-sm text-gray-400 mb-2`}>State/Province</Text>
+          <Text style={tw`text-sm text-muted-foreground mb-2`}>State/Province</Text>
           <TextInput
             value={state}
             onChangeText={setState}
-            style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+            style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
             placeholder="e.g. NY or ON"
             placeholderTextColor="#9CA3AF"
             ref={stateRef}
@@ -169,23 +169,23 @@ const SignupPage: React.FC = () => {
 
         <View style={tw`flex-row items-center mb-6`}>
           <Switch value={agreedToTerms} onValueChange={setAgreedToTerms} />
-          <Text style={tw`ml-2 text-sm text-gray-400`}>
-            I agree to the <Link href="/terms" asChild><Text style={tw`text-blue-400`}>Terms of Service</Text></Link> and <Link href="/privacy" asChild><Text style={tw`text-blue-400`}>Privacy Policy</Text></Link>.
+          <Text style={tw`ml-2 text-sm text-muted-foreground`}>
+            I agree to the <Link href="/terms" asChild><Text style={tw`text-primary`}>Terms of Service</Text></Link> and <Link href="/privacy" asChild><Text style={tw`text-primary`}>Privacy Policy</Text></Link>.
 
           </Text>
         </View>
 
         <TouchableOpacity
           onPress={handleSignup}
-          style={tw`w-full py-3 bg-blue-600 rounded-lg items-center`}
+          style={tw`w-full py-3 bg-primary rounded-lg items-center`}
           disabled={loading || !agreedToTerms}
         >
           <Text style={tw`text-white font-semibold`}>{loading ? 'Signing up...' : 'Sign up'}</Text>
         </TouchableOpacity>
 
         <View style={tw`flex-row justify-center mt-4`}>
-          <Text style={tw`text-gray-400`}>Already have an account? </Text>
-          <Link href="/login" style={tw`text-blue-400 hover:underline`}>
+          <Text style={tw`text-muted-foreground`}>Already have an account? </Text>
+          <Link href="/login" style={tw`text-primary hover:underline`}>
             <Text>Log in</Text>
           </Link>
         </View>

@@ -1,25 +1,26 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { Zap, ArrowRight, Users, TrendingUp } from 'lucide-react';
 import { GlassCard } from '../common/GlassCard';
 import { StatCard } from '../common/StatCard';
 import { AnimatedSection } from '../common/AnimatedSection';
 import { MorphingText } from '../animate-ui/primitives/texts/morphing';
-
+import '../../index.css';
 const texts = [
-  'Transform Your Text Messaging',
+  'Transform Your',
+  'Text Messaging',
   'Into Your Superpower!',
   'Easily with AI',
   'Assist Text! ',
 ];
 
 interface MorphingTextProps {
-  loop: boolean;
+  loop?: boolean;
   holdDelay?: number;
   delay?: number;
 }
 
-export const Hero = ({ loop, holdDelay, delay }: MorphingTextProps) => {
+export const Hero = ({ loop = true, holdDelay = 2500, delay = 0 }: MorphingTextProps) => {
   return (
     <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1rem', paddingTop: '7rem', paddingBottom: '7rem' }}>
       <div style={{ maxWidth: '64rem', margin: '0 auto', textAlign: 'center' }}>
@@ -38,7 +39,7 @@ export const Hero = ({ loop, holdDelay, delay }: MorphingTextProps) => {
                 alignItems: 'center',
                 gap: '0.5rem',
                 padding: '0.625rem 1.25rem',
-                backgroundColor: 'rgba(232, 100, 124, 0.1)',
+                backgroundColor: '#222222',
                 borderRadius: '9999px',
                 marginBottom: '2rem'
               }}
@@ -103,6 +104,7 @@ export const Hero = ({ loop, holdDelay, delay }: MorphingTextProps) => {
                 className="btn-primary"
                 style={{
                   display: 'flex',
+                  color: 'var(--accent-foreground)',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '0.5rem',

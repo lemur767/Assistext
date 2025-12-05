@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Menu, X, Sparkles } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { ThemeToggle } from '../common/ThemeToggle';
+import '../../index.css';
 
 const LandingHeader: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -88,6 +89,7 @@ const LandingHeader: React.FC = () => {
                   className="btn-primary"
                   style={{
                     padding: '0.75rem 1.5rem',
+                    color: 'var(--accent-foreground)',
                     borderRadius: '0.75rem',
                     fontSize: '15px',
                     fontWeight: 500,

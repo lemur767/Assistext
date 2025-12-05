@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Sparkles, Mail, Lock, User, MapPin, Globe, AlertCircle, Check, X } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { GlassCard } from "./common/GlassCard";
+import { api } from "../services/api";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -49,26 +50,14 @@ const Signup: React.FC = () => {
     setLoading(true);
     setMessage("");
     try {
-      const response = await fetch("/api/v1/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password,
-          country_code,
-          state,
-          first_name,
-          last_name,
-        }),
+      const data = await api.post("/auth/register", {
+        email,
+        password,
+        country_code,
+        state,
+        first_name,
+        last_name,
       });
-      const data = await response.json();
-      if (!response.ok) {
-        if (data.message && data.message.includes("Password")) {
-          throw new Error(data.message);
-        } else {
-          throw new Error(data.error || "An unknown error occurred.");
-        }
-      }
       setSession({ token: data.access_token });
       navigate("/dashboard");
     } catch (err: unknown) {

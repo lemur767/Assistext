@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* New Color Scheme - Light Theme */
+  --font-size: 16px;
+  --background: hsla(0, 0%, 98%, 0.7);
+  --foreground: hsla(0, 0%, 10%, 0.7);
+  --card: hsla(0, 0%, 100%, 0.7);
+  --card-foreground: hsla(0, 0%, 100%, 0.2);
+  --popover: hsla(0, 0%, 100%, 0.7);
+  --popover-foreground: hsla(0, 0%, 10%, 0.7);
+  --primary: hsla(33, 82%, 58%, 0.7);
+  --primary-foreground: hsla(33, 82%, 58%, 1);
+  --secondary: hsla(349, 75%, 65%, 0.7);
+  --secondary-foreground: hsla(349, 75%, 65%, 1);
+  --accent: hsla(164, 73%, 59%, 0.7);
+  --accent-foreground: hsla(164 73%, 59%, 0.2);
+  --muted: hsla(0, 0%, 96%, 0.7);
+  --muted-foreground: hsla(0, 0%, 33%, 0.7);
+  --destructive: hsla(0, 84%, 60%, 0.7);
+  --destructive-foreground: hsla(0, 84%, 60%, 0.2);
+  --border: hsla(0, 0%, 90%, 0.7);
+  --input: hsla(0, 0%, 90%, 0.7);
+  --input-background: hsla(0, 0%, 100%, 0.7);
+  --switch-background: hsla(0, 0%, 90%, 0.7);
+  --ring: hsla(33, 82%, 58%, 0.7);
+  --radius: 1rem;
+
+  /* Glass Morphism */
+  --glass-bg: hsla(0, 0%, 100%, 0.7);
+  --glass-border: hsla(0, 0%, 100%, 0.3);
+  --glass-shadow: 0 4px 16px 0 hsla(236, 63%, 33%, 0.08);
+}
+
+.dark {
+  --background: hsla(0, 0%, 13%, 0.7);
+  --foreground: hsla(0, 0%, 96%, 0.7);
+  --card: hsla(0, 0%, 20%, 0.7);
+  --card-foreground: hsla(0, 0%, 96%, 0.2);
+  --popover: hsla(0, 0%, 20%, 0.7);
+  --popover-foreground: hsla(0, 0%, 96%, 0.7);
+  --primary: hsla(33, 82%, 58%, 0.7);
+  --primary-foreground: hsla(33, 82%, 58%, 0.2);
+  --secondary: hsla(349, 75%, 65%, 0.7);
+  --secondary-foreground: hsla(349, 75%, 65%, 1);
+  --accent: hsla(164, 73%, 59%, 0.7);
+  --accent-foreground: hsla(164, 73%, 59%, 1);
+  --muted: hsla(0, 0%, 16%, 0.7);
+  --muted-foreground: hsla(0, 0%, 60%, 0.7);
+  --destructive: hsla(0, 84%, 60%, 0.7);
+  --destructive-foreground: hsla(0, 84%, 60%, 0.2);
+  --border: hsla(0, 0%, 25%, 0.7);
+  --input: hsla(0, 0%, 20%, 0.7);
+  --input-background: hsla(0, 0%, 16%, 0.7);
+  --switch-background: hsla(0, 0%, 20%, 0.7);
+  --ring: hsla(351, 78%, 65%, 0.7);
+  --glass-bg: hsla(0, 0%, 100%, 0.116);
+  --glass-border: hsla(0, 0%, 100%, 0.7);
+  --glass-shadow: 0 4px 16px 0 hsla(236, 63%, 33%, 0.08);
+}

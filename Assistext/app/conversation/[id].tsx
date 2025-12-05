@@ -156,7 +156,7 @@ export default function ConversationDetailPage() {
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
           <LinearGradient
-            colors={['#06b6d4', '#a78bfa']}
+            colors={['#E89A4D', '#5DD9C1']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.avatar}
@@ -213,7 +213,7 @@ export default function ConversationDetailPage() {
               </Text>
               {item.ai_generated && (
                 <View style={styles.aiIndicator}>
-                  <Sparkles size={12} color="#22d3ee" />
+                  <Sparkles size={12} color="#5DD9C1" />
                   <Text style={styles.aiIndicatorText}>AI Reply</Text>
                 </View>
               )}
@@ -234,7 +234,7 @@ export default function ConversationDetailPage() {
         />
         <TouchableOpacity onPress={handleSendMessage}>
           <LinearGradient
-            colors={['#06b6d4', '#a78bfa']}
+            colors={['#E89A4D', '#5DD9C1']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.sendButton}
@@ -250,16 +250,16 @@ export default function ConversationDetailPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#020617',
+    backgroundColor: '#212121',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#020617',
+    backgroundColor: '#212121',
   },
   loadingText: {
-    color: '#fff',
+    color: '#F5F5F5',
     fontSize: 16,
   },
   errorText: {
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 12,
-    color: '#67e8f9',
+    color: '#5DD9C1',
     marginTop: 2,
   },
   controlContainer: {
@@ -310,18 +310,18 @@ const styles = StyleSheet.create({
   },
   aiStatusText: {
     fontSize: 14,
-    color: '#22d3ee',
+    color: '#5DD9C1',
   },
   takeoverButton: {
-    backgroundColor: 'rgba(139, 92, 246, 0.2)',
+    backgroundColor: 'rgba(232, 154, 77, 0.2)',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: 'rgba(139, 92, 246, 0.5)',
+    borderColor: 'rgba(232, 154, 77, 0.5)',
   },
   takeoverButtonText: {
-    color: '#a78bfa',
+    color: '#E89A4D',
     fontSize: 12,
     fontWeight: '600',
   },
@@ -353,16 +353,16 @@ const styles = StyleSheet.create({
     borderColor: '#475569',
   },
   outgoingMessage: {
-    backgroundColor: 'rgba(6, 182, 212, 0.1)',
+    backgroundColor: 'rgba(232, 154, 77, 0.1)',
     borderTopRightRadius: 4,
     borderWidth: 1,
-    borderColor: 'rgba(167, 139, 250, 0.3)',
+    borderColor: 'rgba(232, 154, 77, 0.3)',
   },
   aiMessage: {
-    backgroundColor: 'rgba(6, 182, 212, 0.15)',
+    backgroundColor: 'rgba(93, 217, 193, 0.15)',
     borderTopRightRadius: 4,
     borderWidth: 1,
-    borderColor: 'rgba(6, 182, 212, 0.5)',
+    borderColor: 'rgba(93, 217, 193, 0.5)',
   },
   messageText: {
     color: '#fff',
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   aiIndicatorText: {
-    color: '#22d3ee',
+    color: '#5DD9C1',
     fontSize: 10,
   },
   inputContainer: {

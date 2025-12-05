@@ -28,23 +28,23 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <View style={tw`flex-1 items-center justify-center bg-gray-900`}>
-      <View style={tw`absolute top-14 left-60 w-72 h-72 bg-purple-500 rounded-full opacity-20 pulse`} />
-      <View style={tw`absolute top-48 right-74 w-72 h-72 bg-cyan-500 rounded-full opacity-20 pulse`} />
-      <View style={tw`absolute bottom-6 right-96 w-72 h-72 bg-pink-500 rounded-full opacity-20 pulse`} />
+    <View style={tw`flex-1 items-center justify-center bg-background`}>
+      <View style={tw`absolute top-14 left-60 w-72 h-72 bg-primary rounded-full opacity-20 pulse`} />
+      <View style={tw`absolute top-48 right-74 w-72 h-72 bg-accent rounded-full opacity-20 pulse`} />
+      <View style={tw`absolute bottom-6 right-96 w-72 h-72 bg-secondary rounded-full opacity-20 pulse`} />
 
-      <View style={tw`w-full max-w-md p-8 rounded-2xl bg-gray-800 bg-opacity-40 border border-purple-400`}>
+      <View style={tw`w-full max-w-md p-8 rounded-2xl bg-card border border-accent`}>
         <View style={tw`items-center mb-4`}>
           {/* <Image source={require('../../../assets/images/logo3333.png')} style={tw`w-[180px] h-[180px]`} /> */}
-          <Text style={tw`text-white text-xl`}>Assistext</Text>
+          <Text style={tw`text-foreground text-xl`}>Assistext</Text>
         </View>
 
         <View style={tw`mb-6`}>
-          <Text style={tw`text-sm text-gray-400 mb-2`}>Email</Text>
+          <Text style={tw`text-sm text-muted-foreground mb-2`}>Email</Text>
           <TextInput
             value={email}
             onChangeText={setEmail}
-            style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+            style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
             placeholder="you@example.com"
             placeholderTextColor="#9CA3AF"
             keyboardType="email-address"
@@ -56,11 +56,11 @@ const LoginPage: React.FC = () => {
         </View>
 
         <View style={tw`mb-6`}>
-          <Text style={tw`text-sm text-gray-400 mb-2`}>Password</Text>
+          <Text style={tw`text-sm text-muted-foreground mb-2`}>Password</Text>
           <TextInput
             value={password}
             onChangeText={setPassword}
-            style={tw`w-full px-3 py-2 text-white border border-gray-600 rounded-lg bg-gray-700`}
+            style={tw`w-full px-3 py-2 text-foreground border border-border rounded-lg bg-input`}
             placeholder="••••••••"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
@@ -72,16 +72,16 @@ const LoginPage: React.FC = () => {
 
         <TouchableOpacity
           onPress={handleLogin}
-          style={tw`w-full py-3 bg-blue-600 rounded-lg items-center`}
+          style={tw`w-full py-3 bg-primary rounded-lg items-center`}
           disabled={loading}
         >
           <Text style={tw`text-white font-semibold`}>{loading ? 'Logging in...' : 'Login'}</Text>
         </TouchableOpacity>
 
         <View style={tw`flex-row justify-center mt-4`}>
-          <Text style={tw`text-gray-400`}>
+          <Text style={tw`text-muted-foreground`}>
             Don&apos;t have an account?{' '}
-            <Text style={tw`text-blue-400 hover:underline`}>
+            <Text style={tw`text-primary hover:underline`}>
               <Link href="/signup" asChild>
                 <Text>Sign up</Text>
               </Link>
