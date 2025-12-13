@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
 import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
-import "../styles/Subscription.css";
+
 
 const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 if (!stripePublishableKey) {
@@ -13,12 +13,12 @@ if (!stripePublishableKey) {
 const stripePromise = loadStripe(stripePublishableKey);
 
 interface Plan {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    currency: string;
-    price_id: string;
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  currency: string;
+  price_id: string;
 }
 
 const Subscription: React.FC = () => {
@@ -32,39 +32,39 @@ const Subscription: React.FC = () => {
 
   useEffect(() => {
     const fetchPlans = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            if (!isAuthenticated || !session) {
-                throw new Error("User not authenticated.");
-            }
-
-            const data = await api.get("/subscriptions/plans", { token: session?.token });
-            setPlans(data);
-        } catch (err: unknown) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
+      setLoading(true);
+      setError(null);
+      try {
+        if (!isAuthenticated || !session) {
+          throw new Error("User not authenticated.");
         }
+
+        const data = await api.get("/subscriptions/plans", { token: session?.token });
+        setPlans(data);
+      } catch (err: unknown) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
     };
 
     const fetchSubscription = async () => {
-        try {
-            if (!isAuthenticated || !session) {
-                throw new Error("User not authenticated.");
-            }
-
-            const data = await api.get("/subscriptions", { token: session?.token });
-            setCurrentSubscription(data);
-        } catch (err: unknown) {
-            // Don't set error for this, as it's not critical
-            console.error((err as Error).message);
+      try {
+        if (!isAuthenticated || !session) {
+          throw new Error("User not authenticated.");
         }
+
+        const data = await api.get("/subscriptions", { token: session?.token });
+        setCurrentSubscription(data);
+      } catch (err: unknown) {
+        // Don't set error for this, as it's not critical
+        console.error((err as Error).message);
+      }
     };
 
     if (isAuthenticated && session?.token) {
-        fetchPlans();
-        fetchSubscription();
+      fetchPlans();
+      fetchSubscription();
     }
   }, [isAuthenticated, session?.token]);
 
@@ -103,70 +103,68 @@ const Subscription: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="subscription_loadingContainer">Loading...</div>;
+    return <div className="text-center p-16 text-xl">Loading...</div>;
   }
 
   if (error) {
-    return <div className="subscription_errorContainer">Error: {error}</div>;
+    return <div className="text-center p-16 text-xl">Error: {error}</div>;
   }
 
   return (
-    <div className="subscription_mainContainer">
+    <div className="w-full max-w-[900px] mx-auto mt-[120px] p-8 text-foreground">
       {currentSubscription && (
-        <div className="subscription_currentPlan glass-morphism mb-8">
-          <h3 className="subscription_currentPlanTitle text-neutral-text">Your Current Plan</h3>
-          <p className="text-neutral-text/60">
+        <div className="p-6 rounded-lg bg-card border border-border mb-8 glass-morphism">
+          <h3 className="text-xl font-semibold text-foreground mb-2">Your Current Plan</h3>
+          <p className="text-muted-foreground">
             You are currently on the{" "}
             <strong>{currentSubscription.plan.product.name}</strong> plan.
           </p>
         </div>
       )}
-      <div className="subscription_subscriptionSection">
-        <h2 className="subscription_headerTitle gradient-text-brand">Subscription Plans</h2>
+      <div className="text-center">
+        <h2 className="text-4xl font-bold mb-8 gradient-text-brand">Subscription Plans</h2>
         {!selectedPlan ? (
-          <div className="subscription_plansGrid">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8">
             {plans.map((plan, index) => (
-              <div 
-                key={plan.id} 
-                className={`subscription_planCard ${ 
-                  index === 1 // Highlight the middle plan
-                    ? 'subscription_planCardHighlighted' 
-                    : 'glass-morphism'
-                }`}>
+              <div
+                key={plan.id}
+                className={`p-8 rounded-lg bg-card border border-border flex flex-col items-center text-center relative transition-all duration-150 ease-in-out hover:-translate-y-1 hover:shadow-lg ${index === 1 // Highlight the middle plan
+                  ? 'bg-primary-foreground border-primary scale-105'
+                  : 'glass-morphism'
+                  }`}>
                 {index === 1 && (
-                  <div className="subscription_popularTag">
-                    <div className="subscription_popularTagContent">
+                  <div className="absolute -top-[15px] bg-primary text-primary-foreground px-4 py-1 rounded-full font-bold text-sm">
+                    <div className="">
                       Most Popular
                     </div>
                   </div>
                 )}
-                <div className="subscription_planHeader">
-                  <h3 className="subscription_planName">{plan.name}</h3>
-                  <p className={`subscription_planDescription ${index === 1 ? 'subscription_planDescriptionHighlighted' : 'subscription_planDescriptionDefault'}`}>
+                <div className="mb-6">
+                  <h3 className="text-2xl font-semibold mb-2">{plan.name}</h3>
+                  <p className={`text-sm min-h-[40px] ${index === 1 ? 'text-foreground' : 'text-muted-foreground'}`}>
                     {plan.description}
                   </p>
-                  <div className="subscription_priceContainer">
-                    <span className="subscription_priceValue">${plan.price}</span>
-                    <span className={`subscription_priceCurrency ${index === 1 ? 'subscription_priceCurrencyHighlighted' : 'subscription_priceCurrencyDefault'}`}>
+                  <div className="mt-4 flex items-baseline justify-center">
+                    <span className="text-4xl font-bold">${plan.price}</span>
+                    <span className={`text-base ml-1 ${index === 1 ? 'text-foreground' : 'text-muted-foreground'}`}>
                       /{plan.currency}
                     </span>
                   </div>
                 </div>
-                <button 
-                  onClick={() => handleSelectPlan(plan)} 
-                  className={`subscription_selectPlanButton ${ 
-                    index === 1
-                      ? 'btn btn-primary'
-                      : 'btn btn-outline'
-                  }`}>
+                <button
+                  onClick={() => handleSelectPlan(plan)}
+                  className={`mt-auto w-full px-6 py-3 rounded-lg font-semibold transition-colors duration-150 ease-in-out text-center inline-block ${index === 1
+                    ? 'bg-primary text-primary-foreground border border-primary hover:bg-accent'
+                    : 'bg-transparent text-primary border border-primary hover:bg-primary/10'
+                    }`}>
                   Select {plan.name}
                 </button>
               </div>
             ))}
           </div>
         ) : (
-          <div className="subscription_paymentFormContainer glass-morphism">
-            <h3 className="subscription_paymentFormTitle text-neutral-text">Complete Payment for {selectedPlan.name} plan</h3>
+          <div className="mt-8 p-8 rounded-lg bg-card border border-border glass-morphism">
+            <h3 className="text-xl font-semibold mb-6 text-center text-foreground">Complete Payment for {selectedPlan.name} plan</h3>
             {clientSecret && (
               <Elements options={options} stripe={stripePromise}>
                 <PaymentForm clientSecret={clientSecret} selectedPlan={selectedPlan} />

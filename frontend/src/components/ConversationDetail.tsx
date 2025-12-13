@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { socketService } from "../services/socketService";
-import "../styles/ConversationDetail.css";
+
 import { api } from "../services/api";
 import { SparklesIcon } from "lucide-react";
 
@@ -16,10 +16,10 @@ interface Message {
 }
 
 interface Conversation {
-    id: string;
-    contact_number: string;
-    contact_name: string | null;
-    controlled_by: "ai" | "user";
+  id: string;
+  contact_number: string;
+  contact_name: string | null;
+  controlled_by: "ai" | "user";
 }
 
 const ConversationDetail: React.FC = () => {
@@ -129,59 +129,59 @@ const ConversationDetail: React.FC = () => {
   }
 
   return (
-    <div className="conv-detail-container">
-      <div className="conv-detail-background-grid"></div>
-      <div className="conv-detail-card-wrapper">
-        <div className="conv-detail-card">
-          <header className="conv-detail-header">
-            <div className="conv-detail-avatar-container">
-              <div className="conv-detail-avatar">
+    <div className="flex flex-col h-screen relative bg-[var(--background)]">
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80')] bg-cover opacity-20 z-0"></div>
+      <div className="relative w-full h-full flex flex-col z-10">
+        <div className="relative backdrop-blur-md bg-black/60 border border-white/10 rounded-3xl shadow-lg flex flex-col h-full m-4 overflow-hidden">
+          <header className="flex items-center justify-between p-6 border-b border-white/10">
+            <div className="flex items-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center text-white font-bold shadow-[0_0_10px_rgba(236,155,59,0.5)]">
                 {conversation?.contact_name?.charAt(0).toUpperCase() ||
                   conversation?.contact_number?.charAt(0) ||
                   "C"}
               </div>
-              <div className="conv-detail-user-name">
+              <div className="ml-3 font-medium text-white">
                 <p>{conversation?.contact_name || conversation?.contact_number}</p>
-                <p className="conv-detail-user-status">{status}</p>
+                <p className="text-xs text-[var(--accent)]">{status}</p>
               </div>
             </div>
-            <div className="conv-detail-ai-status">
-                {conversation?.controlled_by === "ai" ? "AI Responding" : "User Controlled"}
-                {conversation?.controlled_by === "ai" && (
-                    <button onClick={handleTakeover} className="btn btn-secondary btn-sm ml-2">
-                    Takeover
-                    </button>
-                )}
+            <div className="text-[var(--primary)] text-sm flex items-center">
+              {conversation?.controlled_by === "ai" ? "AI Responding" : "User Controlled"}
+              {conversation?.controlled_by === "ai" && (
+                <button onClick={handleTakeover} className="ml-2 px-3 py-1 rounded bg-secondary text-secondary-foreground text-xs hover:bg-secondary/80 transition-colors">
+                  Takeover
+                </button>
+              )}
             </div>
           </header>
 
-          <div className="conv-detail-messages-area custom-scrollbar">
+          <div className="flex-1 p-6 overflow-y-auto flex flex-col gap-4 custom-scrollbar">
             {messages.map((msg) => (
               <div
                 key={msg.id}
                 className={
                   msg.direction === "inbound"
-                    ? "message-flex-start"
-                    : "message-flex-end"
+                    ? "flex justify-start"
+                    : "flex justify-end"
                 }
               >
                 <div
                   className={
                     msg.direction === "inbound"
-                      ? "incoming-message"
+                      ? "bg-[var(--card)] backdrop-blur-md rounded-2xl rounded-tl-none px-4 py-2 max-w-[75%] border border-[var(--border)] text-[var(--foreground)]"
                       : msg.ai_generated
-                      ? "outgoing-message ai-reply-message"
-                      : "outgoing-message"
+                        ? "bg-gradient-to-r from-[rgba(71,228,187,0.2)] to-[rgba(236,155,59,0.2)] border border-[rgba(71,228,187,0.5)] backdrop-blur-md rounded-2xl rounded-tr-none px-4 py-2 max-w-[75%] shadow-[0_0_15px_rgba(232,100,124,0.2)] text-[var(--foreground)]"
+                        : "bg-gradient-to-r from-[rgba(236,155,59,0.1)] to-[rgba(232,100,124,0.1)] backdrop-blur-md border border-[rgba(232,100,124,0.3)] rounded-2xl rounded-tr-none px-4 py-2 max-w-[75%] shadow-[0_0_15px_rgba(232,100,124,0.2)] text-[var(--foreground)]"
                   }
                 >
-                  <p className="message-text">{msg.body}</p>
-                  <small className="message-timestamp">
+                  <p className="text-sm">{msg.body}</p>
+                  <small className="block mt-1 text-xs opacity-70">
                     {new Date(msg.created_at).toLocaleString()}
                   </small>
                   {msg.ai_generated && (
-                    <div className="ai-reply-info">
-                      <SparklesIcon size={12} className="ai-reply-icon" />
-                      <p className="ai-reply-text">AI Reply</p>
+                    <div className="mt-1 flex items-center justify-end">
+                      <SparklesIcon size={12} className="w-3 h-3 text-[var(--accent)] mr-1" />
+                      <p className="text-xs text-[var(--accent)]">AI Reply</p>
                     </div>
                   )}
                 </div>
@@ -189,16 +189,16 @@ const ConversationDetail: React.FC = () => {
             ))}
           </div>
 
-          <footer className="conv-detail-footer">
-            <form onSubmit={handleSendMessage} className="conv-detail-message-form">
+          <footer className="p-6 border-t border-white/10">
+            <form onSubmit={handleSendMessage} className="flex gap-4">
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Type your message..."
-                className="conv-detail-message-input"
+                className="flex-1 bg-[var(--input-background)] border border-[var(--border)] rounded-full text-[var(--foreground)] px-6 py-3 placeholder-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-all"
               />
-              <button type="submit" className="conv-detail-send-button">
+              <button type="submit" className="px-6 py-3 rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-[var(--primary-foreground)] font-medium shadow-[0_0_15px_rgba(232,100,124,0.5)] hover:opacity-90 transition-all">
                 Send
               </button>
             </form>

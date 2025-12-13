@@ -32,6 +32,16 @@
       "name": "Assist",
       "database": "Assist_Dev",
       "username": "postgres"
+    },
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "149.56.135.236",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Assist Text",
+      "username": "assistext_user",
+      "database": "Assistext_prod"
     }
   ]
 }

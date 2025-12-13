@@ -7,3 +7,4 @@ generated-page.html
 .DS_Store
 .gemini
 build.log
+.dist

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import '../styles/ContactDetail.css';
+
 
 interface Contact {
   id: number;
@@ -58,28 +58,62 @@ const ContactDetail: React.FC = () => {
   }
 
   return (
-    <div className="contact-detail-container">
+    <div className="p-8">
       {isEditing ? (
-        <div className="contact-detail-card">
-          <h1 className="contact-detail-header">Edit Contact</h1>
-          <div className="contact-detail-form">
-            <label>Name</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            <label>Phone Number</label>
-            <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-            <div className="contact-detail-buttons">
-              <button onClick={handleUpdate}>Save</button>
-              <button onClick={() => setIsEditing(false)}>Cancel</button>
+        <div className="p-8 border border-white/10 rounded-2xl bg-slate-800/50 backdrop-blur-sm shadow-xl max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold mb-6 text-white">Edit Contact</h1>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-slate-300">Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full p-3 rounded-lg bg-slate-700/50 border border-slate-600 text-white transition-all focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-slate-300">Phone Number</label>
+              <input
+                type="text"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="w-full p-3 rounded-lg bg-slate-700/50 border border-slate-600 text-white transition-all focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20"
+              />
+            </div>
+            <div className="flex gap-4 mt-6">
+              <button
+                onClick={handleUpdate}
+                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium hover:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                className="px-6 py-2.5 rounded-full bg-transparent border border-slate-600 text-slate-300 font-medium hover:bg-white/5 transition-all"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
       ) : (
-        <div className="contact-detail-card">
-          <h1 className="contact-detail-header">{contact.name}</h1>
-          <p className="contact-detail-phone">{contact.phone_number}</p>
-          <div className="contact-detail-buttons">
-            <button onClick={() => setIsEditing(true)}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
+        <div className="p-8 border border-white/10 rounded-2xl bg-slate-800/50 backdrop-blur-sm shadow-xl max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold mb-2 text-white">{contact.name}</h1>
+          <p className="mb-8 font-mono text-slate-400 text-lg">{contact.phone_number}</p>
+          <div className="flex gap-4">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="px-6 py-2.5 rounded-full bg-slate-700 text-white font-medium hover:bg-slate-600 transition-all border border-slate-600"
+            >
+              Edit
+            </button>
+            <button
+              onClick={handleDelete}
+              className="px-6 py-2.5 rounded-full bg-red-500/10 text-red-400 font-medium hover:bg-red-500/20 transition-all border border-red-500/20"
+            >
+              Delete
+            </button>
           </div>
         </div>
       )}

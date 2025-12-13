@@ -4,16 +4,16 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import "../styles/PaymentForm.css";
+
 import { api } from "../services/api";
 
 interface Plan {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    currency: string;
-    price_id: string;
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  currency: string;
+  price_id: string;
 }
 
 const PaymentForm: React.FC<{ clientSecret: string, selectedPlan: Plan | null }> = ({ clientSecret, selectedPlan }) => {
@@ -41,27 +41,27 @@ const PaymentForm: React.FC<{ clientSecret: string, selectedPlan: Plan | null }>
 
     // Create the PaymentMethod
     const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
-        elements,
+      elements,
     });
 
     if (paymentMethodError) {
-        setErrorMessage(paymentMethodError.message || "An unexpected error occurred.");
-        setLoading(false);
-        return;
+      setErrorMessage(paymentMethodError.message || "An unexpected error occurred.");
+      setLoading(false);
+      return;
     }
 
     // Create the subscription
     try {
-        const subscription = await api.post("/subscriptions", {
-            price_id: selectedPlan.price_id,
-            payment_method_id: paymentMethod.id,
-        });
+      const subscription = await api.post("/subscriptions", {
+        price_id: selectedPlan.price_id,
+        payment_method_id: paymentMethod.id,
+      });
 
-        // Handle success
-        window.location.href = "/dashboard";
+      // Handle success
+      window.location.href = "/dashboard";
 
     } catch (err: unknown) {
-        setErrorMessage((err as Error).message);
+      setErrorMessage((err as Error).message);
     }
 
 
@@ -69,16 +69,16 @@ const PaymentForm: React.FC<{ clientSecret: string, selectedPlan: Plan | null }>
   };
 
   return (
-    <form onSubmit={handleSubmit} className="paymentForm_form">
-      <div className="paymentForm_paymentElementContainer bg-surface border-border">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <div className="p-6 border border-border rounded-lg bg-[var(--input-background)]">
         <PaymentElement />
       </div>
-      <button 
-        disabled={!stripe || loading} 
-        className="paymentForm_button btn btn-primary"      >
+      <button
+        disabled={!stripe || loading}
+        className="w-full btn btn-primary"      >
         {loading ? "Processing..." : "Pay"}
       </button>
-      {errorMessage && <div className="paymentForm_errorMessage text-error-500">{errorMessage}</div>}
+      {errorMessage && <div className="text-sm text-center text-destructive">{errorMessage}</div>}
     </form>
   );
 };
