@@ -1,0 +1,13 @@
+/* Authenticated Layout Styles */
+
+.auth-layout-container {
+    min-height: 100vh;
+    background-color: var(--background);
+    transition: background-color 0.3s ease;
+}
+
+.auth-layout-main {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}

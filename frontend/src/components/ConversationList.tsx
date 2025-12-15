@@ -7,7 +7,7 @@ import { api } from "../services/api";
 import SentimentIndicator from "./SentimentIndicator";
 import { useConversations } from "../hooks/useConversations";
 import { GlassCard } from "./common/GlassCard";
-import { AnimatedSection } from "./common/AnimatedSection";
+import "../styles/ConversationList_dashboard.css";
 
 interface Conversation {
   id: string;
@@ -60,17 +60,9 @@ const ConversationList: React.FC = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
+      <div className="conversation-list-loading">
         <div style={{ textAlign: 'center' }}>
-          <div style={{
-            width: '3rem',
-            height: '3rem',
-            margin: '0 auto 1rem',
-            border: '3px solid var(--primary)',
-            borderTopColor: 'transparent',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
+          <div className="conversation-list-spinner" />
           <p style={{ color: 'var(--muted-foreground)' }}>Loading conversations...</p>
         </div>
       </div>
@@ -80,7 +72,7 @@ const ConversationList: React.FC = () => {
   if (error) {
     return (
       <GlassCard variant="solid">
-        <p style={{ color: 'var(--destructive)', textAlign: 'center', padding: '2rem' }}>Error: {error}</p>
+        <p className="conversation-error-container">Error: {error}</p>
       </GlassCard>
     );
   }
@@ -89,33 +81,16 @@ const ConversationList: React.FC = () => {
     <>
       <GlassCard variant="solid">
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{
-              width: '2.5rem',
-              height: '2.5rem',
-              borderRadius: '0.625rem',
-              backgroundColor: 'color-mix(in srgb, var(--secondary), transparent 90%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <MessageCircle style={{ width: '1.25rem', height: '1.25rem', color: 'var(--primary)' }} />
+        <div className="conversation-list-header">
+          <div className="conversation-header-left">
+            <div className="conversation-header-icon-wrapper">
+              <MessageCircle className="conversation-header-icon" />
             </div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0 }}>Conversations</h2>
+            <h2 className="conversation-list-title">Conversations</h2>
           </div>
           <button
             onClick={() => setIsNewConversationModalOpen(true)}
-            className="btn-primary"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.625rem 1.25rem',
-              borderRadius: '0.625rem',
-              fontSize: '0.875rem',
-              fontWeight: 500
-            }}
+            className="btn-primary conversation-new-btn"
           >
             <Plus style={{ width: '1.125rem', height: '1.125rem' }} />
             New
@@ -124,97 +99,52 @@ const ConversationList: React.FC = () => {
 
         {/* Conversations List */}
         {conversations.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-            <div style={{
-              width: '4rem',
-              height: '4rem',
-              margin: '0 auto 1.5rem',
-              borderRadius: '1rem',
-              backgroundColor: 'var(--muted)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
+          <div className="conversation-list-empty">
+            <div className="conversation-empty-icon-wrapper">
               <MessageCircle style={{ width: '2rem', height: '2rem', color: 'var(--muted-foreground)' }} />
             </div>
-            <p style={{ color: 'var(--muted-foreground)', fontSize: '0.938rem' }}>No conversations yet.</p>
+            <p className="conversation-empty-text">No conversations yet.</p>
           </div>
         ) : (
           <>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div className="conversation-items-wrapper">
               {conversations.map((conv) => (
                 <div
                   key={conv.id}
                   onClick={() => handleConversationClick(conv.id)}
-                  style={{
-                    padding: '1rem',
-                    borderRadius: '0.75rem',
-                    backgroundColor: conv.unread ? 'color-mix(in srgb, var(--secondary), transparent 95%)' : 'var(--muted)',
-                    border: `1px solid ${conv.unread ? 'color-mix(in srgb, var(--secondary), transparent 80%)' : 'var(--border)'}`,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateX(4px)';
-                    e.currentTarget.style.borderColor = 'var(--primary)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateX(0)';
-                    e.currentTarget.style.borderColor = conv.unread ? 'color-mix(in srgb, var(--secondary), transparent 80%)' : 'var(--border)';
-                  }}
+                  className={`conversation-item ${conv.unread ? 'unread' : ''}`}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '0.5rem' }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                        <strong style={{ fontSize: '1rem', fontWeight: 600, color: conv.unread ? 'var(--primary)' : 'var(--foreground)' }}>
+                  <div className="conversation-item-top">
+                    <div className="conversation-item-info">
+                      <div className="conversation-item-name-row">
+                        <strong className="conversation-item-name">
                           {conv.contact_name || conv.contact_number}
                         </strong>
                         {conv.unread && (
-                          <div style={{
-                            width: '0.5rem',
-                            height: '0.5rem',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--primary)'
-                          }} />
+                          <div className="conversation-unread-dot" />
                         )}
                       </div>
                       {conv.contact_name && (
-                        <p style={{ fontSize: '0.813rem', color: 'var(--muted-foreground)', margin: 0 }}>
+                        <p className="conversation-item-number">
                           {conv.contact_number}
                         </p>
                       )}
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                    <div className="conversation-item-meta">
                       <button
                         onClick={(e) => { e.stopPropagation(); handleOpenModal(conv); }}
-                        style={{
-                          padding: '0.375rem',
-                          borderRadius: '0.375rem',
-                          border: 'none',
-                          backgroundColor: 'transparent',
-                          cursor: 'pointer',
-                          transition: 'background-color 0.2s'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--border)'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                        className="conversation-edit-btn"
                       >
                         <Edit2 style={{ width: '0.875rem', height: '0.875rem', color: 'var(--muted-foreground)' }} />
                       </button>
-                      <small style={{ fontSize: '0.75rem', color: 'var(--muted-foreground)' }}>
+                      <small className="conversation-date">
                         {new Date(conv.last_message_at).toLocaleDateString()}
                       </small>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'start', gap: '0.5rem' }}>
+                  <div className="conversation-item-bottom">
                     <SentimentIndicator sentiment={conv.last_message_sentiment} />
-                    <p style={{
-                      fontSize: '0.875rem',
-                      color: 'var(--muted-foreground)',
-                      margin: 0,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
-                    }}>
+                    <p className="conversation-preview">
                       {conv.last_message}
                     </p>
                   </div>
@@ -224,49 +154,22 @@ const ConversationList: React.FC = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginTop: '1.5rem',
-                paddingTop: '1.5rem',
-                borderTop: '1px solid var(--border)'
-              }}>
+              <div className="conversation-pagination">
                 <button
                   onClick={() => setPage(p => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="btn-ghost"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '0.5rem',
-                    fontSize: '0.875rem',
-                    opacity: page === 1 ? 0.5 : 1,
-                    cursor: page === 1 ? 'not-allowed' : 'pointer'
-                  }}
+                  className="btn-ghost conversation-pagination-btn"
                 >
                   <ChevronLeft style={{ width: '1rem', height: '1rem' }} />
                   Previous
                 </button>
-                <span style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)' }}>
+                <span className="conversation-pagination-info">
                   Page {page} of {totalPages}
                 </span>
                 <button
                   onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="btn-ghost"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '0.5rem',
-                    fontSize: '0.875rem',
-                    opacity: page === totalPages ? 0.5 : 1,
-                    cursor: page === totalPages ? 'not-allowed' : 'pointer'
-                  }}
+                  className="btn-ghost conversation-pagination-btn"
                 >
                   Next
                   <ChevronRight style={{ width: '1rem', height: '1rem' }} />

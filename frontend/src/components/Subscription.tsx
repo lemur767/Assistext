@@ -4,6 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "./PaymentForm";
 import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
+import "../styles/Subscription_dashboard.css";
 
 
 const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
@@ -103,68 +104,62 @@ const Subscription: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="text-center p-16 text-xl">Loading...</div>;
+    return <div className="loading-container">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-center p-16 text-xl">Error: {error}</div>;
+    return <div className="error-container">Error: {error}</div>;
   }
 
   return (
-    <div className="w-full max-w-[900px] mx-auto mt-[120px] p-8 text-foreground">
+    <div className="subscription-container">
       {currentSubscription && (
-        <div className="p-6 rounded-lg bg-card border border-border mb-8 glass-morphism">
-          <h3 className="text-xl font-semibold text-foreground mb-2">Your Current Plan</h3>
-          <p className="text-muted-foreground">
+        <div className="subscription-current-plan">
+          <h3 className="current-plan-title">Your Current Plan</h3>
+          <p className="current-plan-text">
             You are currently on the{" "}
             <strong>{currentSubscription.plan.product.name}</strong> plan.
           </p>
         </div>
       )}
-      <div className="text-center">
-        <h2 className="text-4xl font-bold mb-8 gradient-text-brand">Subscription Plans</h2>
+      <div className="subscription-header">
+        <h2 className="subscription-title gradient-text-brand">Subscription Plans</h2>
         {!selectedPlan ? (
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8">
+          <div className="plans-grid">
             {plans.map((plan, index) => (
               <div
                 key={plan.id}
-                className={`p-8 rounded-lg bg-card border border-border flex flex-col items-center text-center relative transition-all duration-150 ease-in-out hover:-translate-y-1 hover:shadow-lg ${index === 1 // Highlight the middle plan
-                  ? 'bg-primary-foreground border-primary scale-105'
-                  : 'glass-morphism'
-                  }`}>
+                className={`plan-card ${index === 1 ? 'highlighted' : 'glass'}`}
+              >
                 {index === 1 && (
-                  <div className="absolute -top-[15px] bg-primary text-primary-foreground px-4 py-1 rounded-full font-bold text-sm">
-                    <div className="">
-                      Most Popular
-                    </div>
+                  <div className="popular-badge">
+                    <div>Most Popular</div>
                   </div>
                 )}
-                <div className="mb-6">
-                  <h3 className="text-2xl font-semibold mb-2">{plan.name}</h3>
-                  <p className={`text-sm min-h-[40px] ${index === 1 ? 'text-foreground' : 'text-muted-foreground'}`}>
+                <div className="plan-details">
+                  <h3 className="plan-name">{plan.name}</h3>
+                  <p className={`plan-description ${index === 1 ? 'highlighted' : 'muted'}`}>
                     {plan.description}
                   </p>
-                  <div className="mt-4 flex items-baseline justify-center">
-                    <span className="text-4xl font-bold">${plan.price}</span>
-                    <span className={`text-base ml-1 ${index === 1 ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  <div className="plan-price-container">
+                    <span className="plan-price">${plan.price}</span>
+                    <span className={`plan-currency ${index === 1 ? 'highlighted' : 'muted'}`}>
                       /{plan.currency}
                     </span>
                   </div>
                 </div>
                 <button
                   onClick={() => handleSelectPlan(plan)}
-                  className={`mt-auto w-full px-6 py-3 rounded-lg font-semibold transition-colors duration-150 ease-in-out text-center inline-block ${index === 1
-                    ? 'bg-primary text-primary-foreground border border-primary hover:bg-accent'
-                    : 'bg-transparent text-primary border border-primary hover:bg-primary/10'
-                    }`}>
+                  className={`plan-select-btn ${index === 1 ? 'highlighted' : 'outline'}`}
+                >
                   Select {plan.name}
                 </button>
               </div>
             ))}
           </div>
         ) : (
-          <div className="mt-8 p-8 rounded-lg bg-card border border-border glass-morphism">
-            <h3 className="text-xl font-semibold mb-6 text-center text-foreground">Complete Payment for {selectedPlan.name} plan</h3>
+          <div className="payment-form-container">
+            <h3 className="payment-header-title">Complete Payment for {selectedPlan.name} plan</h3>
             {clientSecret && (
               <Elements options={options} stripe={stripePromise}>
                 <PaymentForm clientSecret={clientSecret} selectedPlan={selectedPlan} />

@@ -1,0 +1,40 @@
+/* Payment Form Styles */
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.payment-element-container {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background-color: var(--input-background);
+}
+
+.payment-submit-btn {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    /* styles from btn-primary utility usually apply, but adding here if needed to be explicit or if replacing utility */
+    /* assuming btn-primary class handles the colors, but if we are replacing ALL tailwind */
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: var(--primary-foreground);
+    border: none;
+    cursor: pointer;
+}
+
+.payment-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.payment-error-text {
+    font-size: 0.875rem;
+    text-align: center;
+    color: var(--destructive);
+    margin-top: 0.5rem;
+}

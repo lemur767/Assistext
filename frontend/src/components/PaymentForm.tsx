@@ -6,6 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 
 import { api } from "../services/api";
+import "../styles/PaymentForm_dashboard.css";
 
 interface Plan {
   id: string;
@@ -69,16 +70,16 @@ const PaymentForm: React.FC<{ clientSecret: string, selectedPlan: Plan | null }>
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      <div className="p-6 border border-border rounded-lg bg-[var(--input-background)]">
+    <form onSubmit={handleSubmit} className="payment-form">
+      <div className="payment-element-container">
         <PaymentElement />
       </div>
       <button
         disabled={!stripe || loading}
-        className="w-full btn btn-primary"      >
+        className="btn btn-primary payment-submit-btn"      >
         {loading ? "Processing..." : "Pay"}
       </button>
-      {errorMessage && <div className="text-sm text-center text-destructive">{errorMessage}</div>}
+      {errorMessage && <div className="payment-error-text">{errorMessage}</div>}
     </form>
   );
 };

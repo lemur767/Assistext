@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { Phone, MessageSquare, CreditCard, AlertTriangle, Clock } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { GlassCard } from "./common/GlassCard";
-import { StatCard } from "./common/StatCard";
 import { AnimatedSection } from "./common/AnimatedSection";
 import RecentActivity from "./RecentActivity";
+import "../styles/Dashboard_dashboard.css";
 
 const Dashboard: React.FC = () => {
   const { user, subscription } = useAuth();
@@ -27,24 +27,11 @@ const Dashboard: React.FC = () => {
 
   if (!user) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+      <div className="dashboard-loading-container">
         <div style={{ textAlign: 'center' }}>
-          <div style={{
-            width: '3rem',
-            height: '3rem',
-            margin: '0 auto 1rem',
-            border: '3px solid var(--primary)',
-            borderTopColor: 'transparent',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
+          <div className="dashboard-spinner" />
           <p style={{ color: 'var(--muted-foreground)' }}>Loading...</p>
         </div>
-        <style>{`
-          @keyframes spin {
-            to { transform: rotate(360deg); }
-          }
-        `}</style>
       </div>
     );
   }
@@ -61,18 +48,9 @@ const Dashboard: React.FC = () => {
       {/* Trial Banner */}
       {trialDaysRemaining > 0 && (
         <AnimatedSection>
-          <div style={{
-            padding: '1rem 1.5rem',
-            borderRadius: '0.75rem',
-            backgroundColor: 'rgba(236, 155, 59, 0.1)',
-            border: '1px solid rgba(236, 155, 59, 0.3)',
-            marginBottom: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem'
-          }}>
-            <Clock style={{ width: '1.5rem', height: '1.5rem', color: 'var(--accent)', flexShrink: 0 }} />
-            <p style={{ fontSize: '0.938rem', color: 'var(--foreground)', margin: 0 }}>
+          <div className="dashboard-trial-banner">
+            <Clock className="dashboard-banner-icon" style={{ color: 'var(--accent)' }} />
+            <p className="dashboard-banner-text">
               You have <strong>{trialDaysRemaining} days</strong> left in your trial.
             </p>
           </div>
@@ -81,22 +59,13 @@ const Dashboard: React.FC = () => {
 
       {trialDaysRemaining === 0 && user.subscription_plan === 'trial' && (
         <AnimatedSection>
-          <div style={{
-            padding: '1rem 1.5rem',
-            borderRadius: '0.75rem',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
-            marginBottom: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem'
-          }}>
-            <AlertTriangle style={{ width: '1.5rem', height: '1.5rem', color: '#EF4444', flexShrink: 0 }} />
-            <p style={{ fontSize: '0.938rem', color: 'var(--foreground)', margin: 0 }}>
+          <div className="dashboard-expired-banner">
+            <AlertTriangle className="dashboard-banner-icon" style={{ color: '#EF4444' }} />
+            <p className="dashboard-banner-text">
               Your trial has expired. Please{" "}
               <Link
                 to="/subscription"
-                style={{ color: 'var(--primary)', fontWeight: 500, textDecoration: 'underline' }}
+                className="dashboard-link"
               >
                 subscribe
               </Link>
@@ -110,36 +79,19 @@ const Dashboard: React.FC = () => {
       {!user.phone_number ? (
         <AnimatedSection>
           <GlassCard variant="solid">
-            <div style={{ textAlign: 'center', padding: '2rem' }}>
-              <div style={{
-                width: '4rem',
-                height: '4rem',
-                margin: '0 auto 1.5rem',
-                borderRadius: '1rem',
-                backgroundColor: 'rgba(232, 100, 124, 0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Phone style={{ width: '2rem', height: '2rem', color: 'var(--primary)' }} />
+            <div className="dashboard-no-phone-content">
+              <div className="dashboard-no-phone-icon-wrapper">
+                <Phone className="dashboard-stat-icon" style={{ color: 'var(--primary)' }} />
               </div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.75rem' }}>
+              <h3 className="dashboard-no-phone-title">
                 No Ghost Number Assigned
               </h3>
-              <p style={{ color: 'var(--muted-foreground)', marginBottom: '1.5rem', fontSize: '0.938rem' }}>
+              <p className="dashboard-no-phone-text">
                 It looks like you don't have a Ghost Number yet. Please visit the Settings page to set one up.
               </p>
               <Link
                 to="/settings"
-                className="btn-primary"
-                style={{
-                  display: 'inline-block',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '0.75rem',
-                  textDecoration: 'none',
-                  fontSize: '0.938rem',
-                  fontWeight: 500
-                }}
+                className="btn-primary dashboard-no-phone-btn"
               >
                 Go to Settings
               </Link>
@@ -149,28 +101,20 @@ const Dashboard: React.FC = () => {
       ) : (
         <>
           {/* Stats Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+          <div className="dashboard-stats-grid">
             <AnimatedSection delay={0.1}>
               <GlassCard variant="solid">
-                <div style={{ display: 'flex', alignItems: 'start', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                  <div>
-                    <p style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', marginBottom: '0.5rem' }}>
+                <div className="dashboard-stat-header">
+                  <div className="dashboard-stat-info">
+                    <p className="dashboard-stat-label">
                       Ghost Number
                     </p>
-                    <p style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--foreground)' }}>
+                    <p className="dashboard-stat-value">
                       {user.phone_number}
                     </p>
                   </div>
-                  <div style={{
-                    width: '3rem',
-                    height: '3rem',
-                    borderRadius: '0.75rem',
-                    backgroundColor: 'rgba(232, 100, 124, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <Phone style={{ width: '1.5rem', height: '1.5rem', color: 'var(--primary)' }} />
+                  <div className="dashboard-stat-icon-wrapper dashboard-icon-primary">
+                    <Phone className="dashboard-stat-icon" style={{ color: 'var(--primary)' }} />
                   </div>
                 </div>
               </GlassCard>
@@ -178,43 +122,26 @@ const Dashboard: React.FC = () => {
 
             <AnimatedSection delay={0.2}>
               <GlassCard variant="solid">
-                <div style={{ display: 'flex', alignItems: 'start', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                  <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', marginBottom: '0.5rem' }}>
+                <div className="dashboard-stat-header">
+                  <div className="dashboard-stat-info">
+                    <p className="dashboard-stat-label">
                       Message Usage
                     </p>
-                    <p style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--foreground)' }}>
-                      {user.message_count} <span style={{ fontSize: '1rem', color: 'var(--muted-foreground)' }}>/ {messageLimit}</span>
+                    <p className="dashboard-stat-value">
+                      {user.message_count} <span className="dashboard-stat-subtext">/ {messageLimit}</span>
                     </p>
                     {/* Progress Bar */}
-                    <div style={{
-                      width: '100%',
-                      height: '0.5rem',
-                      backgroundColor: 'var(--muted)',
-                      borderRadius: '9999px',
-                      overflow: 'hidden',
-                      marginTop: '0.75rem'
-                    }}>
-                      <div style={{
-                        width: `${Math.min(usagePercentage, 100)}%`,
-                        height: '100%',
-                        background: usagePercentage > 90 ? 'linear-gradient(90deg, #EF4444, #DC2626)' : 'linear-gradient(90deg, var(--secondary), var(--primary))',
-                        transition: 'width 0.5s ease'
-                      }} />
+                    <div className="dashboard-progress-container">
+                      <div
+                        className={`dashboard-progress-fill ${usagePercentage > 90 ? 'warning' : 'normal'}`}
+                        style={{
+                          width: `${Math.min(usagePercentage, 100)}%`
+                        }}
+                      />
                     </div>
                   </div>
-                  <div style={{
-                    width: '3rem',
-                    height: '3rem',
-                    borderRadius: '0.75rem',
-                    backgroundColor: 'rgba(71, 228, 187, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    marginLeft: '1rem'
-                  }}>
-                    <MessageSquare style={{ width: '1.5rem', height: '1.5rem', color: 'var(--secondary)' }} />
+                  <div className="dashboard-stat-icon-wrapper dashboard-icon-secondary">
+                    <MessageSquare className="dashboard-stat-icon" style={{ color: 'var(--secondary)' }} />
                   </div>
                 </div>
               </GlassCard>
@@ -223,28 +150,20 @@ const Dashboard: React.FC = () => {
             {currentPlan && (
               <AnimatedSection delay={0.3}>
                 <GlassCard variant="solid">
-                  <div style={{ display: 'flex', alignItems: 'start', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                    <div>
-                      <p style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)', marginBottom: '0.5rem' }}>
+                  <div className="dashboard-stat-header">
+                    <div className="dashboard-stat-info">
+                      <p className="dashboard-stat-label">
                         Subscription
                       </p>
-                      <p style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--foreground)' }}>
+                      <p className="dashboard-stat-value" style={{ fontSize: '1.125rem', fontWeight: 600 }}>
                         {currentPlan.product.name}
                       </p>
-                      <p style={{ fontSize: '0.938rem', color: 'var(--muted-foreground)', marginTop: '0.25rem' }}>
+                      <p className="dashboard-stat-subtext-sm">
                         ${currentPlan.amount / 100} / {currentPlan.interval}
                       </p>
                     </div>
-                    <div style={{
-                      width: '3rem',
-                      height: '3rem',
-                      borderRadius: '0.75rem',
-                      backgroundColor: 'rgba(236, 155, 59, 0.1)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <CreditCard style={{ width: '1.5rem', height: '1.5rem', color: 'var(--accent)' }} />
+                    <div className="dashboard-stat-icon-wrapper dashboard-icon-accent">
+                      <CreditCard className="dashboard-stat-icon" style={{ color: 'var(--accent)' }} />
                     </div>
                   </div>
                 </GlassCard>

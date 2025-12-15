@@ -1,0 +1,228 @@
+/* Conversation List Styles */
+
+.conversation-list-loading {
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+}
+
+.conversation-list-spinner {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    border: 3px solid var(--primary);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.conversation-error-container {
+    color: var(--destructive);
+    text-align: center;
+    padding: 2rem;
+}
+
+.conversation-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.conversation-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.conversation-header-icon-wrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    background-color: color-mix(in srgb, var(--secondary), transparent 90%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.conversation-header-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--primary);
+}
+
+.conversation-list-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.conversation-new-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Empty State */
+.conversation-list-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.conversation-empty-icon-wrapper {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1.5rem;
+    border-radius: 1rem;
+    background-color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.conversation-empty-text {
+    color: var(--muted-foreground);
+    font-size: 0.938rem;
+}
+
+/* List Items */
+.conversation-items-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.conversation-item {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.conversation-item.unread {
+    background-color: color-mix(in srgb, var(--secondary), transparent 95%);
+    border-color: color-mix(in srgb, var(--secondary), transparent 80%);
+}
+
+.conversation-item:hover {
+    transform: translateX(4px);
+    border-color: var(--primary);
+}
+
+.conversation-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
+}
+
+.conversation-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.conversation-item-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.conversation-item-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.conversation-item.unread .conversation-item-name {
+    color: var(--primary);
+}
+
+.conversation-unread-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+}
+
+.conversation-item-number {
+    font-size: 0.813rem;
+    color: var(--muted-foreground);
+    margin: 0;
+}
+
+.conversation-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.conversation-edit-btn {
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.conversation-edit-btn:hover {
+    background-color: var(--border);
+}
+
+.conversation-date {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+}
+
+.conversation-item-bottom {
+    display: flex;
+    align-items: start;
+    gap: 0.5rem;
+}
+
+.conversation-preview {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Pagination */
+.conversation-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.conversation-pagination-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.conversation-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.conversation-pagination-info {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}

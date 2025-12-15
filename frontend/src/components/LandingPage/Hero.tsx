@@ -1,11 +1,12 @@
 
 import { motion } from 'framer-motion';
-import { Zap, ArrowRight, Users, TrendingUp } from 'lucide-react';
+import { Zap, ArrowRight } from 'lucide-react';
 import { GlassCard } from '../common/GlassCard';
 import { StatCard } from '../common/StatCard';
 import { AnimatedSection } from '../common/AnimatedSection';
 import { MorphingText } from '../animate-ui/primitives/texts/morphing';
-import '../../index.css';
+import '../../styles/Hero_landing_page.css';
+
 const texts = [
   'Transform Your',
   'Text Messaging',
@@ -22,43 +23,28 @@ interface MorphingTextProps {
 
 export const Hero = ({ loop = true, holdDelay = 2500, delay = 0 }: MorphingTextProps) => {
   return (
-    <section style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1rem', paddingTop: '7rem', paddingBottom: '7rem' }}>
-      <div style={{ maxWidth: '64rem', margin: '0 auto', textAlign: 'center' }}>
+    <section className="hero-section">
+      <div className="hero-container">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <GlassCard variant="solid" style={{ marginBottom: '2.5rem' }}>
+          <GlassCard variant="solid" className="hero-card">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.625rem 1.25rem',
-                backgroundColor: '#222222',
-                borderRadius: '9999px',
-                marginBottom: '2rem'
-              }}
+              className="hero-powered-by"
             >
-              <Zap style={{ width: '1rem', height: '1rem', color: 'var(--primary)' }} />
-              <span style={{ fontSize: '0.875rem', color: 'var(--primary)', fontWeight: 500 }}>Powered by AI</span>
+              <Zap className="hero-powered-icon" />
+              <span className="hero-powered-text">Powered by AI</span>
             </motion.div>
 
-            <div
-              style={{
-                fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
-                marginBottom: '2rem',
-                fontWeight: 700,
-                lineHeight: 1.1
-              }}
-            >
+            <div className="hero-heading-wrapper">
               <MorphingText
                 key={`${loop}-${holdDelay}-${delay}`}
-                className="text-96px font-bold max-w-2xl"
+                className="hero-morphing-text"
                 charClassName="hero-morphing-char"
                 text={texts}
                 loop={loop}
@@ -71,14 +57,7 @@ export const Hero = ({ loop = true, holdDelay = 2500, delay = 0 }: MorphingTextP
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              style={{
-                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                color: 'var(--muted-foreground)',
-                marginBottom: '2.5rem',
-                maxWidth: '48rem',
-                margin: '0 auto 2.5rem',
-                lineHeight: 1.625
-              }}
+              className="hero-subtext"
             >
               Our AI automatically responds to your incoming texts with personalized,
               context-aware replies while you focus on what matters most.
@@ -88,49 +67,22 @@ export const Hero = ({ loop = true, holdDelay = 2500, delay = 0 }: MorphingTextP
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
               className="hero-buttons"
             >
               <motion.a
                 href="/signup"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="btn-primary"
-                style={{
-                  display: 'flex',
-                  color: 'var(--accent-foreground)',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.5rem',
-                  padding: '1rem 2.25rem',
-                  borderRadius: '0.75rem',
-                  fontSize: '15px',
-                  fontWeight: 500,
-                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)',
-                  textDecoration: 'none'
-                }}
+                className="btn btn-primary hero-btn-start"
               >
                 Get Started
-                <ArrowRight style={{ width: '1.25rem', height: '1.25rem' }} />
+                <ArrowRight className="hero-btn-icon" />
               </motion.a>
               <motion.a
                 href="#pricing"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="btn-ghost"
-                style={{
-                  padding: '1rem 2.25rem',
-                  borderRadius: '0.75rem',
-                  fontSize: '15px',
-                  fontWeight: 500,
-                  textDecoration: 'none'
-                }}
+                className="btn btn-ghost hero-btn-pricing"
               >
                 View Pricing
               </motion.a>
@@ -139,7 +91,7 @@ export const Hero = ({ loop = true, holdDelay = 2500, delay = 0 }: MorphingTextP
         </motion.div>
 
         {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginTop: '2.5rem' }}>
+        <div className="hero-stats-grid">
           <AnimatedSection delay={0.2}>
             <StatCard value="24/7" label="AI Availability" color="primary" />
           </AnimatedSection>
@@ -151,22 +103,6 @@ export const Hero = ({ loop = true, holdDelay = 2500, delay = 0 }: MorphingTextP
           </AnimatedSection>
         </div>
       </div>
-
-      <style>{`
-        @media (min-width: 640px) {
-          .hero-buttons {
-            flex-direction: row !important;
-          }
-        }
-        
-        .hero-morphing-char {
-          background-clip: text;
-          -webkit-background-clip: text;
-          color: transparent;
-          background-image: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
-          background-attachment: fixed;
-        }
-      `}</style>
     </section>
   );
 };

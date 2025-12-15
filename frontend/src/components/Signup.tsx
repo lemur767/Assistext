@@ -5,6 +5,7 @@ import { Sparkles, Mail, Lock, User, MapPin, Globe, AlertCircle, Check, X } from
 import { useAuth } from "../contexts/AuthContext";
 import { GlassCard } from "./common/GlassCard";
 import { api } from "../services/api";
+import "../styles/Signup_auth.css";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -74,65 +75,27 @@ const Signup: React.FC = () => {
   const isPasswordValid = Object.values(passwordErrors).every((v) => v);
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'var(--background)',
-      padding: '2rem 1rem',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <div className="auth-page-container">
       {/* Background gradient effects */}
-      <div style={{
-        position: 'absolute',
-        top: '10%',
-        right: '10%',
-        width: '20rem',
-        height: '20rem',
-        background: 'radial-gradient(circle, rgba(236, 155, 59, 0.15), transparent 70%)',
-        borderRadius: '50%',
-        filter: 'blur(80px)',
-        pointerEvents: 'none'
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '10%',
-        left: '10%',
-        width: '20rem',
-        height: '20rem',
-        background: 'radial-gradient(circle, rgba(71, 228, 187, 0.15), transparent 70%)',
-        borderRadius: '50%',
-        filter: 'blur(80px)',
-        pointerEvents: 'none'
-      }} />
+      <div className="auth-glow-blob top-right" />
+      <div className="auth-glow-blob bottom-left" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        style={{ width: '100%', maxWidth: '32rem', position: 'relative', zIndex: 1 }}
+        className="auth-content-wrapper"
       >
-        <GlassCard variant="solid" style={{ padding: '2.5rem' }}>
+        <GlassCard variant="solid" className="auth-card-padding">
           {/* Logo */}
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <div style={{
-              width: '4rem',
-              height: '4rem',
-              margin: '0 auto 1rem',
-              borderRadius: '1rem',
-              background: 'linear-gradient(135deg, var(--primary), var(--accent))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Sparkles style={{ width: '2rem', height: '2rem', color: 'white' }} />
+          <div className="auth-header">
+            <div className="auth-icon-wrapper">
+              <Sparkles className="auth-icon-svg" />
             </div>
-            <h2 style={{ fontSize: '1.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+            <h2 className="auth-title">
               Create Account
             </h2>
-            <p style={{ color: 'var(--muted-foreground)', fontSize: '0.938rem' }}>
+            <p className="auth-subtitle">
               Get started with Assistext today
             </p>
           </div>
@@ -142,77 +105,48 @@ const Signup: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              style={{
-                padding: '0.75rem 1rem',
-                borderRadius: '0.75rem',
-                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem'
-              }}
+              className="auth-error-message"
             >
-              <AlertCircle style={{ width: '1.25rem', height: '1.25rem', color: '#EF4444', flexShrink: 0 }} />
-              <p style={{ fontSize: '0.875rem', color: '#EF4444', margin: 0 }}>{message}</p>
+              <AlertCircle className="auth-error-icon" />
+              <p className="auth-error-text">{message}</p>
             </motion.div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <form onSubmit={handleSignup} className="auth-form">
             {/* Name Fields */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div>
-                <label htmlFor="first_name" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500, color: 'var(--foreground)' }}>
+            <div className="auth-form-grid">
+              <div className="auth-form-group">
+                <label htmlFor="first_name" className="auth-label">
                   First Name
                 </label>
-                <div style={{ position: 'relative' }}>
-                  <User style={{
-                    position: 'absolute',
-                    left: '0.875rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: '1.125rem',
-                    height: '1.125rem',
-                    color: 'var(--muted-foreground)',
-                    pointerEvents: 'none'
-                  }} />
+                <div className="auth-input-wrapper">
+                  <User className="auth-input-icon" />
                   <input
                     id="first_name"
                     type="text"
                     value={first_name}
                     onChange={(e) => setFirstName(e.target.value)}
                     required
-                    className="form-input"
-                    style={{ width: '100%', paddingLeft: '2.75rem' }}
+                    className="form-input auth-input"
                     placeholder="John"
                   />
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="last_name" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500, color: 'var(--foreground)' }}>
+              <div className="auth-form-group">
+                <label htmlFor="last_name" className="auth-label">
                   Last Name
                 </label>
-                <div style={{ position: 'relative' }}>
-                  <User style={{
-                    position: 'absolute',
-                    left: '0.875rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: '1.125rem',
-                    height: '1.125rem',
-                    color: 'var(--muted-foreground)',
-                    pointerEvents: 'none'
-                  }} />
+                <div className="auth-input-wrapper">
+                  <User className="auth-input-icon" />
                   <input
                     id="last_name"
                     type="text"
                     value={last_name}
                     onChange={(e) => setLastName(e.target.value)}
                     required
-                    className="form-input"
-                    style={{ width: '100%', paddingLeft: '2.75rem' }}
+                    className="form-input auth-input"
                     placeholder="Doe"
                   />
                 </div>
@@ -220,85 +154,59 @@ const Signup: React.FC = () => {
             </div>
 
             {/* Email */}
-            <div>
-              <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500, color: 'var(--foreground)' }}>
+            <div className="auth-form-group">
+              <label htmlFor="email" className="auth-label">
                 Email
               </label>
-              <div style={{ position: 'relative' }}>
-                <Mail style={{
-                  position: 'absolute',
-                  left: '0.875rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '1.125rem',
-                  height: '1.125rem',
-                  color: 'var(--muted-foreground)',
-                  pointerEvents: 'none'
-                }} />
+              <div className="auth-input-wrapper">
+                <Mail className="auth-input-icon" />
                 <input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="form-input"
-                  style={{ width: '100%', paddingLeft: '2.75rem' }}
+                  className="form-input auth-input"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div>
-              <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500, color: 'var(--foreground)' }}>
+            <div className="auth-form-group">
+              <label htmlFor="password" className="auth-label">
                 Password
               </label>
-              <div style={{ position: 'relative' }}>
-                <Lock style={{
-                  position: 'absolute',
-                  left: '0.875rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '1.125rem',
-                  height: '1.125rem',
-                  color: 'var(--muted-foreground)',
-                  pointerEvents: 'none'
-                }} />
+              <div className="auth-input-wrapper">
+                <Lock className="auth-input-icon" />
                 <input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="form-input"
-                  style={{ width: '100%', paddingLeft: '2.75rem' }}
+                  className="form-input auth-input"
                   placeholder="••••••••"
                 />
               </div>
 
               {/* Password Requirements */}
               {password && (
-                <div style={{
-                  marginTop: '0.75rem',
-                  padding: '0.75rem',
-                  borderRadius: '0.5rem',
-                  backgroundColor: isPasswordValid ? 'rgba(71, 228, 187, 0.1)' : 'var(--muted)',
-                  border: `1px solid ${isPasswordValid ? 'rgba(71, 228, 187, 0.3)' : 'var(--border)'}`
-                }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', fontSize: '0.75rem' }}>
+                <div className={`auth-password-requirements ${isPasswordValid ? 'valid-border' : ''}`}>
+                  <div className="auth-password-req-grid">
                     {[
                       { key: 'length', label: '8+ characters' },
                       { key: 'uppercase', label: 'Uppercase' },
                       { key: 'lowercase', label: 'Lowercase' },
                       { key: 'number', label: 'Number' }
                     ].map(({ key, label }) => (
-                      <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                      <div key={key} className="auth-password-req-item">
                         {passwordErrors[key as keyof typeof passwordErrors] ? (
-                          <Check style={{ width: '0.875rem', height: '0.875rem', color: 'var(--secondary)' }} />
+                          <Check className="auth-req-icon valid" />
                         ) : (
-                          <X style={{ width: '0.875rem', height: '0.875rem', color: 'var(--muted-foreground)' }} />
+                          <X className="auth-req-icon" />
                         )}
-                        <span style={{ color: passwordErrors[key as keyof typeof passwordErrors] ? 'var(--secondary)' : 'var(--muted-foreground)' }}>
+                        <span className={`auth-req-text ${passwordErrors[key as keyof typeof passwordErrors] ? 'valid' : ''}`}>
                           {label}
                         </span>
                       </div>
@@ -309,58 +217,38 @@ const Signup: React.FC = () => {
             </div>
 
             {/* Location Fields */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div>
-                <label htmlFor="country_code" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500, color: 'var(--foreground)' }}>
+            <div className="auth-form-grid">
+              <div className="auth-form-group">
+                <label htmlFor="country_code" className="auth-label">
                   Country Code
                 </label>
-                <div style={{ position: 'relative' }}>
-                  <Globe style={{
-                    position: 'absolute',
-                    left: '0.875rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: '1.125rem',
-                    height: '1.125rem',
-                    color: 'var(--muted-foreground)',
-                    pointerEvents: 'none'
-                  }} />
+                <div className="auth-input-wrapper">
+                  <Globe className="auth-input-icon" />
                   <input
                     id="country_code"
                     type="text"
                     value={country_code}
                     onChange={(e) => setCountryCode(e.target.value)}
                     required
-                    className="form-input"
-                    style={{ width: '100%', paddingLeft: '2.75rem' }}
+                    className="form-input auth-input"
                     placeholder="US"
                   />
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="state" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500, color: 'var(--foreground)' }}>
+              <div className="auth-form-group">
+                <label htmlFor="state" className="auth-label">
                   State/Province
                 </label>
-                <div style={{ position: 'relative' }}>
-                  <MapPin style={{
-                    position: 'absolute',
-                    left: '0.875rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    width: '1.125rem',
-                    height: '1.125rem',
-                    color: 'var(--muted-foreground)',
-                    pointerEvents: 'none'
-                  }} />
+                <div className="auth-input-wrapper">
+                  <MapPin className="auth-input-icon" />
                   <input
                     id="state"
                     type="text"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     required
-                    className="form-input"
-                    style={{ width: '100%', paddingLeft: '2.75rem' }}
+                    className="form-input auth-input"
                     placeholder="NY"
                   />
                 </div>
@@ -368,27 +256,21 @@ const Signup: React.FC = () => {
             </div>
 
             {/* Terms Checkbox */}
-            <div style={{ display: 'flex', alignItems: 'start', gap: '0.75rem' }}>
+            <div className="auth-terms-wrapper">
               <input
                 id="agree-to-terms"
                 type="checkbox"
                 checked={agreedToTerms}
                 onChange={(e) => setAgreedToTerms(e.target.checked)}
-                style={{
-                  width: '1.125rem',
-                  height: '1.125rem',
-                  marginTop: '0.125rem',
-                  cursor: 'pointer',
-                  accentColor: 'var(--primary)'
-                }}
+                className="auth-terms-checkbox"
               />
-              <label htmlFor="agree-to-terms" style={{ fontSize: '0.875rem', color: 'var(--foreground)', cursor: 'pointer', lineHeight: 1.5 }}>
+              <label htmlFor="agree-to-terms" className="auth-terms-label">
                 I agree to the{" "}
-                <Link to="/terms-of-service" style={{ color: 'var(--primary)', fontWeight: 500, textDecoration: 'none' }}>
+                <Link to="/terms-of-service" className="auth-link">
                   Terms of Service
                 </Link>
                 {" "}and{" "}
-                <Link to="/privacy-policy" style={{ color: 'var(--primary)', fontWeight: 500, textDecoration: 'none' }}>
+                <Link to="/privacy-policy" className="auth-link">
                   Privacy Policy
                 </Link>
               </label>
@@ -399,30 +281,18 @@ const Signup: React.FC = () => {
               disabled={loading || !agreedToTerms}
               whileHover={{ scale: (loading || !agreedToTerms) ? 1 : 1.02 }}
               whileTap={{ scale: (loading || !agreedToTerms) ? 1 : 0.98 }}
-              className="btn-primary"
-              style={{
-                width: '100%',
-                padding: '0.875rem',
-                borderRadius: '0.75rem',
-                fontSize: '0.938rem',
-                fontWeight: 500,
-                marginTop: '0.5rem',
-                opacity: (loading || !agreedToTerms) ? 0.5 : 1,
-                cursor: (loading || !agreedToTerms) ? 'not-allowed' : 'pointer'
-              }}
+              className="btn-primary auth-submit-btn"
             >
               {loading ? "Creating account..." : "Create Account"}
             </motion.button>
           </form>
 
           {/* Login link */}
-          <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.938rem', color: 'var(--muted-foreground)' }}>
+          <p className="auth-footer-text">
             Already have an account?{" "}
             <Link
               to="/login"
-              style={{ color: 'var(--primary)', fontWeight: 500, textDecoration: 'none' }}
-              onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
-              onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+              className="auth-link"
             >
               Log in
             </Link>

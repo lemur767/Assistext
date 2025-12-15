@@ -2,20 +2,13 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import AuthenticatedNavbar from './AuthenticatedNavbar';
 import '../index.css';
+import '../styles/AuthenticatedLayout_dashboard.css';
 
 const AuthenticatedLayout: React.FC = () => {
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: 'var(--background)',
-      transition: 'background-color 0.3s ease'
-    }}>
+    <div className="auth-layout-container">
       <AuthenticatedNavbar />
-      <main style={{
-        maxWidth: '80rem',
-        margin: '0 auto',
-        padding: '2rem 1rem'
-      }}>
+      <main className="auth-layout-main">
         <Outlet />
       </main>
     </div>

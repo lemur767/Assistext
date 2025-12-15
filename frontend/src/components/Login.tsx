@@ -5,6 +5,7 @@ import { Sparkles, Mail, Lock, AlertCircle } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { GlassCard } from "./common/GlassCard";
 import { api } from "../services/api";
+import "../styles/Login_auth.css";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -30,54 +31,25 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'var(--background)',
-      padding: '1rem',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
+    <div className="auth-page-container">
       {/* Background gradient effects */}
-      <div style={{
-        position: 'absolute',
-        top: '-10%',
-        left: '10%',
-        width: '20rem',
-        height: '20rem',
-        background: 'radial-gradient(circle, rgba(232, 100, 124, 0.15), transparent 70%)',
-        borderRadius: '50%',
-        filter: 'blur(80px)',
-        pointerEvents: 'none'
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '-10%',
-        right: '10%',
-        width: '20rem',
-        height: '20rem',
-        background: 'radial-gradient(circle, rgba(71, 228, 187, 0.15), transparent 70%)',
-        borderRadius: '50%',
-        filter: 'blur(80px)',
-        pointerEvents: 'none'
-      }} />
+      <div className="auth-glow-blob top-left" />
+      <div className="auth-glow-blob bottom-right" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        style={{ width: '100%', maxWidth: '28rem', position: 'relative', zIndex: 1 }}
+        className="auth-content-wrapper"
       >
-        <GlassCard variant="solid" style={{ padding: '2.5rem' }}>
+        <GlassCard variant="solid" className="auth-card-padding">
           {/* Logo */}
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginBottom: '1rem' }}>
-            <img src="assets/logonew.png" alt="Logo" style={{ width: '220px', height: '180px' }} />
-            <h2 style={{ fontSize: '1.875rem', justifyContent: 'center', fontWeight: 600, marginBottom: '0.5rem' }}>
+          <div className="auth-header">
+            <img src="assets/logonew.png" alt="Logo" className="auth-logo" />
+            <h2 className="auth-title">
               Welcome Back
             </h2>
-            <p style={{ color: 'var(--muted-foreground)', justifyContent: 'center', fontSize: '0.938rem' }}>
+            <p className="auth-subtitle">
               Sign in to your Assistext account
             </p>
           </div>
@@ -87,76 +59,47 @@ const Login: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                style={{
-                  padding: '0.75rem 1rem',
-                  borderRadius: '0.75rem',
-                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                  border: '1px solid rgba(239, 68, 68, 0.3)',
-                  marginBottom: '1.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem'
-                }}
+                className="auth-error-message"
               >
-                <AlertCircle style={{ width: '1.25rem', height: '1.25rem', color: '#EF4444', flexShrink: 0 }} />
-                <p style={{ fontSize: '0.875rem', color: '#EF4444', margin: 0 }}>{message}</p>
+                <AlertCircle className="auth-error-icon" />
+                <p className="auth-error-text">{message}</p>
               </motion.div>
             )
           }
 
           {/* Form */}
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <div>
-              <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.938rem', fontWeight: 500, color: 'var(--foreground)' }}>
+          <form onSubmit={handleLogin} className="auth-form">
+            <div className="auth-form-group">
+              <label htmlFor="email" className="auth-label">
                 Email
               </label>
-              <div style={{ position: 'relative' }}>
-                <Mail style={{
-                  position: 'absolute',
-                  left: '0.875rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '1.125rem',
-                  height: '1.125rem',
-                  color: 'var(--muted-foreground)',
-                  pointerEvents: 'none'
-                }} />
+              <div className="auth-input-wrapper">
+                <Mail className="auth-input-icon" />
                 <input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="form-input"
-                  style={{ width: '100%', paddingLeft: '2.75rem' }}
+                  className="form-input auth-input"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
-            <div>
-              <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.938rem', fontWeight: 500, color: 'var(--foreground)' }}>
+            <div className="auth-form-group">
+              <label htmlFor="password" className="auth-label">
                 Password
               </label>
-              <div style={{ position: 'relative' }}>
-                <Lock style={{
-                  position: 'absolute',
-                  left: '0.875rem',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  width: '1.125rem',
-                  height: '1.125rem',
-                  color: 'var(--muted-foreground)',
-                  pointerEvents: 'none'
-                }} />
+              <div className="auth-input-wrapper">
+                <Lock className="auth-input-icon" />
                 <input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="form-input"
-                  style={{ width: '100%', paddingLeft: '2.75rem' }}
+                  className="form-input auth-input"
                   placeholder="••••••••"
                 />
               </div>
@@ -167,30 +110,18 @@ const Login: React.FC = () => {
               disabled={loading}
               whileHover={{ scale: loading ? 1 : 1.02 }}
               whileTap={{ scale: loading ? 1 : 0.98 }}
-              className="btn-primary"
-              style={{
-                width: '100%',
-                padding: '0.875rem',
-                borderRadius: '0.75rem',
-                fontSize: '0.938rem',
-                fontWeight: 500,
-                marginTop: '0.5rem',
-                opacity: loading ? 0.7 : 1,
-                cursor: loading ? 'not-allowed' : 'pointer'
-              }}
+              className="btn-primary auth-submit-btn"
             >
               {loading ? "Signing in..." : "Sign In"}
             </motion.button>
           </form>
 
           {/* Sign up link */}
-          <p style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.938rem', color: 'var(--muted-foreground)' }}>
+          <p className="auth-footer-text">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              style={{ color: 'var(--primary)', fontWeight: 500, textDecoration: 'none' }}
-              onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
-              onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+              className="auth-footer-link"
             >
               Sign up
             </Link>

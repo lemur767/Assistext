@@ -1,0 +1,36 @@
+/* About Landing Page Styles */
+
+.about-section {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.about-container {
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.about-content-wrapper {
+    text-align: center;
+}
+
+.about-title {
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.about-text {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    color: var(--muted-foreground);
+    max-width: 48rem;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+}
+
+.about-text:last-of-type {
+    margin-bottom: 0;
+}

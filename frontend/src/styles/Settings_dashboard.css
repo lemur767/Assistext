@@ -1,0 +1,241 @@
+/* Settings Page Styles */
+
+.settings-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 120px;
+    padding: 2rem;
+    color: var(--foreground);
+}
+
+.settings-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    /* glass-morphism approximation or use utility if available */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    /* gradient-text-brand style usually applied via utility, can replicate here if needed */
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.settings-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.settings-card {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.settings-card.mt-8 {
+    margin-top: 2rem;
+}
+
+.settings-group-header {
+    margin-bottom: 1rem;
+}
+
+.settings-group-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.settings-group-description {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+/* Upload Section */
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.settings-field-label {
+    display: block;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+}
+
+.settings-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.settings-upload-area:hover {
+    border-color: var(--primary);
+}
+
+.settings-upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--muted-foreground);
+}
+
+.settings-upload-icon {
+    width: 3rem;
+    height: 3rem;
+    color: var(--muted-foreground);
+}
+
+.settings-upload-label {
+    display: flex;
+    gap: 0.25rem;
+    align-items: baseline;
+}
+
+.settings-upload-link {
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.settings-upload-Link:focus-within {
+    outline: none;
+}
+
+.settings-file-name {
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--success);
+    /* Assuming success var exists, else green */
+}
+
+/* Keywords Section */
+.settings-keyword-input-wrapper {
+    border: 2px dashed var(--border);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.settings-keyword-input-wrapper:hover {
+    border-color: var(--primary);
+}
+
+.settings-keyword-form-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--muted-foreground);
+}
+
+.settings-keyword-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.settings-keyword-input {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background-color: var(--input-background);
+    color: var(--foreground);
+}
+
+.settings-keyword-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.settings-tags-container {
+    margin-top: 1rem;
+}
+
+.settings-keyword-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--muted);
+    color: var(--foreground);
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.settings-tag-remove-btn {
+    margin-left: 0.5rem;
+    color: var(--destructive);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    line-height: normal;
+    transition: color 0.2s;
+}
+
+.settings-tag-remove-btn:hover {
+    color: color-mix(in srgb, var(--destructive), black 20%);
+}
+
+/* Checkbox */
+.settings-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.settings-checkbox {
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border);
+    background-color: var(--input-background);
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.settings-checkbox-label {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--foreground);
+    cursor: pointer;
+}
+
+.settings-message {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.settings-message.success {
+    color: var(--success, #10B981);
+}
+
+.settings-message.error {
+    color: var(--destructive);
+}

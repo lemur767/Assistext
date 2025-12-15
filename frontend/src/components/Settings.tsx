@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-
 import { api } from "../services/api";
+import "../styles/Settings_dashboard.css";
 
 const Settings: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -109,71 +109,71 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-[800px] mx-auto mt-[120px] p-8 text-foreground">
-      <header className="flex justify-between items-center mb-8 p-4 rounded-lg glass-morphism shadow-lg">
-        <h2 className="text-2xl font-bold gradient-text-brand">Settings</h2>
+    <div className="settings-container">
+      <header className="settings-page-header">
+        <h2 className="settings-page-title">Settings</h2>
         <nav>
           <Link to="/subscription" className="btn btn-ghost">Manage Subscription</Link>
         </nav>
       </header>
 
-      <main className="flex flex-col gap-8">
-        <div className="p-8 rounded-lg bg-card border border-border glass-morphism">
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold text-foreground">AI Personality</h3>
-            <p className="text-sm text-muted-foreground">
+      <main className="settings-content-wrapper">
+        <div className="settings-card">
+          <div className="settings-group-header">
+            <h3 className="settings-group-title">AI Personality</h3>
+            <p className="settings-group-description">
               Customize the AI's personality and tone (Pro feature).
             </p>
           </div>
           <Link to="/settings/ai" className="btn btn-primary">Customize</Link>
         </div>
 
-        <div className="p-8 rounded-lg bg-card border border-border glass-morphism mt-8">
-          <form onSubmit={handleUpload} className="flex flex-col gap-6">
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold text-foreground">Upload Training Data</h3>
-              <p className="text-sm text-muted-foreground">
+        <div className="settings-card">
+          <form onSubmit={handleUpload} className="settings-form">
+            <div className="settings-group-header">
+              <h3 className="settings-group-title">Upload Training Data</h3>
+              <p className="settings-group-description">
                 Upload a .txt file of your past conversations to help the AI learn your style.
               </p>
             </div>
 
             <div>
-              <label htmlFor="file-upload" className="block font-semibold text-foreground mb-2">Training File</label>
-              <div className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer transition-colors duration-150 hover:border-primary">
-                <div className="flex flex-col items-center gap-4 text-muted-foreground">
-                  <svg className="w-12 h-12 text-muted-foreground" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <label htmlFor="file-upload" className="settings-field-label">Training File</label>
+              <div className="settings-upload-area">
+                <div className="settings-upload-content">
+                  <svg className="settings-upload-icon" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                     <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  <div className="flex gap-1 items-baseline">
-                    <label htmlFor="file-upload" className="font-semibold text-primary cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary">
+                  <div className="settings-upload-label">
+                    <label htmlFor="file-upload" className="settings-upload-link">
                       <span>Upload a file</span>
                       <input id="file-upload" name="file-upload" type="file" className="sr-only" accept=".txt" onChange={handleFileChange} />
                     </label>
-                    <p className="text-sm text-muted-foreground">or drag and drop</p>
+                    <p className="description-sm">or drag and drop</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">TXT up to 10MB</p>
-                  {file && <p className="mt-4 font-semibold text-success">{file.name}</p>}
+                  <p className="description-sm">TXT up to 10MB</p>
+                  {file && <p className="settings-file-name">{file.name}</p>}
                 </div>
               </div>
             </div>
 
-            <button type="submit" disabled={loading || !file} className="self-end btn btn-primary">
+            <button type="submit" disabled={loading || !file} className="btn btn-primary" style={{ alignSelf: 'flex-end' }}>
               {loading ? "Uploading..." : "Upload"}
             </button>
           </form>
-          {message && <p className={`mt-4 text-center ${message.includes("successfully") ? "text-success" : "text-error"}`}>{message}</p>}
+          {message && <p className={`settings-message ${message.includes("successfully") ? "success" : "error"}`}>{message}</p>}
         </div>
 
-        <div className="p-8 rounded-lg bg-card border border-border glass-morphism mt-8">
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold text-foreground">Keyword Triggers</h3>
-            <p className="text-sm text-muted-foreground">
+        <div className="settings-card">
+          <div className="settings-group-header">
+            <h3 className="settings-group-title">Keyword Triggers</h3>
+            <p className="settings-group-description">
               Get notified when a message contains specific keywords.
             </p>
           </div>
-          <form onSubmit={handleAddKeyword} className="flex flex-col gap-6">
-            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer transition-colors duration-150 hover:border-primary">
-              <div className="flex flex-col items-center gap-4 text-muted-foreground">
+          <form onSubmit={handleAddKeyword} className="settings-form">
+            <div className="settings-keyword-input-wrapper">
+              <div className="settings-keyword-form-content">
                 <input
                   type="text"
                   value={newKeyword}
@@ -181,24 +181,24 @@ const Settings: React.FC = () => {
                   placeholder="Add a keyword"
                   className="sr-only"
                 />
-                <div className="flex gap-2">
+                <div className="settings-keyword-row">
                   <input
                     type="text"
                     value={newKeyword}
                     onChange={(e) => setNewKeyword(e.target.value)}
                     placeholder="Add a keyword"
-                    className="p-2 border border-border rounded-lg bg-input-background text-foreground focus:outline-none focus:border-primary"
+                    className="settings-keyword-input"
                   />
                   <button type="submit" className="btn btn-primary">Add</button>
                 </div>
               </div>
             </div>
           </form>
-          <div className="mt-4">
+          <div className="settings-tags-container">
             {keywords.map((keyword) => (
-              <div key={keyword} className="inline-flex items-center bg-muted text-foreground rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">
+              <div key={keyword} className="settings-keyword-tag">
                 {keyword}
-                <button onClick={() => handleRemoveKeyword(keyword)} className="ml-2 text-destructive bg-transparent border-none cursor-pointer text-xl leading-none transition-colors hover:text-destructive-foreground">
+                <button onClick={() => handleRemoveKeyword(keyword)} className="settings-tag-remove-btn">
                   &times;
                 </button>
               </div>
@@ -206,22 +206,22 @@ const Settings: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-8 rounded-lg bg-card border border-border glass-morphism mt-8">
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold text-foreground">AI Signature</h3>
-            <p className="text-sm text-muted-foreground">
+        <div className="settings-card">
+          <div className="settings-group-header">
+            <h3 className="settings-group-title">AI Signature</h3>
+            <p className="settings-group-description">
               Include a "Sent with AI using Assistext" signature on AI-generated messages.
             </p>
           </div>
-          <div className="flex items-center">
+          <div className="settings-checkbox-wrapper">
             <input
               id="ai-signature"
               type="checkbox"
               checked={includeAiSignature}
               onChange={handleSignatureChange}
-              className="h-5 w-5 rounded border-border bg-input-background text-primary focus:ring-primary"
+              className="settings-checkbox"
             />
-            <label htmlFor="ai-signature" className="ml-2 text-sm text-neutral-text">
+            <label htmlFor="ai-signature" className="settings-checkbox-label">
               Enable AI Signature
             </label>
           </div>

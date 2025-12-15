@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { ThemeToggle } from '../common/ThemeToggle';
-import '../../index.css';
+import '../../styles/LandingHeader_landing_page.css';
 
 const LandingHeader: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -23,48 +23,33 @@ const LandingHeader: React.FC = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        transition: 'all 0.3s ease',
-        paddingTop: scrolled ? '1rem' : '1.5rem',
-        paddingBottom: scrolled ? '1rem' : '1.5rem'
-      }}
+      className={`landing-header-nav ${scrolled ? 'scrolled' : ''}`}
     >
-      <div style={{ maxWidth: '80rem', margin: '0 auto', padding: '0 1rem' }}>
+      <div className="landing-header-container">
         <div
-          className="glass"
-          style={{
-            borderRadius: '1rem',
-            padding: '1rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            boxShadow: scrolled ? '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)' : ''
-          }}
+          className={`glass landing-header-glass ${scrolled ? 'scrolled' : ''}`}
         >
           {/* Logo */}
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', paddingLeft: '16px' }}>
+          <a href="/" className="landing-header-logo-link">
             <img src="/assets/logonew.png" width={120} height={120} alt="Assistext Logo " />
           </a>
 
           {/* Desktop Navigation */}
-          <div style={{ display: 'none', alignItems: 'center', gap: '2rem' }} className="desktop-nav">
+          <div className="landing-header-desktop-nav">
             {isAuthenticated ? (
               <>
-                <a href="/dashboard" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Dashboard</a>
-                <a href="/conversations" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Conversations</a>
-                <a href="/contacts" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contacts</a>
-                <a href="/settings" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Settings</a>
-                <a href="/subscription" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Subscription</a>
+                <a href="/dashboard" className="landing-header-link">Dashboard</a>
+                <a href="/conversations" className="landing-header-link">Conversations</a>
+                <a href="/contacts" className="landing-header-link">Contacts</a>
+                <a href="/settings" className="landing-header-link">Settings</a>
+                <a href="/subscription" className="landing-header-link">Subscription</a>
               </>
             ) : (
               <>
-                <a href="#features" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Features</a>
-                <a href="#pricing" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Pricing</a>
-                <a href="#about" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>About</a>
-                <a href="#contact" style={{ color: 'var(--foreground)', fontSize: '15px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contact</a>
+                <a href="#features" className="landing-header-link">Features</a>
+                <a href="#pricing" className="landing-header-link">Pricing</a>
+                <a href="#about" className="landing-header-link">About</a>
+                <a href="#contact" className="landing-header-link">Contact</a>
               </>
             )}
             <ThemeToggle />
@@ -72,29 +57,13 @@ const LandingHeader: React.FC = () => {
               <>
                 <a
                   href="/login"
-                  style={{
-                    color: 'var(--foreground)',
-                    fontSize: '15px',
-                    fontWeight: 500,
-                    textDecoration: 'none',
-                    transition: 'color 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}
+                  className="landing-header-link"
                 >
                   Sign In
                 </a>
                 <a
                   href="/signup"
-                  className="btn-primary"
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    color: 'var(--accent-foreground)',
-                    borderRadius: '0.75rem',
-                    fontSize: '15px',
-                    fontWeight: 500,
-                    textDecoration: 'none'
-                  }}
+                  className="btn-primary landing-header-btn-start"
                 >
                   Get Started
                 </a>
@@ -103,18 +72,12 @@ const LandingHeader: React.FC = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} className="mobile-nav">
+          <div className="landing-header-mobile-wrapper">
             <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{
-                padding: '0.5rem',
-                borderRadius: '0.5rem',
-                transition: 'background-color 0.2s',
-                backgroundColor: 'transparent'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--muted)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              className="landing-header-mobile-btn"
+              type="button"
             >
               {mobileMenuOpen ? <X style={{ width: '1.5rem', height: '1.5rem' }} /> : <Menu style={{ width: '1.5rem', height: '1.5rem' }} />}
             </button>
@@ -126,64 +89,35 @@ const LandingHeader: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            style={{ marginTop: '1rem' }}
-            className="mobile-menu"
+            className="landing-header-mobile-menu"
           >
-            <div
-              style={{
-                backgroundColor: 'var(--card)',
-                border: '1px solid var(--border)',
-                borderRadius: '1rem',
-                padding: '1.5rem',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem',
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)'
-              }}
-            >
+            <div className="landing-header-mobile-glass">
               {isAuthenticated ? (
                 <>
-                  <a href="/dashboard" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Dashboard</a>
-                  <a href="/conversations" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Conversations</a>
-                  <a href="/contacts" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contacts</a>
-                  <a href="/settings" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Settings</a>
-                  <a href="/subscription" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Subscription</a>
+                  <a href="/dashboard" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Dashboard</a>
+                  <a href="/conversations" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Conversations</a>
+                  <a href="/contacts" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Contacts</a>
+                  <a href="/settings" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Settings</a>
+                  <a href="/subscription" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Subscription</a>
                 </>
               ) : (
                 <>
-                  <a href="#features" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Features</a>
-                  <a href="#pricing" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Pricing</a>
-                  <a href="#about" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>About</a>
-                  <a href="#contact" style={{ padding: '0.5rem 0', color: 'var(--foreground)', transition: 'color 0.2s' }} onClick={() => setMobileMenuOpen(false)} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}>Contact</a>
-                  <div style={{ borderTop: '1px solid var(--border)', margin: '0.5rem 0', paddingTop: '0.5rem' }} />
+                  <a href="#features" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Features</a>
+                  <a href="#pricing" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Pricing</a>
+                  <a href="#about" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>About</a>
+                  <a href="#contact" className="landing-header-mobile-link" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+                  <div className="landing-header-mobile-divider" />
                   <a
                     href="/login"
-                    style={{
-                      padding: '0.5rem 0',
-                      color: 'var(--foreground)',
-                      textAlign: 'center',
-                      display: 'block',
-                      textDecoration: 'none',
-                      transition: 'color 0.2s'
-                    }}
+                    className="landing-header-mobile-signin"
                     onClick={() => setMobileMenuOpen(false)}
-                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary)'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--foreground)'}
                   >
                     Sign In
                   </a>
                   <a
                     href="/signup"
-                    className="btn-primary"
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      borderRadius: '0.75rem',
-                      fontWeight: 500,
-                      textAlign: 'center',
-                      marginTop: '0.5rem',
-                      textDecoration: 'none',
-                      display: 'block'
-                    }}
+                    className="btn-primary landing-header-mobile-start"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     Get Started
                   </a>
@@ -193,22 +127,6 @@ const LandingHeader: React.FC = () => {
           </motion.div>
         )}
       </div>
-
-      <style>{`
-        @media (min-width: 768px) {
-          .desktop-nav {
-            display: flex !important;
-          }
-          .mobile-nav {
-            display: none !important;
-          }
-        }
-        @media (max-width: 767px) {
-          .mobile-menu {
-            display: block;
-          }
-        }
-      `}</style>
     </motion.nav>
   );
 };

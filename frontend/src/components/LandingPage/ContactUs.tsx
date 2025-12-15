@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AnimatedSection } from '../common/AnimatedSection';
 import { GlassCard } from '../common/GlassCard';
 import { Mail, MessageSquare, Send } from 'lucide-react';
+import '../../styles/ContactUs_landing_page.css';
 
 const ContactUs: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -24,14 +25,14 @@ const ContactUs: React.FC = () => {
     };
 
     return (
-        <section id="contact" style={{ maxWidth: '80rem', margin: '0 auto', padding: '4rem 1rem', paddingTop: '7rem', paddingBottom: '7rem' }}>
-            <div style={{ maxWidth: '56rem', margin: '0 auto' }}>
+        <section id="contact" className="contact-section">
+            <div className="contact-container">
                 <AnimatedSection>
-                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                        <h2 className="gradient-text-brand" style={{ fontSize: 'clamp(2.25rem, 5vw, 3rem)', marginBottom: '1.5rem', fontWeight: 600 }}>
+                    <div className="contact-header-wrapper">
+                        <h2 className="gradient-text-brand contact-title">
                             Get In Touch
                         </h2>
-                        <p style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', color: 'var(--muted-foreground)', maxWidth: '42rem', margin: '0 auto' }}>
+                        <p className="contact-subtitle">
                             Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
                         </p>
                     </div>
@@ -39,9 +40,9 @@ const ContactUs: React.FC = () => {
 
                 <AnimatedSection delay={0.2}>
                     <GlassCard variant="solid">
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                            <div>
-                                <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.938rem', fontWeight: 500, color: 'var(--foreground)' }}>
+                        <form onSubmit={handleSubmit} className="contact-form">
+                            <div className="contact-form-field">
+                                <label htmlFor="name" className="contact-form-label">
                                     Name
                                 </label>
                                 <input
@@ -51,14 +52,13 @@ const ContactUs: React.FC = () => {
                                     value={formData.name}
                                     onChange={handleChange}
                                     required
-                                    className="form-input"
-                                    style={{ width: '100%' }}
+                                    className="form-input contact-form-input"
                                     placeholder="Your name"
                                 />
                             </div>
 
-                            <div>
-                                <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.938rem', fontWeight: 500, color: 'var(--foreground)' }}>
+                            <div className="contact-form-field">
+                                <label htmlFor="email" className="contact-form-label">
                                     Email
                                 </label>
                                 <input
@@ -68,14 +68,13 @@ const ContactUs: React.FC = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                     required
-                                    className="form-input"
-                                    style={{ width: '100%' }}
+                                    className="form-input contact-form-input"
                                     placeholder="your@email.com"
                                 />
                             </div>
 
-                            <div>
-                                <label htmlFor="message" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.938rem', fontWeight: 500, color: 'var(--foreground)' }}>
+                            <div className="contact-form-field">
+                                <label htmlFor="message" className="contact-form-label">
                                     Message
                                 </label>
                                 <textarea
@@ -85,65 +84,35 @@ const ContactUs: React.FC = () => {
                                     onChange={handleChange}
                                     required
                                     rows={5}
-                                    className="form-input"
-                                    style={{ width: '100%', resize: 'vertical' }}
+                                    className="form-input contact-form-textarea"
                                     placeholder="Tell us what's on your mind..."
                                 />
                             </div>
 
                             <button
                                 type="submit"
-                                className="btn-primary"
-                                style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '0.5rem',
-                                    padding: '0.875rem 2rem',
-                                    borderRadius: '0.75rem',
-                                    fontSize: '0.938rem',
-                                    fontWeight: 500,
-                                    width: '100%'
-                                }}
+                                className="btn-primary contact-btn-submit"
                             >
-                                <Send style={{ width: '1.125rem', height: '1.125rem' }} />
+                                <Send className="contact-btn-icon" />
                                 Send Message
                             </button>
                         </form>
 
-                        <div style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--border)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{
-                                    width: '3rem',
-                                    height: '3rem',
-                                    margin: '0 auto 0.75rem',
-                                    borderRadius: '0.75rem',
-                                    background: 'rgba(232, 100, 124, 0.1)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                    <Mail style={{ width: '1.5rem', height: '1.5rem', color: 'var(--primary)' }} />
+                        <div className="contact-info-grid">
+                            <div className="contact-info-item">
+                                <div className="contact-icon-wrapper email">
+                                    <Mail className="contact-icon primary" />
                                 </div>
-                                <h3 style={{ fontSize: '0.938rem', fontWeight: 600, marginBottom: '0.25rem' }}>Email</h3>
-                                <p style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)' }}>support@assistext.com</p>
+                                <h3 className="contact-info-title">Email</h3>
+                                <p className="contact-info-desc">support@assistext.com</p>
                             </div>
 
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{
-                                    width: '3rem',
-                                    height: '3rem',
-                                    margin: '0 auto 0.75rem',
-                                    borderRadius: '0.75rem',
-                                    background: 'rgba(71, 228, 187, 0.1)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                    <MessageSquare style={{ width: '1.5rem', height: '1.5rem', color: 'var(--secondary)' }} />
+                            <div className="contact-info-item">
+                                <div className="contact-icon-wrapper chat">
+                                    <MessageSquare className="contact-icon secondary" />
                                 </div>
-                                <h3 style={{ fontSize: '0.938rem', fontWeight: 600, marginBottom: '0.25rem' }}>Live Chat</h3>
-                                <p style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)' }}>Available 24/7</p>
+                                <h3 className="contact-info-title">Live Chat</h3>
+                                <p className="contact-info-desc">Available 24/7</p>
                             </div>
                         </div>
                     </GlassCard>

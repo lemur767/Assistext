@@ -1,0 +1,121 @@
+/* Recent Activity Styles */
+
+.recent-activity-loading {
+    padding: 2rem;
+    text-align: center;
+}
+
+.recent-activity-spinner {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 auto;
+    border: 2px solid var(--primary);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.recent-activity-loading-text {
+    margin-top: 1rem;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+}
+
+.recent-activity-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.recent-activity-icon-wrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.625rem;
+    background-color: rgba(71, 228, 187, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recent-activity-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.recent-activity-empty {
+    text-align: center;
+    color: var(--muted-foreground);
+    padding: 2rem;
+    font-size: 0.938rem;
+}
+
+.recent-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.recent-activity-item {
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+.recent-activity-item:hover {
+    background-color: var(--border);
+    transform: translateX(4px);
+}
+
+.activity-content-wrapper {
+    display: flex;
+    align-items: start;
+    gap: 0.75rem;
+}
+
+.activity-icon-container {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.activity-icon-container.inbound {
+    color: var(--primary);
+    background-color: rgba(71, 228, 187, 0.15);
+}
+
+.activity-icon-container.outbound {
+    color: var(--primary);
+    background-color: rgba(232, 100, 124, 0.15);
+}
+
+.activity-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.activity-direction {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+}
+
+.activity-body {
+    font-size: 0.938rem;
+    color: var(--foreground);
+    margin-bottom: 0.5rem;
+    word-wrap: break-word;
+}
+
+.activity-time {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+}
