@@ -11,9 +11,7 @@ const Footer = () => {
           <div className="footer-grid">
             <div className="footer-column">
               <div className="footer-brand">
-                <div className="footer-logo-box">
-                  <img src="/assets/footermark.png" width={180} height={180} alt="Assistext Logo " />
-                </div>
+
                 <span className="footer-brand-name">Assistext</span>
               </div>
               <p className="footer-description">
@@ -35,8 +33,6 @@ const Footer = () => {
               <h4 className="footer-heading">Company</h4>
               <ul className="footer-links">
                 <li><a href="#" className="footer-link">About</a></li>
-                <li><a href="#" className="footer-link">Blog</a></li>
-                <li><a href="#" className="footer-link">Careers</a></li>
                 <li><a href="#" className="footer-link">Contact</a></li>
               </ul>
             </div>
@@ -47,7 +43,7 @@ const Footer = () => {
                 <li><a href="#" className="footer-link">Privacy</a></li>
                 <li><a href="#" className="footer-link">Terms</a></li>
                 <li><a href="#" className="footer-link">Cookie Policy</a></li>
-                <li><a href="#" className="footer-link">Licenses</a></li>
+
               </ul>
             </div>
           </div>

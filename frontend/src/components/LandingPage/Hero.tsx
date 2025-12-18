@@ -50,6 +50,7 @@ export const Hero = ({ loop = true, holdDelay = 2500, delay = 0 }: MorphingTextP
                 loop={loop}
                 holdDelay={holdDelay}
                 delay={delay}
+                transition={{ type: "spring", stiffness: 50, damping: 20, mass: 1 }}
               />
             </div>
 

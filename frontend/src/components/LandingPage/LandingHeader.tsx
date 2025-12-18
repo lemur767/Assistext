@@ -31,7 +31,7 @@ const LandingHeader: React.FC = () => {
         >
           {/* Logo */}
           <a href="/" className="landing-header-logo-link">
-            <img src="/assets/logonew.png" width={120} height={120} alt="Assistext Logo " />
+            <img src="/assets/logonew.png" alt="Assistext Logo " className="landing-header-logo-img" />
           </a>
 
           {/* Desktop Navigation */}
