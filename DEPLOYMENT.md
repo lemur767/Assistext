@@ -51,6 +51,22 @@ You must configure the following **Secrets** in your GitHub repository settings 
     -   Go to GitHub Secrets and create `SSH_KEY`.
     -   Paste the private key content there.
 
+    -   Go to GitHub Secrets and create `SSH_KEY`.
+    -   Paste the private key content there.
+
+### 4. Sudo Permissions (Fixing "Password Error")
+
+The deployment script needs to restart services (`systemctl restart ...`). To do this without a password, you must configure `sudoers`.
+
+1.  **SSH into your VPS**.
+2.  Run `sudo visudo`.
+3.  Add the following lines at the bottom of the file (replace `your_username` with your actual username, e.g., `ubuntu`):
+    ```bash
+    your_username ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart assistext-backend
+    your_username ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart nginx
+    ```
+4.  Save and exit (`Ctrl+X`, then `Y`, then `Enter` for nano).
+
 ## How it Works
 
 1.  **Trigger**: The workflow runs automatically whenever you **push to the `main` branch**.
