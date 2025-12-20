@@ -7,21 +7,7 @@ echo "Starting deployment..."
 echo "Pulling latest changes from git..."
 git pull origin main
 
-# 2. Backend Setup
-echo "Updating Backend..."
-cd backend
-if [ -d "venv" ]; then
-    source venv/bin/activate
-    echo "Installing Python dependencies..."
-    pip install -r requirements.txt
-    echo "Running Database Migrations..."
-    flask db upgrade
-    deactivate
-else
-    echo "Error: 'venv' directory not found in backend. Please ensure the virtual environment is set up."
-    exit 1
-fi
-cd ..
+
 
 # 3. Restart Backend Service
 echo "Restarting 'assistext-backend' service..."
