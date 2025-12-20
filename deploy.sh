@@ -36,6 +36,7 @@ npm install
 echo "Building Frontend..."
 npm run build
 cd ..
+mv /opt/Assistext/frontend/dist /var/www/assistext
 
 # 5. Restart Nginx
 echo "Restarting Nginx..."
